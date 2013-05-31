@@ -1,4 +1,6 @@
 Bernard::Application.routes.draw do
+  resources :transactions
+
   resources :import do
     post 'import_csv', on: :collection
   end

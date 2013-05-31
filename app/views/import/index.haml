@@ -1,0 +1,5 @@
+%h1 Pocket Money import
+%h2 Import csv
+
+= form_tag({:action => :import_csv}, :multipart => true) do
+  = file_field_tag 'picture'

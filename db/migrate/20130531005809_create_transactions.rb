@@ -1,9 +1,24 @@
 class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
+      t.boolean :pm_deleted
+      t.integer :pm_timestamp
+      t.integer :pm_type
+      t.integer :pm_date
+      t.boolean :pm_cleared
+      t.integer :pm_account_id
+      t.text    :pm_payee
+      t.text    :pm_check_number
+      t.decimal :pm_sub_total, :precision => 10, :scale => 2
+      t.text    :pm_of_x_id
+      t.binary  :pm_image
+      t.text    :pm_server_id
+      t.text    :pm_overdraft_id
+
       t.integer :account_id
-      t.timestamp :created_at
-      t.integer :check_number
+      t.boolean :deleted
+      t.text    :check_number
+      t.text    :payee_name
       t.integer :payee_id
       t.integer :category_id
       t.integer :department_id

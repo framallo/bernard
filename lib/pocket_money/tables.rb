@@ -4,6 +4,7 @@ class PocketMoney
     def self.included(main)
       main.establish_connection(adapter: :sqlite3, database: APP_CONFIG['pocket_money_database'])
       main.table_name = main.name.demodulize.sub(/(\w)/) {|w| w.downcase}
+      main.inheritance_column = "rails_type"
     end
   end
 

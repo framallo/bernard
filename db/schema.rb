@@ -11,10 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130531010552) do
+ActiveRecord::Schema.define(version: 20130629200924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: true do |t|
+    t.boolean  "deleted"
+    t.datetime "updated_at"
+    t.integer  "pm_account_id"
+    t.integer  "display_order"
+    t.string   "name"
+    t.decimal  "balance_overall",            precision: 10, scale: 2
+    t.decimal  "balance_cleared",            precision: 10, scale: 2
+    t.string   "number"
+    t.string   "institution"
+    t.string   "phone"
+    t.string   "expiration_date"
+    t.string   "check_number"
+    t.text     "notes"
+    t.string   "pm_icon"
+    t.string   "url"
+    t.string   "of_x_id"
+    t.string   "of_x_url"
+    t.string   "password"
+    t.decimal  "fee",                        precision: 10, scale: 2
+    t.decimal  "fixed_percent",              precision: 10, scale: 2
+    t.decimal  "limit_amount",               precision: 10, scale: 2
+    t.boolean  "limit"
+    t.boolean  "total_worth"
+    t.decimal  "exchange_rate",              precision: 10, scale: 2
+    t.string   "currency_code"
+    t.datetime "last_sync_time"
+    t.string   "routing_number"
+    t.string   "overdraft_account_id"
+    t.string   "keep_the_change_account_id"
+    t.decimal  "heek_change_round_to",       precision: 10, scale: 2
+    t.string   "uuid"
+    t.datetime "created_at"
+  end
 
   create_table "categories", force: true do |t|
     t.string   "name"

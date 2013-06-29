@@ -6,14 +6,16 @@ class PocketMoney
 
   class Import
     def initialize
+      accounts
       transactions
     end
 
 
     def transaction(pocketmoney_transaction)
 
-      puts pocketmoney_transaction.serverID
-      t = ::Transaction.where(pm_server_id: pocketmoney_transaction.serverID).first ||
+      puts "Transaction: " + pocketmoney_transaction.serverID
+
+      t = ::Transaction.where(uuid: pocketmoney_transaction.serverID).first ||
           ::Transaction.new
 
       #t.pm_deleted             = pocketmoney_transaction.deleted,
@@ -30,7 +32,7 @@ class PocketMoney
       t.deleted                 = pocketmoney_transaction.deleted,
       t.check_number            = pocketmoney_transaction.checkNumber,
       t.payee_name              = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8'),
-      t.amount                  = pocketmoney.subTotal,
+      t.amount                  = pocketmoney_transaction.subTotal,
       t.cleared                 = !!pocketmoney_transaction.cleared,
       t.uuid                    = pocketmoney_transaction.serverID,
       t.created_at           ||= Time.at(pocketmoney_transaction.date),
@@ -45,18 +47,64 @@ class PocketMoney
       #t.department_id          = pm_t.,
       #t.memo                   = pm_t.,
 
-      binding.pry if pocketmoney_transaction.serverID == '8651AADF-2FFD-42C2-B8C0-09221681202F'
-
       t.save
 
     end
 
     def transactions
-      r = Transactions.all.map {|t| t.payee }
-
       Transactions.all.each do |pocketmoney_transaction| 
         transaction(pocketmoney_transaction) 
       end 
+    end
+
+
+    def accounts
+      Accounts.all.each do |pocketmoney_account| 
+        account(pocketmoney_account) 
+      end 
+    end
+
+    def account(pocketmoney_account)
+
+      puts "Account: " + pocketmoney_account.serverID
+
+      a = ::Account.where(uuid: pocketmoney_account.serverID).first ||
+          ::Account.new
+
+      a.deleted                    = !!pocketmoney_account.deleted
+      a.updated_at                 = Time.at(pocketmoney_account.timestamp)
+      a.pm_account_id              = pocketmoney_account.accountID
+      a.display_order              = pocketmoney_account.displayOrder
+      a.name                       = pocketmoney_account.account
+      a.balance_overall            = pocketmoney_account.balanceOverall
+      a.balance_cleared            = pocketmoney_account.balanceCleared
+      #a.                          = pocketmoney_account.type
+      a.number                     = pocketmoney_account.accountNumber
+      a.institution                = pocketmoney_account.institution
+      a.phone                      = pocketmoney_account.phone
+      a.expiration_date            = pocketmoney_account.expirationDate
+      a.check_number               = pocketmoney_account.checkNumber
+      a.notes                      = pocketmoney_account.notes
+      a.pm_icon                    = pocketmoney_account.iconFileName
+      a.url                        = pocketmoney_account.url
+      a.of_x_id                    = pocketmoney_account.ofxid
+      a.of_x_url                   = pocketmoney_account.ofxurl
+      a.password                   = pocketmoney_account.password
+      a.fee                        = pocketmoney_account.fee
+      a.fixed_percent              = pocketmoney_account.fixedPercent
+      a.limit_amount               = pocketmoney_account.limitAmount
+      a.limit                      = pocketmoney_account.noLimit
+      a.total_worth                = pocketmoney_account.totalWorth
+      a.exchange_rate              = pocketmoney_account.exchangeRate
+      a.currency_code              = pocketmoney_account.currencyCode
+      a.last_sync_time             = pocketmoney_account.lastSyncTime
+      a.routing_number             = pocketmoney_account.routingNumber
+      a.overdraft_account_id       = pocketmoney_account.overdraftAccountID
+      a.keep_the_change_account_id = pocketmoney_account.keepTheChangeAccountID
+      a.heek_change_round_to       = pocketmoney_account.keepChangeRoundTo
+      a.uuid                       = pocketmoney_account.serverID
+
+      a.save
     end
 
   end # Import

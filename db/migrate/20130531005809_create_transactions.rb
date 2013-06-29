@@ -4,6 +4,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.boolean :pm_deleted
       t.integer :pm_timestamp
       t.integer :pm_type
+      t.integer :account_id
       t.integer :pm_account_id
       t.text    :pm_payee
       t.decimal :pm_sub_total, :precision => 10, :scale => 2
@@ -20,13 +21,13 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :payee_id
       t.integer :category_id
       t.integer :department_id
-      t.text    :memo
+      #t.text    :memo
       t.decimal :amount
       t.boolean :cleared
-      t.string :currency_id
+      #t.string :currency_id
       t.text    :uuid
-      t.decimal :currency_exchange_rate, :precision => 10, :scale => 2
-      t.decimal :balance, :precision => 10, :scale => 2
+      #t.decimal :currency_exchange_rate, :precision => 10, :scale => 2
+      #t.decimal :balance, :precision => 10, :scale => 2
 
       t.timestamps
     end

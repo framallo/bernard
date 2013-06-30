@@ -1,22 +1,16 @@
 <h1>Listing transactions</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
+      <th>Cleared</th>
+      <th>Date</th>
       <th>Account</th>
-      <th>Created at</th>
-      <th>Check number</th>
       <th>Payee</th>
       <th>Category</th>
-      <th>Class</th>
-      <th>Memo</th>
       <th>Amount</th>
-      <th>Cleared</th>
-      <th>Currency</th>
-      <th>Currency exchange rate</th>
       <th>Balance</th>
-      <th></th>
-      <th></th>
+      <th>uuid</th>
       <th></th>
     </tr>
   </thead>
@@ -24,21 +18,15 @@
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
-        <td><%= transaction.account_id %></td>
-        <td><%= transaction.created_at %></td>
-        <td><%= transaction.check_number %></td>
-        <td><%= transaction.payee_id %></td>
-        <td><%= transaction.category_id %></td>
-        <td><%= transaction.class_id %></td>
-        <td><%= transaction.memo %></td>
-        <td><%= transaction.amount %></td>
         <td><%= transaction.cleared %></td>
-        <td><%= transaction.currency_id %></td>
-        <td><%= transaction.currency_exchange_rate %></td>
+        <td><%= transaction.date %></td>
+        <td><%= transaction.account.name %></td>
+        <td><%= transaction.payee_name %></td>
+        <td><%= transaction.category_id %></td>
+        <td><%= transaction.amount %></td>
         <td><%= transaction.balance %></td>
+        <td><%= transaction.uuid %></td>
         <td><%= link_to 'Show', transaction %></td>
-        <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
-        <td><%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

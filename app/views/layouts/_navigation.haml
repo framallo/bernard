@@ -1,2 +1,15 @@
-%ul
-  %li= link_to 'transactions', transactions_path
+%header.navbar
+  %nav.navbar-inner
+    .container
+      %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+        %span.icon-bar 
+        %span.icon-bar 
+        %span.icon-bar 
+
+      = link_to 'Bernard', root_path, class:'brand'
+
+      .nav-collapse.collapse
+        %ul.nav
+          %li.active= link_to 'Transactions', transactions_path, class:'brand'
+        = form_tag(root_path, class: 'navbar-search pull-right') do
+          = text_field_tag 'search', '', placeholder: 'Search', class: 'search-query'

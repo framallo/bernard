@@ -34,8 +34,8 @@ class PocketMoney
       t.amount                  = pocketmoney_transaction.subTotal
       t.cleared                 = !!pocketmoney_transaction.cleared
       t.uuid                    = pocketmoney_transaction.serverID
-      t.created_at           ||= to_time(pocketmoney_transaction.date)
-      t.updated_at           ||= to_time(pocketmoney_transaction.timestamp)
+      t.created_at            ||= to_time(pocketmoney_transaction.date)
+      t.updated_at            ||= to_time(pocketmoney_transaction.timestamp)
 
       # pocketmoney doesn't store it here
       #t.currency_id            = pm_t.
@@ -112,6 +112,31 @@ class PocketMoney
       a.uuid                       = pocketmoney_account.serverID
 
       a.save
+    end
+
+
+    def splits
+      Splits.all.each do |pocketmoney_split| 
+        split(pocketmoney_split)
+      end
+    end
+
+    def split(pocketmoney_split)
+
+# splitID | transactionID | amount | xrate | categoryID | classID | memo | transferToAccountID | currencyCode | ofxid
+# 1       | 1             | 4500.0 | 0.0   |            |         |      |                     |              | 
+
+      #::Split.where(pocketmoney_split.
+       #split.pm_split_id            = splitID"       = >1,
+       #split.                       = transactionID" = >1,
+       #split.amount                 = amount"        = >4500.0,
+       #split.xrate                  = xrate"         = >0.0,
+       #split.pm_category_id         = categoryID"    = >"",
+       #split.pm_class_id            = classID"       = >"",
+       #split.memo                   = memo"          = >"",
+       #split.transfer_to_account_id =  transferToAccountID" = >0,
+       #split.currency_code          = currencyCode"  = >"",
+       #split.of_x_id                = ofxid"         = >""}
     end
 
   end # Import

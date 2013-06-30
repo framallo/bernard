@@ -1,6 +1,6 @@
 %tr
-  %td= transaction.cleared
-  %td= transaction.date
+  %td= cleared_icon transaction.cleared
+  %td= transaction.date.to_s(:short_date)
   %td= transaction.account.name
   %td= transaction.payee_name
   %td= transaction.category_id

@@ -19,7 +19,7 @@ class PocketMoney
           ::Transaction.new
 
       t.pm_type                 = pocketmoney_transaction.type
-      t.pm_account_id           = pocketmoney_transaction.accountID
+      t.pm_id                   = pocketmoney_transaction.accountID
     
       t.pm_sub_total            = pocketmoney_transaction.subTotal
       t.pm_of_x_id              = pocketmoney_transaction.ofxID
@@ -51,7 +51,7 @@ class PocketMoney
     end
 
     def find_account_id(pm_account_id)
-      ::Account.where(pm_account_id: pm_account_id.to_i).first.try(:id)
+      ::Account.where(pm_id: pm_account_id.to_i).first.try(:id)
     end
 
     def transactions

@@ -2,6 +2,7 @@ class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
       t.integer :pm_type
+      t.integer :pm_id
       t.integer :account_id
       t.integer :pm_account_id
       t.text    :pm_payee

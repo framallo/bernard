@@ -4,7 +4,7 @@ class CreateAccounts < ActiveRecord::Migration
 
       t.boolean  :deleted
       t.datetime :updated_at
-      t.integer  :pm_account_id
+      t.integer  :pm_id
       t.integer  :pm_account_type
       t.integer  :display_order
       t.string   :name

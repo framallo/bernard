@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20130629200924) do
   create_table "accounts", force: true do |t|
     t.boolean  "deleted"
     t.datetime "updated_at"
-    t.integer  "pm_account_id"
+    t.integer  "pm_id"
     t.integer  "pm_account_type"
     t.integer  "display_order"
     t.string   "name"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20130629200924) do
 
   create_table "transactions", force: true do |t|
     t.integer  "pm_type"
+    t.integer  "pm_id"
     t.integer  "account_id"
     t.integer  "pm_account_id"
     t.text     "pm_payee"

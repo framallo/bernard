@@ -76,7 +76,7 @@ class PocketMoney
 
       a.deleted                    = !!pocketmoney_account.deleted
       a.updated_at                 = Time.at(pocketmoney_account.timestamp)
-      a.pm_account_id              = pocketmoney_account.accountID
+      a.pm_id                      = pocketmoney_account.accountID
       a.display_order              = pocketmoney_account.displayOrder
       a.name                       = pocketmoney_account.account
       a.balance_overall            = pocketmoney_account.balanceOverall

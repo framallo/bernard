@@ -5,6 +5,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.boolean  :deleted
       t.datetime :updated_at
       t.integer  :pm_account_id
+      t.integer  :pm_account_type
       t.integer  :display_order
       t.string   :name
       t.decimal  :balance_overall            ,  :precision => 10 ,  :scale => 2

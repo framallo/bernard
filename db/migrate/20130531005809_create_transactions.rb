@@ -1,8 +1,6 @@
 class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
-      t.boolean :pm_deleted
-      t.integer :pm_timestamp
       t.integer :pm_type
       t.integer :account_id
       t.integer :pm_account_id
@@ -10,7 +8,6 @@ class CreateTransactions < ActiveRecord::Migration
       t.decimal :pm_sub_total, :precision => 10, :scale => 2
       t.text    :pm_of_x_id
       t.binary  :pm_image
-      t.text    :pm_server_id
       t.text    :pm_overdraft_id
 
       t.datetime :date

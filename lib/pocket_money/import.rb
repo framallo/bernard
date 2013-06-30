@@ -18,37 +18,40 @@ class PocketMoney
       t = ::Transaction.where(uuid: pocketmoney_transaction.serverID).first ||
           ::Transaction.new
 
-      #t.pm_deleted             = pocketmoney_transaction.deleted,
-      t.pm_type                 = pocketmoney_transaction.type,
-      t.pm_account_id           = pocketmoney_transaction.accountID,
+      t.pm_type                 = pocketmoney_transaction.type
+      t.pm_account_id           = pocketmoney_transaction.accountID
     
-      t.pm_sub_total            = pocketmoney_transaction.subTotal,
-      t.pm_of_x_id              = pocketmoney_transaction.ofxID,
-      t.pm_image                = pocketmoney_transaction.image,
-      t.pm_overdraft_id         = pocketmoney_transaction.overdraftID,
+      t.pm_sub_total            = pocketmoney_transaction.subTotal
+      t.pm_of_x_id              = pocketmoney_transaction.ofxID
+      t.pm_image                = pocketmoney_transaction.image
+      t.pm_overdraft_id         = pocketmoney_transaction.overdraftID
 
-      t.date                = Time.at(pocketmoney_transaction.date),
-      #t.account_id             = t.,
-      t.deleted                 = pocketmoney_transaction.deleted,
-      t.check_number            = pocketmoney_transaction.checkNumber,
-      t.payee_name              = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8'),
-      t.amount                  = pocketmoney_transaction.subTotal,
-      t.cleared                 = !!pocketmoney_transaction.cleared,
-      t.uuid                    = pocketmoney_transaction.serverID,
-      t.created_at           ||= Time.at(pocketmoney_transaction.date),
-      t.updated_at           ||= Time.at(pocketmoney_transaction.timestamp),
+      t.date                    = Time.at(pocketmoney_transaction.date)
+      t.account_id              = find_account_id(pocketmoney_transaction.accountID)
+      t.deleted                 = pocketmoney_transaction.deleted
+      t.check_number            = pocketmoney_transaction.checkNumber
+      t.payee_name              = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8')
+      t.amount                  = pocketmoney_transaction.subTotal
+      t.cleared                 = !!pocketmoney_transaction.cleared
+      t.uuid                    = pocketmoney_transaction.serverID
+      t.created_at           ||= Time.at(pocketmoney_transaction.date)
+      t.updated_at           ||= Time.at(pocketmoney_transaction.timestamp)
 
       # pocketmoney doesn't store it here
-      #t.currency_id            = pm_t.,
-      #t.currency_exchange_rate = pm_t.,
-      #t.balance                = pm_t.,
-      #t.payee_id               = pm_t.,
-      #t.category_id            = pm_t.,
-      #t.department_id          = pm_t.,
-      #t.memo                   = pm_t.,
+      #t.currency_id            = pm_t.
+      #t.currency_exchange_rate = pm_t.
+      #t.balance                = pm_t.
+      #t.payee_id               = pm_t.
+      #t.category_id            = pm_t.
+      #t.department_id          = pm_t.
+      #t.memo                   = pm_t.
 
-      t.save
+      t.save!
 
+    end
+
+    def find_account_id(pm_account_id)
+      ::Account.where(pm_account_id: pm_account_id.to_i).first.try(:id)
     end
 
     def transactions
@@ -78,7 +81,7 @@ class PocketMoney
       a.name                       = pocketmoney_account.account
       a.balance_overall            = pocketmoney_account.balanceOverall
       a.balance_cleared            = pocketmoney_account.balanceCleared
-      #a.                          = pocketmoney_account.type
+      a.pm_account_type            = pocketmoney_account.type
       a.number                     = pocketmoney_account.accountNumber
       a.institution                = pocketmoney_account.institution
       a.phone                      = pocketmoney_account.phone

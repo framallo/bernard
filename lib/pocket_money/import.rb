@@ -26,7 +26,7 @@ class PocketMoney
       t.pm_image                = pocketmoney_transaction.image
       t.pm_overdraft_id         = pocketmoney_transaction.overdraftID
 
-      t.date                    = Time.at(pocketmoney_transaction.date)
+      t.date                    = to_time(pocketmoney_transaction.date)
       t.account_id              = find_account_id(pocketmoney_transaction.accountID)
       t.deleted                 = pocketmoney_transaction.deleted
       t.check_number            = pocketmoney_transaction.checkNumber
@@ -34,8 +34,8 @@ class PocketMoney
       t.amount                  = pocketmoney_transaction.subTotal
       t.cleared                 = !!pocketmoney_transaction.cleared
       t.uuid                    = pocketmoney_transaction.serverID
-      t.created_at           ||= Time.at(pocketmoney_transaction.date)
-      t.updated_at           ||= Time.at(pocketmoney_transaction.timestamp)
+      t.created_at           ||= to_time(pocketmoney_transaction.date)
+      t.updated_at           ||= to_time(pocketmoney_transaction.timestamp)
 
       # pocketmoney doesn't store it here
       #t.currency_id            = pm_t.
@@ -48,6 +48,10 @@ class PocketMoney
 
       t.save!
 
+    end
+
+    def to_time(t)
+      Time.zone.at(t)
     end
 
     def find_account_id(pm_account_id)
@@ -75,7 +79,7 @@ class PocketMoney
           ::Account.new
 
       a.deleted                    = !!pocketmoney_account.deleted
-      a.updated_at                 = Time.at(pocketmoney_account.timestamp)
+      a.updated_at                 = to_time(pocketmoney_account.timestamp)
       a.pm_id                      = pocketmoney_account.accountID
       a.display_order              = pocketmoney_account.displayOrder
       a.name                       = pocketmoney_account.account

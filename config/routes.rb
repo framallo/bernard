@@ -1,6 +1,7 @@
 Bernard::Application.routes.draw do
   resources :transactions
 
+  get 'search/' => 'search#index', as: :search
   get 'search/:q' => 'search#index'
 
   resources :import do

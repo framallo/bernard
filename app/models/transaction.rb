@@ -1,5 +1,7 @@
 class Transaction < ActiveRecord::Base
-  scope :search, ->(q) { where "payee_name like ? OR amount = ? OR uuid = ?", "%#{q}%", q.to_i, q }
+  default_scope { order(:date) }
+  scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
+  scope :uuid, ->(uuid) { where(uuid:uuid).first }
   belongs_to :account
 
   attr_accessor :balance

@@ -7,9 +7,10 @@
       %th Payee
       %th Category
       %th Amount
-      %th Balance
+      - if show_balance
+        %th Balance
       %th uuid
 
   %tbody
     - transactions.each do |transaction|
-      = render transaction
+      = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

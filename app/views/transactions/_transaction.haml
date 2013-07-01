@@ -5,6 +5,7 @@
   %td= transaction.payee_name
   %td= transaction.category_id
   %td= transaction.amount
-  %td= transaction.balance
+  - if show_balance
+    %td= transaction.balance
   %td= transaction.uuid
   %td= link_to 'Show', transaction

@@ -1,7 +1,12 @@
 module ApplicationHelper
 
-  def render_transactions transactions
-    render partial: '/transactions/transactions', locals: {transactions: transactions} 
+  # available options:
+  # * show_balance boolean
+  def render_transactions transactions, o = {}
+    default_options = {show_balance: true}
+    options = default_options.merge(o)
+
+    render partial: '/transactions/transactions', locals: options.merge(options: options, transactions: transactions)
   end
 
   def cleared_icon(cleared)

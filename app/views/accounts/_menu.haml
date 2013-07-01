@@ -1,6 +1,8 @@
 %li.dropdown
-  = link_to 'Accounts', accounts_path, :class => 'dropdown-toggle', 'data-toggle' => 'dropdown'
+  = link_to 'Accounts', '#', :class => 'dropdown-toggle', 'data-toggle' => 'dropdown'
   %ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+    %li= link_to "All accounts", accounts_path
+    %li.divider
     - @menu_accounts.all.each do |account|
       %li
         = link_to account_path(account) do

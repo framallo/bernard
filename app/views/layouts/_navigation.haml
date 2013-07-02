@@ -1,16 +1,12 @@
 %header.navbar.navbar-inverse
   %nav.navbar-inner
     .container
-      %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
-        %span.icon-bar 
-        %span.icon-bar 
-        %span.icon-bar 
 
       = link_to 'Bernard', root_path, class:'brand'
 
       .nav-collapse.collapse
         %ul.nav
-          %li.active= link_to 'Transactions', transactions_path, class:'brand'
+          %li= link_to 'All transactions', transactions_path, class:'brand'
           = render '/accounts/menu'
 
 

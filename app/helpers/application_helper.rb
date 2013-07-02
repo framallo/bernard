@@ -12,4 +12,11 @@ module ApplicationHelper
   def cleared_icon(cleared)
     content_tag('i', '', class: cleared ? 'icon-ok' : 'icon-remove')
   end
+
+  def money(amount)
+    content_tag :span, class: amount > 0 ? 'amount-positive' : 'amount-negative' do
+      number_to_currency amount
+    end
+  end
+
 end

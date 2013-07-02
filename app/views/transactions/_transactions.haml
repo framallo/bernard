@@ -1,4 +1,4 @@
-%table.table
+%table.table-bordered
   %thead
     %tr
       %th 
@@ -9,7 +9,6 @@
       %th Amount
       - if show_balance
         %th Balance
-      %th uuid
 
   %tbody
     - transactions.each do |transaction|

@@ -11,3 +11,16 @@
  *= require_self
  *= require_tree .
  */
+
+.amount-negative {
+  color: #F00;
+}
+
+.amount-positive {
+  color: #008000;
+}
+
+.table-bordered .currency {
+  text-align: right;
+}
+

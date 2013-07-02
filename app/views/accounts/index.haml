@@ -1,0 +1,15 @@
+%h1 Accounts
+
+%table.table-bordered
+  %thead
+    %tr
+      %th Name
+      %th Cleared balance
+      %th Current balance
+      %th Future balance
+      %th Available credits
+      %th Available funds
+
+  %tbody
+    - @accounts.each do |account|
+      = render account

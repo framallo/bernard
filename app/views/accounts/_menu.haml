@@ -8,4 +8,4 @@
         = link_to account_path(account) do
           =account.name
           .label.label-inverse.pull-right
-            = number_to_currency account.balance
+            = money account.current_balance

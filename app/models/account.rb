@@ -1,8 +1,13 @@
 class Account < ActiveRecord::Base
   has_many :transactions
 
+
+  def active_transactions
+    transactions.active.balance
+  end
+
   def basic_balance
-    transactions.active
+    active_transactions.active
   end
 
   def cleared_balance

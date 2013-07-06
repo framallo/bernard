@@ -11,7 +11,7 @@ class CreatePayees < ActiveRecord::Migration
 
       t.timestamps
     end
-  add_index(:payees, [:name], unique: true)
+    add_index(:payees, [:name], unique: true)
   end
 end
 

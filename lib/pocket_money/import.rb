@@ -138,6 +138,7 @@ class PocketMoney
       p.created_at               ||= to_time(pocketmoney_payee.timestamp)
       p.updated_at               ||= to_time(pocketmoney_payee.timestamp)
 
+      p.save
    end 
   end # Import
 end

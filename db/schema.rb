@@ -65,10 +65,18 @@ ActiveRecord::Schema.define(version: 20130629200924) do
   end
 
   create_table "payees", force: true do |t|
-    t.string   "name"
+    t.boolean  "deleted"
+    t.integer  "timestamp"
+    t.integer  "pm_id"
+    t.text     "name"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "payees", ["name"], name: "index_payees_on_name", unique: true, using: :btree
 
   create_table "transactions", force: true do |t|
     t.integer  "pm_type"

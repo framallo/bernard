@@ -1,13 +1,14 @@
 class PocketMoney
 
   def self.import
-    Import.new
+    Import.new.process
   end
 
   class Import
-    def initialize
+    def process
       accounts
       transactions
+      payees
     end
 
 
@@ -114,6 +115,30 @@ class PocketMoney
       a.save
     end
 
+    def payees
+      Payees.all.each do |pocketmoney_payee| 
+        payee(pocketmoney_payee) 
+      end 
+    end
+
+    def payee(pocketmoney_payee)
+
+      puts "Payee: " + pocketmoney_payee.serverID
+
+      p = ::Payee.where(uuid: pocketmoney_payee.serverID).first ||
+          ::Payee.new
+
+      p.deleted                    = !!pocketmoney_payee.deleted
+      p.pm_id                      = pocketmoney_payee.payeeID
+      p.name                       = pocketmoney_payee.payee
+      p.latitude                   = pocketmoney_payee.latitude
+      p.longitude                  = pocketmoney_payee.longitude
+      p.uuid                       = pocketmoney_payee.serverID
+
+      p.created_at               ||= to_time(pocketmoney_payee.timestamp)
+      p.updated_at               ||= to_time(pocketmoney_payee.timestamp)
+
+   end 
   end # Import
 end
 

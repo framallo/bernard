@@ -53,7 +53,16 @@ ActiveRecord::Schema.define(version: 20130629200924) do
   end
 
   create_table "categories", force: true do |t|
+    t.boolean  "deleted"
+    t.integer  "timestamp"
+    t.integer  "category_id"
     t.string   "name"
+    t.integer  "pm_type"
+    t.integer  "budget_period"
+    t.decimal  "budget_limit",           precision: 10, scale: 2
+    t.boolean  "include_sub_categories"
+    t.boolean  "rollover"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -68,7 +77,7 @@ ActiveRecord::Schema.define(version: 20130629200924) do
     t.boolean  "deleted"
     t.integer  "timestamp"
     t.integer  "pm_id"
-    t.text     "name"
+    t.string   "name"
     t.string   "latitude"
     t.string   "longitude"
     t.string   "uuid"

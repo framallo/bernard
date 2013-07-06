@@ -8,7 +8,13 @@ class PocketMoney
     def process
       accounts
       transactions
+      categories
+#     classes
+#     splits
       payees
+#     categorypayee
+#     ids
+#     categorybudgets     
     end
 
 
@@ -112,7 +118,7 @@ class PocketMoney
       a.heek_change_round_to       = pocketmoney_account.keepChangeRoundTo
       a.uuid                       = pocketmoney_account.serverID
 
-      a.save
+      a.save!
     end
 
     def payees
@@ -138,8 +144,39 @@ class PocketMoney
       p.created_at               ||= to_time(pocketmoney_payee.timestamp)
       p.updated_at               ||= to_time(pocketmoney_payee.timestamp)
 
-      p.save
+      p.save!
+   end
+
+    def categories
+      Categories.all.each do |pocketmoney_category| 
+        category(pocketmoney_category) 
+      end 
+    end
+
+    def category(pocketmoney_category)
+
+      puts "Category: " + pocketmoney_category.serverID
+
+      c = ::Category.where(uuid: pocketmoney_category.serverID).first ||
+          ::Category.new
+
+      c.deleted                    = !!pocketmoney_category.deleted
+      c.category_id                = pocketmoney_category.categoryID
+      c.name                       = pocketmoney_category.category
+      c.pm_type                    = pocketmoney_category.type
+      c.budget_period              = pocketmoney_category.budgetPeriod
+      c.budget_limit               = pocketmoney_category.budgetLimit  
+      c.include_sub_categories     = pocketmoney_category.includeSubcategories  
+      c.rollover                   = pocketmoney_category.rollover  
+      c.uuid                       = pocketmoney_category.serverID
+
+      c.created_at               ||= to_time(pocketmoney_category.timestamp)
+      c.updated_at               ||= to_time(pocketmoney_category.timestamp)
+
+      c.save!
    end 
+
+
   end # Import
 end
 

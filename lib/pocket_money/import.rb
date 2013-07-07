@@ -1,15 +1,48 @@
 class PocketMoney
 
   def self.import
-    Import.new
+    Import.new.import
   end
 
   class Import
-    def initialize
+    def import
       accounts
+      categories
+      classes
       transactions
+      splits
     end
 
+    def accounts
+      Accounts.all.each do |pocketmoney_account| 
+        account(pocketmoney_account) 
+      end 
+    end
+
+    def categories
+      Categories.all.each do |pocketmoney_category| 
+        category(pocketmoney_category)
+      end
+    end
+
+    def classes
+
+    end
+
+    def transactions
+      Transactions.all.each do |pocketmoney_transaction| 
+        transaction(pocketmoney_transaction) 
+      end 
+    end
+
+    def splits
+      Splits.all.each do |pocketmoney_split| 
+        split(pocketmoney_split)
+      end
+    end
+
+
+    private
 
     def transaction(pocketmoney_transaction)
 
@@ -50,26 +83,7 @@ class PocketMoney
 
     end
 
-    def to_time(t)
-      Time.zone.at(t)
-    end
 
-    def find_account_id(pm_account_id)
-      ::Account.where(pm_id: pm_account_id.to_i).first.try(:id)
-    end
-
-    def transactions
-      Transactions.all.each do |pocketmoney_transaction| 
-        transaction(pocketmoney_transaction) 
-      end 
-    end
-
-
-    def accounts
-      Accounts.all.each do |pocketmoney_account| 
-        account(pocketmoney_account) 
-      end 
-    end
 
     def account(pocketmoney_account)
 
@@ -115,28 +129,71 @@ class PocketMoney
     end
 
 
-    def splits
-      Splits.all.each do |pocketmoney_split| 
-        split(pocketmoney_split)
-      end
+    def split(pocketmoney_split)
+      split = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
+              ::Split.new
+
+      split.transaction_id         = find_transaction_id(pocketmoney_split.transactionID)
+      split.amount                 = pocketmoney_split.amount
+      split.xrate                  = pocketmoney_split.xrate
+      split.category_id            = find_category_id(pocketmoney_split.categoryID)
+      split.class_id               = find_class_id(pocketmoney_split.classID)
+      split.memo                   = pocketmoney_split.memo
+      split.transfer_to_account_id = find_account_id(pocketmoney_split.transferToAccountID)
+      split.currency_code          = pocketmoney_split.currencyCode
+      split.of_x_id                = pocketmoney_split.ofxid
+
+      split.save!
+
     end
 
-    def split(pocketmoney_split)
 
-# splitID | transactionID | amount | xrate | categoryID | classID | memo | transferToAccountID | currencyCode | ofxid
-# 1       | 1             | 4500.0 | 0.0   |            |         |      |                     |              | 
+    def category(pocketmoney_category)
 
-      #::Split.where(pocketmoney_split.
-       #split.pm_split_id            = splitID"       = >1,
-       #split.                       = transactionID" = >1,
-       #split.amount                 = amount"        = >4500.0,
-       #split.xrate                  = xrate"         = >0.0,
-       #split.pm_category_id         = categoryID"    = >"",
-       #split.pm_class_id            = classID"       = >"",
-       #split.memo                   = memo"          = >"",
-       #split.transfer_to_account_id =  transferToAccountID" = >0,
-       #split.currency_code          = currencyCode"  = >"",
-       #split.of_x_id                = ofxid"         = >""}
+      c = ::Category.where(uuid: pocketmoney_category.serverID).first ||
+          ::Category.new
+
+
+      c.name                  = pocketmoney_category.category
+      c.deleted               = !!pocketmoney_category.deleted
+      c.pm_id                 = pocketmoney_category.categoryID
+      c.pm_type               = pocketmoney_category.type
+      c.budget_period         = pocketmoney_category.budgetPeriod
+      c.budget_limit          = pocketmoney_category.budgetLimit
+      c.include_subcategories = !!pocketmoney_category.includeSubcategories
+      c.rollover              = !!pocketmoney_category.rollover
+      c.uuid                  = pocketmoney_category.serverID
+
+      c.created_at            ||= to_time(pocketmoney_category.timestamp)
+      c.updated_at            = to_time(pocketmoney_category.timestamp)
+
+      c.save!
+      
+    end
+
+
+    # find rails ids
+
+    def find_transaction_id(pm_id)
+      ::Transaction.where(pm_id: pm_id.to_i).first.try(:id)
+    end
+
+    def find_category_id(pm_id)
+      ::Category.where(pm_id: pm_id.to_i).first.try(:id)
+    end
+
+    def find_class_id(pm_id)
+
+    end
+
+    def find_account_id(pm_account_id)
+      ::Account.where(pm_id: pm_account_id.to_i).first.try(:id)
+    end
+
+    # more helpers
+
+    def to_time(t)
+      Time.zone.at(t)
     end
 
   end # Import

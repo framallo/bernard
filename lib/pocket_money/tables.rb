@@ -63,5 +63,6 @@ class PocketMoney
 
   class Transactions < ActiveRecord::Base
     include BaseTable
+    has_many :splits, primary_key: 'transactionID', foreign_key: 'transactionID', class_name: Splits
   end
 end

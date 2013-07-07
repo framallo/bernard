@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130629200924) do
+ActiveRecord::Schema.define(version: 20130706181631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,14 @@ ActiveRecord::Schema.define(version: 20130629200924) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
+    t.boolean  "deleted"
+    t.integer  "pm_id"
+    t.integer  "pm_type"
+    t.integer  "budget_period"
+    t.decimal  "budget_limit"
+    t.boolean  "include_subcategories"
+    t.boolean  "rollover"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,6 +74,21 @@ ActiveRecord::Schema.define(version: 20130629200924) do
 
   create_table "payees", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "splits", force: true do |t|
+    t.integer  "pm_id"
+    t.integer  "transaction_id"
+    t.decimal  "amount",                 precision: 10, scale: 2
+    t.decimal  "xrate",                  precision: 10, scale: 2
+    t.integer  "category_id"
+    t.integer  "class_id"
+    t.text     "memo"
+    t.integer  "transfer_to_account_id"
+    t.string   "currency_code"
+    t.string   "of_x_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -89,7 +112,7 @@ ActiveRecord::Schema.define(version: 20130629200924) do
     t.integer  "department_id"
     t.decimal  "amount"
     t.boolean  "cleared"
-    t.text     "uuid"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -14,14 +14,19 @@ class PocketMoney
     end
 
     def accounts
+      progress_bar 'Accounts'
+
       Accounts.all.each do |pocketmoney_account| 
         account(pocketmoney_account) 
+        progress_bar_tick
       end 
     end
 
     def categories
+      progress_bar 'Categories'
       Categories.all.each do |pocketmoney_category| 
         category(pocketmoney_category)
+        progress_bar_tick
       end
     end
 
@@ -30,23 +35,33 @@ class PocketMoney
     end
 
     def transactions
+      progress_bar 'Transactions'
       Transactions.all.each do |pocketmoney_transaction| 
         transaction(pocketmoney_transaction) 
+        progress_bar_tick
       end 
     end
 
     def splits
+      progress_bar 'Splits'
       Splits.all.each do |pocketmoney_split| 
         split(pocketmoney_split)
+        progress_bar_tick
       end
+    end
+
+    def progress_bar(name)
+      @pb = ProgressBar.create(:title => name, :total => "PocketMoney::#{name}".constantize.count)
+    end
+
+    def progress_bar_tick
+      @pb.increment
     end
 
 
     private
 
     def transaction(pocketmoney_transaction)
-
-      puts "Transaction: " + pocketmoney_transaction.serverID
 
       t = ::Transaction.where(uuid: pocketmoney_transaction.serverID).first ||
           ::Transaction.new
@@ -86,8 +101,6 @@ class PocketMoney
 
 
     def account(pocketmoney_account)
-
-      puts "Account: " + pocketmoney_account.serverID
 
       a = ::Account.where(uuid: pocketmoney_account.serverID).first ||
           ::Account.new

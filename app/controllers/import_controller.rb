@@ -1,7 +1,9 @@
 class ImportController < ApplicationController
 
   def index
-    PocketMoney.import
+    Thread.new do
+      PocketMoney.import
+    end
   end
 
 end

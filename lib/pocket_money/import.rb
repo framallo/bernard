@@ -67,7 +67,7 @@ class PocketMoney
           ::Transaction.new
 
       t.pm_type                 = pocketmoney_transaction.type
-      t.pm_id                   = pocketmoney_transaction.accountID
+      t.pm_id                   = pocketmoney_transaction.transactionID
     
       t.pm_sub_total            = pocketmoney_transaction.subTotal
       t.pm_of_x_id              = pocketmoney_transaction.ofxID
@@ -146,6 +146,7 @@ class PocketMoney
       split = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
               ::Split.new
 
+      split.pm_id                  = pocketmoney_split.splitID
       split.transaction_id         = find_transaction_id(pocketmoney_split.transactionID)
       split.amount                 = pocketmoney_split.amount
       split.xrate                  = pocketmoney_split.xrate
@@ -192,7 +193,7 @@ class PocketMoney
     end
 
     def find_category_id(pm_id)
-      ::Category.where(pm_id: pm_id.to_i).first.try(:id)
+      ::Category.where(name: pm_id).first.try(:id)
     end
 
     def find_class_id(pm_id)

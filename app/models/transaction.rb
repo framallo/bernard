@@ -10,10 +10,13 @@ class Transaction < ActiveRecord::Base
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
   scope :uuid, ->(uuid) { where(uuid:uuid).first }
-  scope :active, ->     { where(deleted:false).order('date desc').where('pm_type <> 5').includes(:splits) }
+  scope :active, ->     { where(deleted:false).where('pm_type <> 5').includes(:splits) }
+  scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
   scope :balance, -> { select('*').select('SUM(amount) OVER (PARTITION BY account_id ORDER BY date ASC) as balance') }
+  scope :transaction_includes, -> { includes(:account,:splits => :category) }
+  scope :full, -> { order_date.transaction_includes.active.balance }
 
   belongs_to :account
   has_many :splits

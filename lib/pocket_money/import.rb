@@ -5,6 +5,7 @@ class PocketMoney
   end
 
   class Import
+
     def import
       accounts
       categories
@@ -39,9 +40,6 @@ class PocketMoney
       import_table 'Splits'
     end
 
-
-      
-
     def repeating_transactions
       import_table 'RepeatingTransactions'
     end
@@ -49,164 +47,143 @@ class PocketMoney
     private
 
 
-    def transaction(pocketmoney_transaction)
+    def transaction(pm)
 
-      t = ::Transaction.where(uuid: pocketmoney_transaction.serverID).first ||
-          ::Transaction.new
-
-      t.pm_type                 = pocketmoney_transaction.type
-      t.pm_id                   = pocketmoney_transaction.transactionID
-    
-      t.pm_sub_total            = pocketmoney_transaction.subTotal
-      t.pm_of_x_id              = pocketmoney_transaction.ofxID
-      t.pm_image                = pocketmoney_transaction.image
-      t.pm_overdraft_id         = pocketmoney_transaction.overdraftID
-
-      t.date                    = to_time(pocketmoney_transaction.date)
-      t.account_id              = find_account_id(pocketmoney_transaction.accountID)
-      t.deleted                 = pocketmoney_transaction.deleted
-      t.check_number            = pocketmoney_transaction.checkNumber
-      t.payee_name              = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8')
-      t.amount                  = pocketmoney_transaction.subTotal
-      t.cleared                 = !!pocketmoney_transaction.cleared
-      t.uuid                    = pocketmoney_transaction.serverID
-      t.created_at            ||= to_time(pocketmoney_transaction.date)
-      t.updated_at            ||= to_time(pocketmoney_transaction.timestamp)
-
-      # pocketmoney doesn't store it here
-      #t.currency_id            = pm_t.
-      #t.currency_exchange_rate = pm_t.
-      #t.balance                = pm_t.
-      #t.payee_id               = pm_t.
-      #t.category_id            = pm_t.
-      #t.department_id          = pm_t.
-      #t.memo                   = pm_t.
-
-      t.save!
-
+      create_or_update(
+        ::Transaction,
+        {uuid: pm.serverID},
+        pm_type:         pm.type,
+        pm_id:           pm.transactionID,
+        pm_sub_total:    pm.subTotal,
+        pm_of_x_id:      pm.ofxID,
+        pm_image:        pm.image,
+        pm_overdraft_id: pm.overdraftID,
+        date:            to_time(pm.date),
+        account_id:      find_account_id(pm.accountID),
+        deleted:         pm.deleted,
+        check_number:    pm.checkNumber,
+        payee_name:      pm.payee.force_encoding('Windows-1252').encode('UTF-8'),
+        amount:          pm.subTotal,
+        cleared:         !!pm.cleared,
+        created_at:      to_time(pm.date),
+        updated_at:      to_time(pm.timestamp)
+      )
     end
 
 
-
-    def account(pocketmoney_account)
-
-      a = ::Account.where(uuid: pocketmoney_account.serverID).first ||
-          ::Account.new
-
-      a.deleted                    = !!pocketmoney_account.deleted
-      a.updated_at                 = to_time(pocketmoney_account.timestamp)
-      a.pm_id                      = pocketmoney_account.accountID
-      a.display_order              = pocketmoney_account.displayOrder
-      a.name                       = pocketmoney_account.account
-      a.balance_overall            = pocketmoney_account.balanceOverall
-      a.balance_cleared            = pocketmoney_account.balanceCleared
-      a.pm_account_type            = pocketmoney_account.type
-      a.number                     = pocketmoney_account.accountNumber
-      a.institution                = pocketmoney_account.institution
-      a.phone                      = pocketmoney_account.phone
-      a.expiration_date            = pocketmoney_account.expirationDate
-      a.check_number               = pocketmoney_account.checkNumber
-      a.notes                      = pocketmoney_account.notes
-      a.pm_icon                    = pocketmoney_account.iconFileName
-      a.url                        = pocketmoney_account.url
-      a.of_x_id                    = pocketmoney_account.ofxid
-      a.of_x_url                   = pocketmoney_account.ofxurl
-      a.password                   = pocketmoney_account.password
-      a.fee                        = pocketmoney_account.fee
-      a.fixed_percent              = pocketmoney_account.fixedPercent
-      a.limit_amount               = pocketmoney_account.limitAmount
-      a.limit                      = pocketmoney_account.noLimit
-      a.total_worth                = pocketmoney_account.totalWorth
-      a.exchange_rate              = pocketmoney_account.exchangeRate
-      a.currency_code              = pocketmoney_account.currencyCode
-      a.last_sync_time             = pocketmoney_account.lastSyncTime
-      a.routing_number             = pocketmoney_account.routingNumber
-      a.overdraft_account_id       = pocketmoney_account.overdraftAccountID
-      a.keep_the_change_account_id = pocketmoney_account.keepTheChangeAccountID
-      a.heek_change_round_to       = pocketmoney_account.keepChangeRoundTo
-      a.uuid                       = pocketmoney_account.serverID
-
-      a.save
+    def account(pm)
+      create_or_update(
+        ::Account, 
+        {uuid: pm.serverID},
+        deleted:                    !!pm.deleted,
+        updated_at:                 to_time(pm.timestamp),
+        pm_id:                      pm.accountID,
+        display_order:              pm.displayOrder,
+        name:                       pm.account,
+        balance_overall:            pm.balanceOverall,
+        balance_cleared:            pm.balanceCleared,
+        pm_account_type:            pm.type,
+        number:                     pm.accountNumber,
+        institution:                pm.institution,
+        phone:                      pm.phone,
+        expiration_date:            pm.expirationDate,
+        check_number:               pm.checkNumber,
+        notes:                      pm.notes,
+        pm_icon:                    pm.iconFileName,
+        url:                        pm.url,
+        of_x_id:                    pm.ofxid,
+        of_x_url:                   pm.ofxurl,
+        password:                   pm.password,
+        fee:                        pm.fee,
+        fixed_percent:              pm.fixedPercent,
+        limit_amount:               pm.limitAmount,
+        limit:                      pm.noLimit,
+        total_worth:                pm.totalWorth,
+        exchange_rate:              pm.exchangeRate,
+        currency_code:              pm.currencyCode,
+        last_sync_time:             pm.lastSyncTime,
+        routing_number:             pm.routingNumber,
+        overdraft_account_id:       pm.overdraftAccountID,
+        keep_the_change_account_id: pm.keepTheChangeAccountID,
+        heek_change_round_to:       pm.keepChangeRoundTo,
+        uuid:                       pm.serverID,
+        created_at:                 to_time(pm.timestamp),
+        updated_at:                 to_time(pm.timestamp),
+      )
     end
 
 
-    def split(pocketmoney_split)
-      split = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
-              ::Split.new
-
-      split.pm_id                  = pocketmoney_split.splitID
-      split.transaction_id         = find_transaction_id(pocketmoney_split.transactionID)
-      split.amount                 = pocketmoney_split.amount
-      split.xrate                  = pocketmoney_split.xrate
-      split.category_id            = find_category_id(pocketmoney_split.categoryID)
-      split.class_id               = find_class_id(pocketmoney_split.classID)
-      split.memo                   = pocketmoney_split.memo
-      split.transfer_to_account_id = find_account_id(pocketmoney_split.transferToAccountID)
-      split.currency_code          = pocketmoney_split.currencyCode
-      split.of_x_id                = pocketmoney_split.ofxid
-
-      split.save!
-
+    def split(pm)
+      create_or_update(
+        ::Split, 
+        {pm_id: pm.splitID},
+        transaction_id:         find_transaction_id(pm.transactionID),
+        amount:                 pm.amount,
+        xrate:                  pm.xrate,
+        category_id:            find_category_id(pm.categoryID),
+        class_id:               find_class_id(pm.classID),
+        memo:                   pm.memo,
+        transfer_to_account_id: find_account_id(pm.transferToAccountID),
+        currency_code:          pm.currencyCode,
+        of_x_id:                pm.ofxid,
+      )
     end
 
 
-    def category(pocketmoney_category)
-
-      c = ::Category.where(uuid: pocketmoney_category.serverID).first ||
-          ::Category.new
-
-
-      c.name                  = pocketmoney_category.category
-      c.deleted               = !!pocketmoney_category.deleted
-      c.pm_id                 = pocketmoney_category.categoryID
-      c.pm_type               = pocketmoney_category.type
-      c.budget_period         = pocketmoney_category.budgetPeriod
-      c.budget_limit          = pocketmoney_category.budgetLimit
-      c.include_subcategories = !!pocketmoney_category.includeSubcategories
-      c.rollover              = !!pocketmoney_category.rollover
-      c.uuid                  = pocketmoney_category.serverID
-
-      c.created_at            ||= to_time(pocketmoney_category.timestamp)
-      c.updated_at            = to_time(pocketmoney_category.timestamp)
-
-      c.save!
-      
+    def category(pm)
+      create_or_update(
+        ::Category, 
+        {uuid: pm.serverID},
+        name:                  pm.category,
+        deleted:               !!pm.deleted,
+        pm_id:                 pm.categoryID,
+        pm_type:               pm.type,
+        budget_period:         pm.budgetPeriod,
+        budget_limit:          pm.budgetLimit,
+        include_subcategories: !!pm.includeSubcategories,
+        rollover:              !!pm.rollover,
+        uuid:                  pm.serverID,
+        created_at:            to_time(pm.timestamp),
+        updated_at:            to_time(pm.timestamp)
+      )
     end
 
-    def payee(pocketmoney_payee)
-      p = ::Payee.where(uuid: pocketmoney_payee.serverID).first ||
-          ::Payee.new
-
-      p.deleted    = pocketmoney_payee.deleted
-      p.created_at ||= to_time(pocketmoney_payee.timestamp)
-      p.updated_at = to_time(pocketmoney_payee.timestamp)
-      p.pm_id      = pocketmoney_payee.payeeID
-      p.name       = pocketmoney_payee.payee
-      p.latitude   = pocketmoney_payee.latitude
-      p.longitude  = pocketmoney_payee.longitude
-      p.uuid       = pocketmoney_payee.serverID
+    def payee(pm)
+      create_or_update(
+        ::Payee,
+        {uuid: pm.serverID},
+        deleted:    pm.deleted,
+        created_at: to_time(pm.timestamp),
+        updated_at: to_time(pm.timestamp),
+        pm_id:      pm.payeeID,
+        name:       pm.payee,
+        latitude:   pm.latitude,
+        longitude:  pm.longitude,
+        uuid:       pm.serverID,
+        created_at: to_time(pm.timestamp),
+        updated_at: to_time(pm.timestamp),
+      )
 
     end
 
-    def repeating_transaction(pocketmoney_repeating_transaction)
-      p = ::RepeatingTransaction.where(uuid: pocketmoney_repeating_transaction.serverID).first ||
-          ::RepeatingTransaction.new
-
-      p.last_processed_date     = pocketmoney_repeating_transaction.lastProcessedDate
-      p.transaction_id          = pocketmoney_repeating_transaction.transactionID
-      p.type                    = pocketmoney_repeating_transaction.type
-      p.end_date                = pocketmoney_repeating_transaction.endDate
-      p.frequency               = pocketmoney_repeating_transaction.frequency
-      p.repeat_on               = pocketmoney_repeating_transaction.repeatOn
-      p.start_of_week           = pocketmoney_repeating_transaction.startOfWeek
-      p.send_local_notification = pocketmoney_repeating_transaction.sendLocalNotifications
-      p.notify_days_in_advance  = pocketmoney_repeating_transaction.notifyDaysInAdvance
-
-      p.deleted    = pocketmoney_repeating_transaction.deleted
-      p.created_at ||= to_time(pocketmoney_repeating_transaction.timestamp)
-      p.updated_at = to_time(pocketmoney_repeating_transaction.timestamp)
-      p.uuid       = pocketmoney_repeating_transaction.serverID
-
+    def repeating_transaction(pm)
+      create_or_update(
+        ::RepeatingTransaction,
+        {uuid: pm.serverID},
+        last_processed_date:     pm.lastProcessedDate,
+        transaction_id:          pm.transactionID,
+        type:                    pm.type,
+        end_date:                pm.endDate,
+        frequency:               pm.frequency,
+        repeat_on:               pm.repeatOn,
+        start_of_week:           pm.startOfWeek,
+        send_local_notification: pm.sendLocalNotifications,
+        notify_days_in_advance:  pm.notifyDaysInAdvance,
+        deleted:                 pm.deleted,
+        uuid:                    pm.serverID,
+        created_at:              to_time(pm.timestamp),
+        updated_at:              to_time(pm.timestamp),
+      )
     end
 
 
@@ -254,6 +231,13 @@ class PocketMoney
     def progress_bar_tick
       @pb.increment
     end
+
+    def create_or_update(model, find, attrs)
+      r = model.where(find).first || model.new
+      r.update(find.merge(attrs))
+      r.save!
+    end
+
 
   end # Import
 end

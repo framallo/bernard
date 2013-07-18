@@ -74,6 +74,11 @@ ActiveRecord::Schema.define(version: 20130706181631) do
 
   create_table "payees", force: true do |t|
     t.string   "name"
+    t.boolean  "deleted"
+    t.integer  "pm_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

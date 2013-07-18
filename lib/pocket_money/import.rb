@@ -11,6 +11,7 @@ class PocketMoney
       classes
       transactions
       splits
+      payees
     end
 
     def accounts
@@ -40,6 +41,15 @@ class PocketMoney
         transaction(pocketmoney_transaction) 
         progress_bar_tick
       end 
+    end
+
+    def payees
+      progress_bar 'Payees'
+      Payees.all.each do |pocketmoney_payee| 
+        payee(pocketmoney_payee) 
+        progress_bar_tick
+      end 
+
     end
 
     def splits
@@ -183,6 +193,20 @@ class PocketMoney
 
       c.save!
       
+    end
+
+    def payee(pocketmoney_payee)
+      p = ::Payee.where(uuid: pocketmoney_payee.serverID).first ||
+          ::Payee.new
+
+      p.deleted    = pocketmoney_payee.deleted
+      p.updated_at = pocketmoney_payee.timestamp
+      p.pm_id      = pocketmoney_payee.payeeID
+      p.name       = pocketmoney_payee.payee
+      p.latitude   = pocketmoney_payee.latitude
+      p.longitude  = pocketmoney_payee.longitude
+      p.uuid       = pocketmoney_payee.serverID
+
     end
 
 

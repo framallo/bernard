@@ -16,20 +16,11 @@ class PocketMoney
     end
 
     def accounts
-      progress_bar 'Accounts'
-
-      Accounts.all.each do |pocketmoney_account| 
-        account(pocketmoney_account) 
-        progress_bar_tick
-      end 
+      import_table 'Accounts'
     end
 
     def categories
-      progress_bar 'Categories'
-      Categories.all.each do |pocketmoney_category| 
-        category(pocketmoney_category)
-        progress_bar_tick
-      end
+      import_table 'Categories'
     end
 
     def classes
@@ -37,38 +28,22 @@ class PocketMoney
     end
 
     def transactions
-      progress_bar 'Transactions'
-      Transactions.all.each do |pocketmoney_transaction| 
-        transaction(pocketmoney_transaction) 
-        progress_bar_tick
-      end 
+      import_table 'Transactions'
     end
 
     def payees
-      progress_bar 'Payees'
-      Payees.all.each do |pocketmoney_payee| 
-        payee(pocketmoney_payee) 
-        progress_bar_tick
-      end 
-
+      import_table 'Payees'
     end
 
     def splits
-      progress_bar 'Splits'
-      Splits.all.each do |pocketmoney_split| 
-        split(pocketmoney_split)
-        progress_bar_tick
-      end
+      import_table 'Splits'
     end
+
 
       
 
     def repeating_transactions
-      progress_bar 'RepeatingTransactions'
-      RepeatingTransactions.all.each do |pocketmoney_repeating_transaction| 
-        repeating_transaction(pocketmoney_repeating_transaction)
-        progress_bar_tick
-      end
+      import_table 'RepeatingTransactions'
     end
 
     private
@@ -259,8 +234,21 @@ class PocketMoney
       Time.zone.at(t)
     end
 
-    def progress_bar(name)
-      @pb = ProgressBar.create(:title => name, :total => "PocketMoney::#{name}".constantize.count)
+    def import_table model_string
+      model = "PocketMoney::#{model_string}".constantize
+      import_method = model_string.to_s.singularize.underscore
+      
+
+      progress_bar model
+      model.all.each do |pm|
+        send(import_method, pm)
+        progress_bar_tick
+      end
+
+    end
+
+    def progress_bar(model)
+      @pb = ProgressBar.create(:title => model.to_s, :total => model.count)
     end
 
     def progress_bar_tick

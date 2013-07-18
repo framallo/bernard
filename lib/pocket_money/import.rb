@@ -12,6 +12,7 @@ class PocketMoney
       transactions
       splits
       payees
+      repeating_transactions
     end
 
     def accounts
@@ -60,16 +61,18 @@ class PocketMoney
       end
     end
 
-    def progress_bar(name)
-      @pb = ProgressBar.create(:title => name, :total => "PocketMoney::#{name}".constantize.count)
-    end
+      
 
-    def progress_bar_tick
-      @pb.increment
+    def repeating_transactions
+      progress_bar 'RepeatingTransactions'
+      RepeatingTransactions.all.each do |pocketmoney_repeating_transaction| 
+        repeating_transaction(pocketmoney_repeating_transaction)
+        progress_bar_tick
+      end
     end
-
 
     private
+
 
     def transaction(pocketmoney_transaction)
 
@@ -200,12 +203,34 @@ class PocketMoney
           ::Payee.new
 
       p.deleted    = pocketmoney_payee.deleted
-      p.updated_at = pocketmoney_payee.timestamp
+      p.created_at ||= to_time(pocketmoney_payee.timestamp)
+      p.updated_at = to_time(pocketmoney_payee.timestamp)
       p.pm_id      = pocketmoney_payee.payeeID
       p.name       = pocketmoney_payee.payee
       p.latitude   = pocketmoney_payee.latitude
       p.longitude  = pocketmoney_payee.longitude
       p.uuid       = pocketmoney_payee.serverID
+
+    end
+
+    def repeating_transaction(pocketmoney_repeating_transaction)
+      p = ::RepeatingTransaction.where(uuid: pocketmoney_repeating_transaction.serverID).first ||
+          ::RepeatingTransaction.new
+
+      p.last_processed_date     = pocketmoney_repeating_transaction.lastProcessedDate
+      p.transaction_id          = pocketmoney_repeating_transaction.transactionID
+      p.type                    = pocketmoney_repeating_transaction.type
+      p.end_date                = pocketmoney_repeating_transaction.endDate
+      p.frequency               = pocketmoney_repeating_transaction.frequency
+      p.repeat_on               = pocketmoney_repeating_transaction.repeatOn
+      p.start_of_week           = pocketmoney_repeating_transaction.startOfWeek
+      p.send_local_notification = pocketmoney_repeating_transaction.sendLocalNotifications
+      p.notify_days_in_advance  = pocketmoney_repeating_transaction.notifyDaysInAdvance
+
+      p.deleted    = pocketmoney_repeating_transaction.deleted
+      p.created_at ||= to_time(pocketmoney_repeating_transaction.timestamp)
+      p.updated_at = to_time(pocketmoney_repeating_transaction.timestamp)
+      p.uuid       = pocketmoney_repeating_transaction.serverID
 
     end
 
@@ -232,6 +257,14 @@ class PocketMoney
 
     def to_time(t)
       Time.zone.at(t)
+    end
+
+    def progress_bar(name)
+      @pb = ProgressBar.create(:title => name, :total => "PocketMoney::#{name}".constantize.count)
+    end
+
+    def progress_bar_tick
+      @pb.increment
     end
 
   end # Import

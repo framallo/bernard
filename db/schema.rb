@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130706181631) do
+ActiveRecord::Schema.define(version: 20130718222102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,22 @@ ActiveRecord::Schema.define(version: 20130706181631) do
     t.integer  "pm_id"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "uuid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "repeating_transactions", force: true do |t|
+    t.boolean  "deleted"
+    t.datetime "last_processed_date"
+    t.integer  "transaction_id"
+    t.integer  "type"
+    t.integer  "end_date"
+    t.integer  "frequency"
+    t.integer  "repeat_on"
+    t.integer  "start_of_week"
+    t.integer  "send_local_notification"
+    t.integer  "notify_days_in_advance"
     t.string   "uuid"
     t.datetime "created_at"
     t.datetime "updated_at"

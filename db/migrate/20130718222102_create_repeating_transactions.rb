@@ -4,7 +4,7 @@ class CreateRepeatingTransactions < ActiveRecord::Migration
       t.boolean  :deleted
       t.datetime :last_processed_date
       t.integer  :transaction_id
-      t.integer  :type
+      t.integer  :pm_type
       t.integer  :end_date
       t.integer  :frequency
       t.integer  :repeat_on

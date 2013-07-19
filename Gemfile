@@ -43,6 +43,8 @@ end
 gem 'pry'
 gem 'pry-rails'
 
+gem 'ruby-progressbar'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

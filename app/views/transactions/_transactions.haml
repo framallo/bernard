@@ -1,0 +1,15 @@
+%table.table-bordered
+  %thead
+    %tr
+      %th 
+      %th Date
+      %th Account
+      %th Payee
+      %th Category
+      %th Amount
+      - if show_balance
+        %th Balance
+
+  %tbody
+    - transactions.each do |transaction|
+      = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

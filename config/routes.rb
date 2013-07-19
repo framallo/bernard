@@ -1,5 +1,9 @@
 Bernard::Application.routes.draw do
   resources :transactions
+  resources :accounts
+
+  get 'search/' => 'search#index', as: :search
+  get 'search/:q' => 'search#index'
 
   resources :import do
     post 'import_csv', on: :collection

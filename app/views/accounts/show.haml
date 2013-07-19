@@ -1,0 +1,11 @@
+%h1
+  = @account.name
+  = money @account.current_balance
+
+%h2 
+  Transactions
+  = ['(',@account.transactions.count, ')'].join
+
+
+= render_transactions @account.active_transactions, show_balance: true
+

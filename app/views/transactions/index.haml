@@ -1,0 +1,7 @@
+%h1 Listing transactions
+
+= render_transactions @transactions, show_balance: false
+
+%br
+
+= link_to 'New Transaction', new_transaction_path

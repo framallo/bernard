@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 20130718222102) do
 
   create_table "departments", force: true do |t|
     t.string   "name"
+    t.integer  "pm_id"
+    t.string   "uuid"
+    t.boolean  "deleted"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

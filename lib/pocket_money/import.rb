@@ -25,7 +25,7 @@ class PocketMoney
     end
 
     def classes
-
+      import_table 'Classes', :import_class
     end
 
     def transactions
@@ -186,6 +186,19 @@ class PocketMoney
       )
     end
 
+    def import_class(pm)
+      create_or_update(
+        ::Department,
+        {uuid: pm.serverID},
+        name:                    pm.pm_class,
+        pm_id:                   pm.classID,
+        uuid:                    pm.serverID,
+        deleted:                 pm.deleted,
+        created_at:              to_time(pm.timestamp),
+        updated_at:              to_time(pm.timestamp),
+      )
+    end
+
 
     # find rails ids
 
@@ -211,9 +224,9 @@ class PocketMoney
       Time.zone.at(t)
     end
 
-    def import_table model_string
+    def import_table model_string, import_method=nil
       model = "PocketMoney::#{model_string}".constantize
-      import_method = model_string.to_s.singularize.underscore
+      import_method ||= model_string.to_s.singularize.underscore
       
 
       progress_bar model

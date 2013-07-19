@@ -10,11 +10,11 @@ class PocketMoney
       transactions
       categories
 #     classes
-#     splits
+      splits
       payees
 #     categorypayee
 #     ids
-#     categorybudgets     
+#     categorybudgets
     end
 
 
@@ -27,7 +27,7 @@ class PocketMoney
 
       t.pm_type                 = pocketmoney_transaction.type
       t.pm_id                   = pocketmoney_transaction.accountID
-    
+
       t.pm_sub_total            = pocketmoney_transaction.subTotal
       t.pm_of_x_id              = pocketmoney_transaction.ofxID
       t.pm_image                = pocketmoney_transaction.image
@@ -175,6 +175,35 @@ class PocketMoney
 
       c.save!
    end 
+
+    def splits
+      Splits.all.each do |pocketmoney_split| 
+        split(pocketmoney_split) 
+      end 
+    end
+
+    def split(pocketmoney_split)
+
+      puts "Split: " + pocketmoney_split.splitID.to_s
+
+      s = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
+          ::Split.new
+
+
+      s.transaction_id             = pocketmoney_split.transactionID
+      s.category_id                = pocketmoney_split.categoryID
+      s.amount                     = pocketmoney_split.amount
+      s.xrate                      = pocketmoney_split.xrate
+      s.class_id                   = pocketmoney_split.classID
+      s.memo                       = pocketmoney_split.memo  
+      s.transfer_to_account_id     = pocketmoney_split.transferToAccountID
+      s.currency_code              = pocketmoney_split.currencyCode
+      s.pm_id                      = pocketmoney_split.splitID
+      s.ofxid                      = pocketmoney_split.ofxid
+
+      s.save!
+   end 
+
 
 
   end # Import

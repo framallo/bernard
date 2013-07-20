@@ -4,6 +4,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
+    @accounts     = Account.all
     @transactions = Transaction.full
   end
 

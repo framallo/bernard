@@ -26,33 +26,21 @@ class PocketMoney
       t = ::Transaction.where(uuid: pocketmoney_transaction.serverID).first ||
           ::Transaction.new
 
-      t.pm_type                 = pocketmoney_transaction.type
-      t.pm_id                   = pocketmoney_transaction.accountID
-    
-      t.pm_sub_total            = pocketmoney_transaction.subTotal
-      t.pm_of_x_id              = pocketmoney_transaction.ofxID
-      t.pm_image                = pocketmoney_transaction.image
-      t.pm_overdraft_id         = pocketmoney_transaction.overdraftID
-
-      t.date                    = to_time(pocketmoney_transaction.date)
-      t.account_id              = find_account_id(pocketmoney_transaction.accountID)
+      t.pm_id                   = pocketmoney_transaction.transactionID
       t.deleted                 = pocketmoney_transaction.deleted
-      t.check_number            = pocketmoney_transaction.checkNumber
-      t.payee_name              = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8')
-      t.amount                  = pocketmoney_transaction.subTotal
+      t.pm_type                 = pocketmoney_transaction.type
+      t.date                    = to_time(pocketmoney_transaction.date)
       t.cleared                 = !!pocketmoney_transaction.cleared
+      t.account_id              = find_account_id(pocketmoney_transaction.accountID)
+      t.pm_payee                = pocketmoney_transaction.payee.force_encoding('Windows-1252').encode('UTF-8')
+      t.check_number            = pocketmoney_transaction.checkNumber
+      t.amount                  = pocketmoney_transaction.subTotal
+      t.ofx_id                  = pocketmoney_transaction.ofxID
       t.uuid                    = pocketmoney_transaction.serverID
+      t.overdraft_id            = pocketmoney_transaction.overdraftID
+
       t.created_at           ||= to_time(pocketmoney_transaction.date)
       t.updated_at           ||= to_time(pocketmoney_transaction.timestamp)
-
-      # pocketmoney doesn't store it here
-      #t.currency_id            = pm_t.
-      #t.currency_exchange_rate = pm_t.
-      #t.balance                = pm_t.
-      #t.payee_id               = pm_t.
-      #t.category_id            = pm_t.
-      #t.department_id          = pm_t.
-      #t.memo                   = pm_t.
 
       t.save!
 

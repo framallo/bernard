@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130629200924) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20130723213923) do
 
   create_table "accounts", force: true do |t|
     t.boolean  "deleted"
@@ -73,6 +70,24 @@ ActiveRecord::Schema.define(version: 20130629200924) do
     t.datetime "updated_at"
   end
 
+  create_table "groups", force: true do |t|
+    t.boolean  "deleted"
+    t.integer  "pm_id"
+    t.string   "name"
+    t.string   "uuid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ids", force: true do |t|
+    t.boolean  "deleted"
+    t.integer  "id_id"
+    t.string   "pm_id"
+    t.string   "uuid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "payees", force: true do |t|
     t.boolean  "deleted"
     t.integer  "timestamp"
@@ -86,6 +101,19 @@ ActiveRecord::Schema.define(version: 20130629200924) do
   end
 
   add_index "payees", ["name"], name: "index_payees_on_name", unique: true, using: :btree
+
+  create_table "splits", force: true do |t|
+    t.integer "pm_id"
+    t.integer "transaction_id"
+    t.decimal "amount"
+    t.decimal "xrate",                  precision: 10, scale: 2
+    t.integer "category_id"
+    t.integer "group_id"
+    t.string  "memo"
+    t.integer "transfer_to_account_id"
+    t.string  "currency_code"
+    t.string  "ofxid"
+  end
 
   create_table "transactions", force: true do |t|
     t.integer  "pm_type"

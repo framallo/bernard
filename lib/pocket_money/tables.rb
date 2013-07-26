@@ -25,10 +25,22 @@ class PocketMoney
     include BaseTable
 
   end
+
   class Classes < ActiveRecord::Base
     include BaseTable
 
+    def pm_class
+      attributes['class']
+    end
+
+    class << self
+      def instance_method_already_implemented?(method_name)
+        return true if method_name == 'class'
+        super
+      end
+    end
   end
+
   class DatabaseSyncList < ActiveRecord::Base
     include BaseTable
 
@@ -64,4 +76,7 @@ class PocketMoney
   class Transactions < ActiveRecord::Base
     include BaseTable
   end
+
+
 end
+

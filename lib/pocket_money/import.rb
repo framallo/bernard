@@ -1,5 +1,6 @@
 class PocketMoney
 
+
   def self.import
     Import.new.process
   end
@@ -9,11 +10,11 @@ class PocketMoney
       accounts
       transactions
       categories
-#     classes
-#     splits
+      splits
+      groups          #classes
+      ids
       payees
 #     categorypayee
-#     ids
 #     categorybudgets     
     end
 
@@ -174,8 +175,80 @@ class PocketMoney
       c.updated_at               ||= to_time(pocketmoney_category.timestamp)
 
       c.save!
-   end 
+    end 
 
+    def groups
+      Classes.all.each do |pocketmoney_group| 
+        group(pocketmoney_group) 
+      end 
+    end
+
+    def group(pocketmoney_group)
+      puts "Group: " + pocketmoney_group.serverID
+
+      d = ::Group.where(uuid: pocketmoney_group.serverID).first ||
+        ::Group.new
+
+      d.deleted            = !!pocketmoney_group.deleted
+      d.created_at       ||= to_time(pocketmoney_group.timestamp)
+      d.updated_at       ||= to_time(pocketmoney_group.timestamp)
+      d.pm_id              = pocketmoney_group.classID
+      d.name               = pocketmoney_group.pm_class
+      d.uuid               = pocketmoney_group.serverID
+
+      d.save!
+    end 
+
+    def ids
+      Ids.all.each do |pocketmoney_id| 
+        id(pocketmoney_id) 
+      end 
+    end
+
+    def id(pocketmoney_id)
+
+      puts "Id: " + pocketmoney_id.serverID
+
+      i = ::Id.where(uuid: pocketmoney_id.serverID).first ||
+          ::Id.new
+
+      i.deleted             = !!pocketmoney_id.deleted
+      i.id_id               = pocketmoney_id.idID
+      i.pm_id               = pocketmoney_id.id
+      i.uuid                = pocketmoney_id.serverID
+
+      i.created_at        ||= to_time(pocketmoney_id.timestamp)
+      i.updated_at        ||= to_time(pocketmoney_id.timestamp)
+
+      i.save!
+    end 
+
+    def splits
+      Splits.all.each do |pocketmoney_split| 
+        split(pocketmoney_split) 
+      end 
+    end
+
+    def split(pocketmoney_split)
+
+      puts "Split: " + pocketmoney_split.splitID.to_s
+
+      s = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
+          ::Split.new
+
+      s.transaction_id          = pocketmoney_split.transactionID
+      s.category_id             = pocketmoney_split.categoryID
+      s.amount                  = pocketmoney_split.amount
+      s.xrate                   = pocketmoney_split.xrate
+      s.group_id                = pocketmoney_split.classID  
+      s.memo                    = pocketmoney_split.memo  
+      s.transfer_to_account_id  = pocketmoney_split.transferToAccountID
+      s.currency_code           = pocketmoney_split.currencyCode
+      s.pm_id                   = pocketmoney_split.splitID
+      s.ofxid                   = pocketmoney_split.ofxid
+
+      s.save!
+    end 
 
   end # Import
 end

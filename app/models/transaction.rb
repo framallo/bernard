@@ -30,4 +30,34 @@ class Transaction < ActiveRecord::Base
     split? ? '<--Splits-->' : splits.first.category.try(:name)
   end
 
+  def self.filter(conditions)
+    Filter.new(conditions)
+  end
+
+  class Filter
+    def initialize(conditions)
+      @conditions = conditions
+    end
+
+    def accounts
+      @accounts ||= Account.all
+    end
+
+    def transactions
+      t = Transaction.full
+      t = t.where(account_id: @conditions[:account]) if @conditions[:account]
+
+      t
+    end
+
+    def categories
+      Category.all
+    end
+      
+
+
+    def url(condition)
+    end
+  end
+
 end

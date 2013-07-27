@@ -1,6 +1,10 @@
 %h1 Listing transactions
 
-= render_transactions @transactions, show_balance: false
+.row
+  .span3
+    = render partial: 'filters'
+  .span9
+    = render_transactions @filter.transactions, show_balance: false
 
 %br
 

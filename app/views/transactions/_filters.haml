@@ -1,0 +1,16 @@
+%ul.nav.nav-list.left
+  %li= link_to 'All Accounts', url_for(params.merge(:account_id => nil))
+  - @filter.accounts.each do |account|
+    %li
+      = link_to url_for params.merge(:account_id => account.id) do
+        =account.name
+      .label.label-inverse
+        = money account.current_balance
+  %li.divider
+  %li= link_to 'All Categories', url_for(params.merge(:category_id => nil))
+  - @filter.categories.each do |category|
+    %li
+      = link_to url_for params.merge(:category_id => category.id) do
+        =category.name
+        -#.label.label-inverse.pull-right
+          -#= money account.current_balance

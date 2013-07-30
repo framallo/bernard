@@ -10,7 +10,7 @@ class Transaction < ActiveRecord::Base
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
   scope :uuid, ->(uuid) { where(uuid:uuid).first }
-  scope :active, ->     { where(deleted:false).where('pm_type <> 5') }
+  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
@@ -35,8 +35,10 @@ class Transaction < ActiveRecord::Base
   end
 
   class Filter
+
     def initialize(conditions)
       @conditions = conditions
+      @category_ids = []
     end
 
     def accounts
@@ -45,13 +47,29 @@ class Transaction < ActiveRecord::Base
 
     def transactions
       t = Transaction.full
-      t = t.where(account_id: @conditions[:account]) if @conditions[:account]
+      t = t.where(account_id: @conditions[:account_id]) if @conditions[:account_id]
+      t = t.where('categories.id = ?', @conditions[:category_id]) if @conditions[:category_id]
 
       t
     end
 
     def categories
-      Category.all
+      return @categories if defined?(@categories)
+
+      t = Category.joins(:splits => :transaction)
+      t = t.select('categories.name', 'categories.id', 'count(transactions.amount) as count', 'sum(transactions.amount) as amount')
+      t = t.group('categories.name', 'categories.id')
+      t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: @conditions[:account_id]} ) if @conditions[:account_id]
+
+      @categories = t 
+    end
+
+    def categories_total
+      categories.sum(&:amount)
+    end
+
+    def no_conditions?
+      !@conditions.keys.include?(:account_id)
     end
       
 

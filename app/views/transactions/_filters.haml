@@ -12,7 +12,7 @@
       = link_to url_for(params.merge(:category_id => nil)) do
         .category-name
           All Categories
-      .label.label-inverse.pull-right
+      .label.label-inverse
         = money @filter.categories_total
   - @filter.categories.each do |category|
     %li

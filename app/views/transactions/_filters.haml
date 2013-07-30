@@ -1,4 +1,12 @@
 %ul.nav.nav-list.left.filters
+  - @filter.intervals.each do |name, attrs|
+    %li
+      = link_to url_for params.merge(attrs) do
+        This
+        = name.to_s.humanize
+
+  %li.divider
+
   %li= link_to 'All Accounts', url_for(params.merge(:account_id => nil))
   - @filter.accounts.each do |account|
     %li
@@ -7,7 +15,9 @@
           =account.name
       .label.label-inverse
         = money account.current_balance
+
   %li.divider
+
     %li
       = link_to url_for(params.merge(:category_id => nil)) do
         .category-name

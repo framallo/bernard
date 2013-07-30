@@ -48,6 +48,7 @@ class Transaction < ActiveRecord::Base
     def transactions
       t = Transaction.full
       t = t.where(account_id: @conditions[:account_id]) if @conditions[:account_id]
+      t = t.where("date >= ? AND date <= ?", from_date, to_date )
       t = t.where('categories.id = ?', @conditions[:category_id]) if @conditions[:category_id]
 
       t
@@ -58,8 +59,9 @@ class Transaction < ActiveRecord::Base
 
       t = Category.joins(:splits => :transaction)
       t = t.select('categories.name', 'categories.id', 'count(transactions.amount) as count', 'sum(transactions.amount) as amount')
+      t = t.where("date >= ? AND date <= ?", from_date, to_date )
       t = t.group('categories.name', 'categories.id')
-      t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: @conditions[:account_id]} ) if @conditions[:account_id]
+      t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: account_id } ) if account_id
 
       @categories = t 
     end
@@ -71,11 +73,68 @@ class Transaction < ActiveRecord::Base
     def no_conditions?
       !@conditions.keys.include?(:account_id)
     end
-      
 
+    def intervals
+      {
+        'week' =>  { kind: 'week',  from: date_to_s(beginning_of_week),  to: date_to_s(end_of_week)  },
+        'month' => { kind: 'month', from: date_to_s(beginning_of_month), to: date_to_s(end_of_month) },
+        'year' =>  { kind: 'year',  from: date_to_s(beginning_of_year),  to: date_to_s(end_of_year)  }
+      }
 
-    def url(condition)
     end
+
+    def beginning_of_year
+      Date.today.beginning_of_year
+    end
+
+    def end_of_year
+      Date.today.end_of_year
+    end
+
+    def beginning_of_month
+      Date.today.beginning_of_month
+    end
+
+    def end_of_month
+      Date.today.end_of_month
+    end
+
+    def beginning_of_week
+      Date.today.beginning_of_week
+    end
+
+    def end_of_week
+      Date.today.end_of_week
+    end
+
+    def date_to_s(date)
+      date.strftime('%Y%m%d')
+    end
+
+    def from
+      @conditions[:from] || intervals[kind][:from]
+    end
+
+    def to
+      @conditions[:to]   || intervals[kind][:to]
+    end
+
+    def from_date
+      Date.parse(from)
+    end
+
+    def to_date
+      Date.parse(to)
+    end
+
+    def kind
+      @conditions[:kind] || 'month'
+    end
+
+    def account_id
+      @conditions[:account_id]
+    end
+
   end
 
 end

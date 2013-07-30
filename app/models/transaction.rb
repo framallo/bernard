@@ -18,6 +18,9 @@ class Transaction < ActiveRecord::Base
   scope :transaction_includes, -> { includes(:account,:splits => :category) }
   scope :full, -> { order_date.transaction_includes.active.balance }
 
+  scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
+  scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
+
   belongs_to :account
   has_many :splits
 
@@ -46,9 +49,8 @@ class Transaction < ActiveRecord::Base
     end
 
     def transactions
-      t = Transaction.full
+      t = Transaction.full.interval(from, to)
       t = t.where(account_id: @conditions[:account_id]) if @conditions[:account_id]
-      t = t.where("date >= ? AND date <= ?", from_date, to_date )
       t = t.where('categories.id = ?', @conditions[:category_id]) if @conditions[:category_id]
 
       t
@@ -58,16 +60,16 @@ class Transaction < ActiveRecord::Base
       return @categories if defined?(@categories)
 
       t = Category.joins(:splits => :transaction)
-      t = t.select('categories.name', 'categories.id', 'count(transactions.amount) as count', 'sum(transactions.amount) as amount')
-      t = t.where("date >= ? AND date <= ?", from_date, to_date )
-      t = t.group('categories.name', 'categories.id')
+      t = t.merge Transaction.active.interval(from, to)
+      t = t.merge Transaction.total_amount
+      t = t.select('categories.name', 'categories.id').group('categories.name', 'categories.id')
       t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: account_id } ) if account_id
 
       @categories = t 
     end
 
     def categories_total
-      categories.sum(&:amount)
+      categories.to_a.sum(&:total_amount)
     end
 
     def no_conditions?
@@ -78,20 +80,16 @@ class Transaction < ActiveRecord::Base
       [ Interval.new(:week), Interval.new(:month), Interval.new(:year) ]
     end
 
+    def current_interval
+      intervals.select {|i| i.kind.to_s == kind }.first
+    end
+
     def from
-      @conditions[:from] || intervals[kind][:from]
+      @conditions[:from] ? Date.parse(@conditions[:from]) : current_interval.from
     end
 
     def to
-      @conditions[:to]   || intervals[kind][:to]
-    end
-
-    def from_date
-      Date.parse(from)
-    end
-
-    def to_date
-      Date.parse(to)
+      @conditions[:to] ? Date.parse(@conditions[:to]) : current_interval.to
     end
 
     def kind

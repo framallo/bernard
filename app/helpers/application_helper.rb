@@ -19,4 +19,8 @@ module ApplicationHelper
     end
   end
 
+  def filter_item(param, value_true, &block)
+    content_tag :li, :class=> params[param] == value_true ? 'active' : '', &block
+  end
+
 end

@@ -1,15 +1,16 @@
 %ul.nav.nav-list.left.filters
   - @filter.intervals.each do |interval|
-    %li
+    = content_tag :li, :class=> params[:kind] == interval.kind.to_s ? 'active' : '' do
       = link_to url_for params.merge(interval.to_hash) do
         This
         = interval.name
 
   %li.divider
 
-  %li= link_to 'All Accounts', url_for(params.merge(:account_id => nil))
+  = content_tag :li, :class=> params[:account_id] == nil ? 'active' : '' do
+    = link_to 'All Accounts', url_for(params.merge(:account_id => nil))
   - @filter.accounts.each do |account|
-    %li
+    = content_tag :li, :class=> params[:account_id] == account.id.to_s ? 'active' : '' do
       = link_to url_for params.merge(:account_id => account.id) do
         .category-name
           =account.name
@@ -18,14 +19,14 @@
 
   %li.divider
 
-    %li
+    = content_tag :li, :class=> params[:category_id] == nil ? 'active' : '' do
       = link_to url_for(params.merge(:category_id => nil)) do
         .category-name
           All Categories
       .label.label-inverse
         = money @filter.categories_total
   - @filter.categories.each do |category|
-    %li
+    = content_tag :li, :class=> params[:category_id] == category.id.to_s ? 'active' : '' do
       = link_to url_for params.merge(:category_id => category.id) do
         .category-name
           = category.name

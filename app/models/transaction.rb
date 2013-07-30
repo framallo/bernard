@@ -75,40 +75,7 @@ class Transaction < ActiveRecord::Base
     end
 
     def intervals
-      {
-        'week' =>  { kind: 'week',  from: date_to_s(beginning_of_week),  to: date_to_s(end_of_week)  },
-        'month' => { kind: 'month', from: date_to_s(beginning_of_month), to: date_to_s(end_of_month) },
-        'year' =>  { kind: 'year',  from: date_to_s(beginning_of_year),  to: date_to_s(end_of_year)  }
-      }
-
-    end
-
-    def beginning_of_year
-      Date.today.beginning_of_year
-    end
-
-    def end_of_year
-      Date.today.end_of_year
-    end
-
-    def beginning_of_month
-      Date.today.beginning_of_month
-    end
-
-    def end_of_month
-      Date.today.end_of_month
-    end
-
-    def beginning_of_week
-      Date.today.beginning_of_week
-    end
-
-    def end_of_week
-      Date.today.end_of_week
-    end
-
-    def date_to_s(date)
-      date.strftime('%Y%m%d')
+      [ Interval.new(:week), Interval.new(:month), Interval.new(:year) ]
     end
 
     def from
@@ -133,6 +100,43 @@ class Transaction < ActiveRecord::Base
 
     def account_id
       @conditions[:account_id]
+    end
+
+    class Interval
+      attr_accessor :from, :to, :kind
+
+      def initialize(kind)
+        @kind = kind
+      end
+
+      def from
+        today.send("beginning_of_#{kind}")
+      end
+
+      def to
+        today.send("end_of_#{kind}")
+      end
+
+      def today
+        Date.today
+      end
+
+      def to_hash
+        { kind: kind,  from: from_string,  to: to_string  }
+      end
+
+      def from_string
+        from.strftime('%Y%m%d')
+      end
+
+      def to_string
+        to.strftime('%Y%m%d')
+      end
+
+      def name
+        kind.to_s.humanize
+      end
+
     end
 
   end

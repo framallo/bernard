@@ -1,9 +1,9 @@
 %ul.nav.nav-list.left.filters
-  - @filter.intervals.each do |name, attrs|
+  - @filter.intervals.each do |interval|
     %li
-      = link_to url_for params.merge(attrs) do
+      = link_to url_for params.merge(interval.to_hash) do
         This
-        = name.to_s.humanize
+        = interval.name
 
   %li.divider
 

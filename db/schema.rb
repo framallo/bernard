@@ -88,18 +88,16 @@ ActiveRecord::Schema.define(version: 20130707002703) do
   add_index "payees", ["name"], name: "index_payees_on_name", unique: true, using: :btree
 
   create_table "splits", force: true do |t|
-    t.integer  "pm_id"
-    t.integer  "transaction_id"
-    t.decimal  "amount"
-    t.decimal  "xrate",                  precision: 10, scale: 2
-    t.integer  "category_id"
-    t.integer  "class_id"
-    t.text     "memo"
-    t.integer  "transfer_to_account_id"
-    t.string   "currency_code"
-    t.string   "ofxid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "pm_id"
+    t.integer "transaction_id"
+    t.decimal "amount"
+    t.decimal "xrate",                  precision: 10, scale: 2
+    t.integer "category_id"
+    t.integer "class_id"
+    t.text    "memo"
+    t.integer "transfer_to_account_id"
+    t.string  "currency_code"
+    t.string  "ofxid"
   end
 
   create_table "transactions", force: true do |t|

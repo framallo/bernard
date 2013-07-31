@@ -17,7 +17,7 @@
 
   <tbody>
     <% @transactions.each do |transaction| %>
-      <tr>
+    <tr>
         <td><%= transaction.cleared %></td>
         <td><%= transaction.date %></td>
         <td><%= transaction.account.name %></td>

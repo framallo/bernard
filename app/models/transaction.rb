@@ -5,4 +5,5 @@ class Transaction < ActiveRecord::Base
 
   scope :active, -> { where.not(deleted: true, pm_type: 5, account_id: 0) }
   scope :type5,   -> { where(pm_type: 5)}
+
 end

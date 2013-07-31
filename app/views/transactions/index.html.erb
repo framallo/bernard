@@ -35,3 +35,6 @@
 <br>
 
 <%= link_to 'New Transaction', new_transaction_path %>
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+<%= line_chart Transaction.group_by_day(:created_at).count, :id => "users-chart", :height => "500px" %>
+<%= pie_chart Transaction.active.group_by_day("date").count %>

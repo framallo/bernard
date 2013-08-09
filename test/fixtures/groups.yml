@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  NAME: MyString
+  deleted: false
+  classID: 1
+  class: MyText
+  serverID: MyText
+
+two:
+  NAME: MyString
+  deleted: false
+  classID: 1
+  class: MyText
+  serverID: MyText

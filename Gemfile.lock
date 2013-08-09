@@ -38,6 +38,7 @@ GEM
     arel (4.0.0)
     atomic (1.1.9)
     builder (3.1.4)
+    chartkick (1.2.0)
     coderay (1.0.9)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -57,6 +58,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    groupdate (1.0.4)
+      activerecord (>= 3.0.0)
     haml (4.0.3)
       tilt
     hike (1.2.2)
@@ -149,8 +152,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chartkick
   coffee-rails (~> 4.0.0)
   debugger
+  groupdate
   haml
   jbuilder (~> 1.0.1)
   jquery-rails

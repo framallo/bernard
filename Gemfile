@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
+# Charts
+gem 'chartkick'
+gem 'groupdate'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

@@ -14,7 +14,7 @@
       <th></th>
     </tr>
   </thead>
-
+  <%=@transactions.first %>
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
@@ -22,7 +22,6 @@
         <td><%= transaction.date %></td>
         <td><%= transaction.account.name %></td>
         <td><%= transaction.pm_payee %></td>
-        <td><%= transaction.category_id %></td>
         <td><%= transaction.amount %></td>
         <td><%= transaction.balance %></td>
         <td><%= transaction.uuid %></td>

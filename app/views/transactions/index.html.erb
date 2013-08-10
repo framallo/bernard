@@ -19,7 +19,7 @@
     <% @transactions.each do |transaction| %>
       <tr>
         <td><%= check_box_tag(transaction.cleared) %></td>
-        <td><%= transaction.date %></td>
+        <td><%= transaction.date.strftime("%m/%d/%Y") %></td>
         <td><%= transaction.account.name %></td>
         <td><%= transaction.pm_payee %></td>
         <td><%= transaction.amount %></td>

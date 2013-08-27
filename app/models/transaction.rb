@@ -48,8 +48,12 @@ class Transaction < ActiveRecord::Base
       @accounts ||= Account.all
     end
 
+    def transaction_interval
+      Transaction.interval(from, to)
+    end
+
     def transactions
-      t = Transaction.full.interval(from, to)
+      t = transaction_interval.full
       t = t.where(account_id: @conditions[:account_id]) if @conditions[:account_id]
       t = t.where('categories.id = ?', @conditions[:category_id]) if @conditions[:category_id]
 
@@ -60,7 +64,7 @@ class Transaction < ActiveRecord::Base
       return @categories if defined?(@categories)
 
       t = Category.joins(:splits => :transaction)
-      t = t.merge Transaction.active.interval(from, to)
+      t = t.merge transaction_interval
       t = t.merge Transaction.total_amount
       t = t.select('categories.name', 'categories.id').group('categories.name', 'categories.id')
       t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: account_id } ) if account_id
@@ -81,15 +85,15 @@ class Transaction < ActiveRecord::Base
     end
 
     def current_interval
-      intervals.select {|i| i.kind.to_s == kind }.first
+      @conditions[:from] ?  Interval.new(kind,from)        : intervals.select {|i| i.kind.to_s == kind }.first
     end
 
     def from
-      @conditions[:from] ? Date.parse(@conditions[:from]) : current_interval.from
+      @conditions[:from] ?  Date.parse(@conditions[:from]) : current_interval.from
     end
 
     def to
-      @conditions[:to] ? Date.parse(@conditions[:to]) : current_interval.to
+      @conditions[:to] ?    Date.parse(@conditions[:to])   : current_interval.to
     end
 
     def kind
@@ -100,23 +104,32 @@ class Transaction < ActiveRecord::Base
       @conditions[:account_id]
     end
 
+    def previous
+      @previous ||= current_interval.previous
+    end
+
+    def next
+      @next ||= current_interval.next
+    end
+
     class Interval
       attr_accessor :from, :to, :kind
 
-      def initialize(kind)
+      def initialize(kind, date = nil)
         @kind = kind
+        @date = date
       end
 
       def from
-        today.send("beginning_of_#{kind}")
+        date.send("beginning_of_#{kind}")
       end
 
       def to
-        today.send("end_of_#{kind}")
+        date.send("end_of_#{kind}")
       end
 
-      def today
-        Date.today
+      def date
+        @date || Date.today
       end
 
       def to_hash
@@ -133,6 +146,14 @@ class Transaction < ActiveRecord::Base
 
       def name
         kind.to_s.humanize
+      end
+
+      def previous
+        Interval.new(kind, from - 1.send(kind))
+      end
+
+      def next
+        Interval.new(kind, from + 1.send(kind))
       end
 
     end

@@ -1,4 +1,17 @@
 %ul.nav.nav-list.left.filters
+  %li
+    %li.icon-backward
+    = link_to url_for params.merge(@filter.previous.to_hash) do
+      Previous
+      = @filter.previous.name
+  %li
+    %li.icon-forward
+    = link_to url_for params.merge(@filter.next.to_hash) do
+      Next
+      = @filter.next.name
+
+  %li.divider
+
   - @filter.intervals.each do |interval|
     = content_tag :li, :class=> params[:kind] == interval.kind.to_s ? 'active' : '' do
       = link_to url_for params.merge(interval.to_hash) do

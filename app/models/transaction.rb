@@ -48,20 +48,15 @@ class Transaction < ActiveRecord::Base
       @accounts ||= Account.all
     end
 
-    def transaction_interval
-      Transaction.interval(from, to)
-    end
-
     def transactions
-      t = transaction_interval.full
-      t = t.where(account_id: @conditions[:account_id]) if @conditions[:account_id]
-      t = t.where('categories.id = ?', @conditions[:category_id]) if @conditions[:category_id]
+      return @transactions if @transactions
+      t = transaction_query.full
 
-      t
+      @transactions = t
     end
 
     def categories
-      return @categories if defined?(@categories)
+      return @categories if @categories
 
       t = Category.joins(:splits => :transaction)
       t = t.merge transaction_interval
@@ -70,14 +65,6 @@ class Transaction < ActiveRecord::Base
       t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: account_id } ) if account_id
 
       @categories = t 
-    end
-
-    def categories_total
-      categories.to_a.sum(&:total_amount)
-    end
-
-    def no_conditions?
-      !@conditions.keys.include?(:account_id)
     end
 
     def intervals
@@ -100,10 +87,6 @@ class Transaction < ActiveRecord::Base
       @conditions[:kind] || 'month'
     end
 
-    def account_id
-      @conditions[:account_id]
-    end
-
     def previous
       @previous ||= current_interval.previous
     end
@@ -111,6 +94,32 @@ class Transaction < ActiveRecord::Base
     def next
       @next ||= current_interval.next
     end
+
+    def categories_total
+      categories.to_a.sum(&:total_amount)
+    end
+
+    private 
+
+    def transaction_interval
+      Transaction.interval(from, to)
+    end
+
+    def transaction_query
+      t = transaction_interval
+      t = t.where(account_id: account_id) if account_id
+      t = t.where('categories.id = ?', category_id) if category_id
+      t
+    end
+
+    def account_id
+      @conditions[:account_id]
+    end
+
+    def category_id
+      @conditions[:category_id]
+    end
+
 
     class Interval
       attr_accessor :from, :to, :kind

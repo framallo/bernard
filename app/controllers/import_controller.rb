@@ -4,6 +4,7 @@ class ImportController < ApplicationController
     Thread.new do
       PocketMoney.import
     end
+    redirect_to :back
   end
 
 end

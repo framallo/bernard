@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.full
+    @filter       = Transaction.filter(params)
   end
 
   # GET /transactions/1

@@ -11,5 +11,8 @@
         %th Balance
 
   %tbody
-    - transactions.each do |transaction|
-      = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )
+    - transactions.group_by{|t| t.date.to_s(:short_date) }.each do |date, transactions|
+      %tr
+        %td.split(colspan=7)
+      - transactions.each do |transaction|
+        = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

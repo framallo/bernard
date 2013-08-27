@@ -12,6 +12,8 @@
 @fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
 @fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
 
+@fluidGridGutterWidth768:      percentage(1.5);  
+
 // Font Awesome
 @import "fontawesome/font-awesome";
 
@@ -36,3 +38,18 @@
 ul.nav li.dropdown:hover > ul.dropdown-menu{
     display: block;    
 }
+
+.row-fluid > .sidebar-nav {
+    position: relative;
+    top: 0;
+    left:auto;
+    width: 220px;
+}
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
+}
+

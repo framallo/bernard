@@ -24,3 +24,10 @@
   text-align: right;
 }
 
+.table-bordered .split {
+  height: 1px;
+  margin: 9px 1px;
+  overflow: hidden;
+  background-color: #E5E5E5;
+  border-bottom: 1px solid #FFF;
+}

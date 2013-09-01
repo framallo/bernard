@@ -1,0 +1,16 @@
+.summary-header.progress
+  - if @filter.widthdrawals_percentage > 0
+    .bar.bar-warning{style:"width: #{@filter.widthdrawals_percentage}%;"}
+      %p
+        Widthdrawals
+      = money @filter.widthdrawals_amount
+  - if @filter.deposits_percentage > 0
+    .bar.bar-success{style:"width: #{@filter.deposits_percentage}%;"}
+      %p
+        Deposit
+      = money @filter.deposits_amount
+  - if @filter.transfers_percentage > 0
+    .bar.bar-danger{style:"width: #{@filter.transfers_percentage}%;"}
+      %p
+        Transfer
+      = money @filter.transfers_amount

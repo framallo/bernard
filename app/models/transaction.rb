@@ -99,7 +99,40 @@ class Transaction < ActiveRecord::Base
       categories.to_a.sum(&:total_amount)
     end
 
+    def types_total
+      @types_total = widthdrawals_amount + deposits_amount + transfers_amount
+    end
+
+    def widthdrawals_amount
+      types_query[0].to_f.abs
+    end
+    
+    def deposits_amount
+      types_query[1].to_f.abs
+    end
+
+    def transfers_amount
+      types_query[2].to_f.abs
+    end
+
+    def widthdrawals_percentage
+      (widthdrawals_amount/types_total * 100)
+    end
+    
+    def deposits_percentage
+      (deposits_amount / types_total * 100)
+    end
+
+    def transfers_percentage
+      (transfers_amount / types_total * 100)
+    end
+
+
     private 
+
+    def types_query
+      @types_query = transaction_query.group('transactions.pm_type').sum(:amount)
+    end
 
     def transaction_interval
       Transaction.interval(from, to)

@@ -14,23 +14,28 @@
       <th></th>
     </tr>
   </thead>
-  <%=@transactions.first %>
   <tbody>
-    <% @transactions.each do |transaction| %>
-      <tr>
-        <td><%= check_box_tag(transaction.cleared) %></td>
-        <td><%= transaction.date.strftime("%m/%d/%Y") %></td>
-        <td><%= transaction.account.name %></td>
-        <td><%= transaction.pm_payee %></td>
-        <td><%= transaction.amount %></td>
-        <td><%= transaction.balance %></td>
-        <td><%= transaction.uuid %></td>
-        <td><%= link_to 'Show', transaction %></td>
-      </tr>
+    <% @transactions.group_by {|transaction| transaction.date.strftime("%m/%d/%Y") }.each_pair do |group, transactions|    %>
+    <tr> <td colspan=8> 
+        <%= group %> 
+        <%= transactions.sum {|t| t.amount } %> 
+    </td> </tr>
+     <% transactions.each do |transaction| %>
+        <tr>
+          <td><%= check_box_tag(transaction.cleared) %></td>
+          <td><%= transaction.date.strftime("%m/%d/%Y") %></td>
+          <td><%= transaction.account.name %></td>
+          <td><%= transaction.pm_payee %></td>
+          <td><%= transaction.amount %></td>
+          <td><%= transaction.balance %></td>
+          <td><%= transaction.uuid %></td>
+          <td><%= link_to 'Show', transaction %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
-
+<%= @transactions.sum {|s| s.amount } %>
 <br>
 
 <%= link_to 'New Transaction', new_transaction_path %>

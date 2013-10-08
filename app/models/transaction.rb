@@ -49,22 +49,11 @@ class Transaction < ActiveRecord::Base
     end
 
     def transactions
-      return @transactions if @transactions
-      t = transaction_query.full
-
-      @transactions = t
+      @transactions ||= transaction_query.full
     end
 
     def categories
-      return @categories if @categories
-
-      t = Category.joins(:splits => :transaction)
-      t = t.merge transaction_interval
-      t = t.merge Transaction.total_amount
-      t = t.select('categories.name', 'categories.id').group('categories.name', 'categories.id')
-      t = t.joins(:splits => {:transaction => :account}).group('accounts.id').having(accounts: {id: account_id } ) if account_id
-
-      @categories = t 
+      @categories ||= Category.transaction_totals.group_by_name.transaction_ids(transaction_ids)
     end
 
     def intervals
@@ -127,11 +116,15 @@ class Transaction < ActiveRecord::Base
       (transfers_amount / types_total * 100)
     end
 
+    def transaction_ids
+      @transaction_ids ||= transactions.map &:id
+    end
+
 
     private 
 
     def types_query
-      @types_query = transaction_query.group('transactions.pm_type').sum(:amount)
+      @types_query ||= Transaction.where(id: transaction_ids ).group('transactions.pm_type').sum(:amount)
     end
 
     def transaction_interval

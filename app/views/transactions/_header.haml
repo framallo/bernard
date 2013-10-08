@@ -1,16 +1,15 @@
 .summary-header.progress
-  - if @filter.widthdrawals_percentage > 0
-    .bar.bar-warning{style:"width: #{@filter.widthdrawals_percentage}%;"}
-      %p
-        Widthdrawals
-      = money @filter.widthdrawals_amount
-  - if @filter.deposits_percentage > 0
-    .bar.bar-success{style:"width: #{@filter.deposits_percentage}%;"}
-      %p
-        Deposit
-      = money @filter.deposits_amount
-  - if @filter.transfers_percentage > 0
-    .bar.bar-danger{style:"width: #{@filter.transfers_percentage}%;"}
-      %p
-        Transfer
-      = money @filter.transfers_amount
+  = progress_bar 'warning', @filter.widthdrawals_percentage do
+    %p
+      =link_to "Widthdrawals", params.merge(pm_type: 0)
+    = money @filter.widthdrawals_amount
+
+  = progress_bar 'success', @filter.deposits_percentage do
+    %p
+      =link_to "Deposit", params.merge(pm_type: 1)
+    = money @filter.deposits_amount
+
+  = progress_bar 'danger', @filter.transfers_percentage do
+    %p
+      =link_to "Transfer", params.merge(pm_type: 2)
+    = money @filter.transfers_amount

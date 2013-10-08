@@ -23,4 +23,8 @@ module ApplicationHelper
     content_tag :li, :class=> params[param] == value_true ? 'active' : '', &block
   end
 
+  def progress_bar(type, percentage, &block)
+    content_tag :div, :class=> "bar bar-#{type}", :style=>"width:#{percentage}%;", &block if percentage > 0
+  end
+
 end

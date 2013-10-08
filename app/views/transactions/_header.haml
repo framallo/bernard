@@ -1,3 +1,6 @@
+- if params[:pm_type]
+  =link_to "All Transaction Types", params.merge(pm_type: nil)
+
 .summary-header.progress
   = progress_bar 'warning', @filter.widthdrawals_percentage do
     %p

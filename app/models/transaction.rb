@@ -133,6 +133,7 @@ class Transaction < ActiveRecord::Base
 
     def transaction_query
       t = transaction_interval
+      t = t.where(pm_type: pm_type) if pm_type
       t = t.where(account_id: account_id) if account_id
       t = t.where('categories.id = ?', category_id) if category_id
       t
@@ -144,6 +145,10 @@ class Transaction < ActiveRecord::Base
 
     def category_id
       @conditions[:category_id]
+    end
+
+    def pm_type
+      @conditions[:pm_type]
     end
 
 

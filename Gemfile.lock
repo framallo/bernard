@@ -79,6 +79,9 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-doc (0.4.6)
+      pry (>= 0.9)
+      yard (>= 0.8)
     pry-rails (0.3.0)
       pry (>= 0.9.10)
     rack (1.5.2)
@@ -138,6 +141,7 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    yard (0.8.7)
 
 PLATFORMS
   ruby
@@ -150,6 +154,7 @@ DEPENDENCIES
   less-rails
   pg
   pry
+  pry-doc
   pry-rails
   rails (= 4.0.0.rc1)
   ruby-progressbar

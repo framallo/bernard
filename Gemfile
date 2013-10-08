@@ -41,6 +41,7 @@ end
 
 
 gem 'pry'
+gem 'pry-doc'
 gem 'pry-rails'
 
 gem 'ruby-progressbar'

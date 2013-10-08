@@ -33,6 +33,12 @@ class Transaction < ActiveRecord::Base
     split? ? '<--Splits-->' : splits.first.category.try(:name)
   end
 
+  PM_TYPES = [ 'Withdrawal', 'Deposit', 'Transfer', 'Other' ]
+
+  def type_name
+    PM_TYPES[pm_type]
+  end
+
   def self.filter(conditions)
     Filter.new(conditions)
   end
@@ -50,6 +56,17 @@ class Transaction < ActiveRecord::Base
 
     def transactions
       @transactions ||= transaction_query.full
+    end
+
+    def grouped_transactions
+      case group_by
+      when 'date'
+        transactions.group_by {|t| t.date.to_s(:short_date) }
+      when 'type'
+        transactions.group_by {|t| t.type_name }
+      when 'account'
+        transactions.group_by {|t| t.account.name }
+      end
     end
 
     def categories
@@ -151,6 +168,9 @@ class Transaction < ActiveRecord::Base
       @conditions[:pm_type]
     end
 
+    def group_by
+      @conditions[:group_by] || 'date'
+    end
 
     class Interval
       attr_accessor :from, :to, :kind

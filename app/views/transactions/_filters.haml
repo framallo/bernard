@@ -29,6 +29,14 @@
           =account.name
       .label.label-inverse
         = money account.current_balance
+  %li.divider
+
+  = filter_item(:group_by, nil) do
+    = link_to 'Group by date',    url_for(params.merge(:group_by => nil))
+  = filter_item(:group_by, 'type') do
+    = link_to 'Group by type',    url_for(params.merge(:group_by => 'type'))
+  = filter_item(:group_by, 'account') do
+    = link_to 'Group by account', url_for(params.merge(:group_by => 'account'))
 
   %li.divider
 

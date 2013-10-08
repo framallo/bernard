@@ -11,8 +11,11 @@
         %th Balance
 
   %tbody
-    - transactions.group_by{|t| t.date.to_s(:short_date) }.each do |date, transactions|
+    - @filter.grouped_transactions.each do |header, transactions|
       %tr
-        %td.split(colspan=7)
+        %td.split(colspan=5)
+          = header
+        %td.split
+          = money transactions.sum &:amount
       - transactions.each do |transaction|
         = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

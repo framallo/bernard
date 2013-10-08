@@ -37,6 +37,8 @@
     = link_to 'Group by type',    url_for(params.merge(:group_by => 'type'))
   = filter_item(:group_by, 'account') do
     = link_to 'Group by account', url_for(params.merge(:group_by => 'account'))
+  = filter_item(:group_by, 'category') do
+    = link_to 'Group by category', url_for(params.merge(:group_by => 'category'))
 
   %li.divider
 

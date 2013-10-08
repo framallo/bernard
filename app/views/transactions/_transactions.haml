@@ -13,9 +13,11 @@
   %tbody
     - @filter.grouped_transactions.each do |header, transactions|
       %tr
-        %td.split(colspan=5)
+        %td.split(colspan=4)
           = header
         %td.split
-          = money transactions.sum &:amount
+          = number_to_percentage(transactions.sum(&:amount).abs / @filter.types_total * 100 )
+        %td.split
+          = money transactions.sum(&:amount) if transactions.size > 1
       - transactions.each do |transaction|
         = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

@@ -33,7 +33,7 @@ class Transaction < ActiveRecord::Base
     split? ? '<--Splits-->' : splits.first.category.try(:name)
   end
 
-  PM_TYPES = [ 'Withdrawal', 'Deposit', 'Transfer', 'Other' ]
+  PM_TYPES = [ 'Withdrawal', 'Deposit', 'Transfer', 'Other Transfer' ]
 
   def type_name
     PM_TYPES[pm_type]
@@ -66,6 +66,8 @@ class Transaction < ActiveRecord::Base
         transactions.group_by {|t| t.type_name }
       when 'account'
         transactions.group_by {|t| t.account.name }
+      when 'category'
+        transactions.group_by {|t| t.category_name.to_s }
       end
     end
 

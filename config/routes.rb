@@ -1,7 +1,14 @@
 Bernard::Application.routes.draw do
+
+  get "reports" => "reports#index"
+  get "reports/net_worth"
+  get "reports/income_v_expense"
+  get "reports/spending_by_payee"
+  get "reports/spending_by_category"
+
   resources :transactions
   resources :accounts
-
+  
   get 'search/' => 'search#index', as: :search
   get 'search/:q' => 'search#index'
 

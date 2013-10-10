@@ -13,3 +13,10 @@
   %tbody
     - @accounts.each do |account|
       = render account
+    %tr
+      %td Total
+      %td.currency= money @accounts.sum {|a| a.cleared_balance }
+      %td.currency= money @accounts.sum {|a| a.current_balance }
+      %td.currency= money @accounts.sum {|a| a.current_balance }
+      %td.currency= money @accounts.sum {|a| a.current_balance }
+      %td.currency= money @accounts.sum {|a| a.current_balance }

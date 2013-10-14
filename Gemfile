@@ -49,6 +49,7 @@ gem 'ruby-progressbar'
 
 group :test do
   gem 'rspec'
+  gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl'
 end

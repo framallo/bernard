@@ -47,6 +47,12 @@ gem 'pry-rails'
 
 gem 'ruby-progressbar'
 
+group :test do
+  gem 'rspec'
+  gem 'capybara'
+  gem 'factory_girl'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

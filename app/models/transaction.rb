@@ -154,7 +154,7 @@ class Transaction < ActiveRecord::Base
       t = transaction_interval
       t = t.where(pm_type: pm_type) if pm_type
       t = t.where(account_id: account_id) if account_id
-      t = t.where('categories.id = ?', category_id) if category_id
+      #t = t.where('categories.id = ?', category_id) if category_id
       t
     end
 

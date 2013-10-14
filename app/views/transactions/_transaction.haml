@@ -3,7 +3,7 @@
   %td= link_to transaction.date.to_s(:short_date), transaction
   %td= transaction.account.name
   %td= transaction.payee_name
-  %td= transaction.category_name 
+  %td= "Category" 
   %td.currency= money transaction.amount
 
   - if show_balance

@@ -33,6 +33,7 @@ gem 'haml'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'less-rails'
 gem "therubyracer"
+gem "faker"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

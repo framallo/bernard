@@ -1,4 +1,4 @@
-boolean = [true]  #To have inactive transactions, add false at array [true, false]
+boolean = [false]  #To have inactive transactions, add true at array [true, false]
 currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 #Seed to Account table
 5.times do

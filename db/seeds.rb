@@ -65,22 +65,19 @@ currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
   )
 end
 
-account_all = Account.all.map(&:id)
-payee_all = Payee.all.map(&:id) 
 
 30.times do
-
-  account = account_all.sample
+  payee = Payee.all.sample 
+  account = Account.all.sample
   amount = 10 + rand*(10_000)
-  payee = payee_all.sample
 
   #seed to transaction table
   Transaction.create(
     pm_type: rand(0..2),
     pm_id: rand(0..8),
-    account_id: account,
-    pm_account_id: account,
-    pm_payee: Payee.find(payee).name,
+    account_id: account.id,
+    pm_account_id: account.pm_id,
+    pm_payee: payee.pm_id,
     pm_sub_total: rand*(1_000),
     pm_of_x_id: "dummy",
     pm_image: "dummy",
@@ -88,8 +85,8 @@ payee_all = Payee.all.map(&:id)
     date: Time.now - rand(0..60).days,
     deleted: boolean.sample,
     check_number: rand(10).to_s,
-    payee_name: Payee.find(payee).name,
-    payee_id: payee,
+    payee_name: payee.name,
+    payee_id: payee.id,
     category_id: Category.all.map(&:id).sample,
     department_id: Department.all.map(&:id).sample,
     amount: amount,

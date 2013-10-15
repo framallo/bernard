@@ -1,7 +1,7 @@
-boolean = [true]  #To have inactive transactions, add false at array [true, false]
+boolean = [false]  #To have inactive transactions, add true at array [true, false]
 currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 #Seed to Account table
-5.times do
+10.times do
   Account.create(
     deleted: false,
     pm_id: rand(0..8),
@@ -68,7 +68,7 @@ end
 account_all = Account.all.map(&:id)
 payee_all = Payee.all.map(&:id) 
 
-10.times do
+30.times do
 
   account = account_all.sample
   amount = 10 + rand*(10_000)

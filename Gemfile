@@ -52,9 +52,8 @@ group :test do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl'
-  gem 'factory_girl_rails'
 end
-
+gem 'factory_girl_rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -1,4 +1,4 @@
-boolean = [true, false]
+boolean = [true]  #To have inactive transactions, add false at array [true, false]
 currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 #Seed to Account table
 5.times do
@@ -40,7 +40,7 @@ currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
     name: Faker::Commerce.department, 
     deleted: boolean.sample,
     pm_id: rand(0..8),
-    pm_type: rand(0..8),
+    pm_type: rand(0..2),
     budget_period: rand(100..10000),
     budget_limit: rand(500..5000),
     include_subcategories: boolean.sample,
@@ -65,17 +65,19 @@ currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
   )
 end
 
+account_all = Account.all.map(&:id)
+payee_all = Payee.all.map(&:id) 
+
 10.times do
 
-  pm = rand(0..2)
-  pm_id = rand(0..8)
-  account = Account.all.map(&:id).sample
-  payee = Payee.all.map(&:id).sample
-  
+  account = account_all.sample
+  amount = 10 + rand*(10_000)
+  payee = payee_all.sample
+
   #seed to transaction table
   Transaction.create(
-    pm_type: pm,
-    pm_id: pm_id,
+    pm_type: rand(0..2),
+    pm_id: rand(0..8),
     account_id: account,
     pm_account_id: account,
     pm_payee: Payee.find(payee).name,
@@ -90,20 +92,36 @@ end
     payee_id: payee,
     category_id: Category.all.map(&:id).sample,
     department_id: Department.all.map(&:id).sample,
-    amount: 10 + rand*(10_000),
+    amount: amount,
     cleared: boolean.sample,
     uuid: Faker::Code.isbn
   )
-
-end
-3.times do
-  transaction_id = Transaction.all.map(&:id).sample
-  transaction = Transaction.find(transaction_id) 
-  #seed to split table
+  #create split to transaction
+  transaction = Transaction.last 
+  num_of_split = rand(1..5)
+  max_amount_split = amount/(num_of_split - 1)
+  sum_split_amount = 0
+  (num_of_split - 1).times do
+    split_amount = 1 + rand(max_amount_split)
+    sum_split_amount += split_amount
+    Split.create(
+      pm_id: transaction.pm_id,
+      transaction_id: transaction.id,
+      amount: split_amount,
+      xrate: rand*(5),
+      category_id: transaction.category_id,
+      class_id: rand(0..10),
+      memo: Faker::Lorem.paragraph,
+      transfer_to_account_id: rand(100),
+      currency_code: currency.sample,
+      of_x_id: "dummy"
+    )
+  end  
+  last_split_amount = amount - sum_split_amount
   Split.create(
     pm_id: transaction.pm_id,
-    transaction_id: transaction_id,
-    amount: transaction.amount,
+    transaction_id: transaction.id,
+    amount: last_split_amount,
     xrate: rand*(5),
     category_id: transaction.category_id,
     class_id: rand(0..10),
@@ -112,14 +130,7 @@ end
     currency_code: currency.sample,
     of_x_id: "dummy"
   )
+
 end
-
-
-
-
-
-
-
-
 
 

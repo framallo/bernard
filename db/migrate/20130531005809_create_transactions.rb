@@ -19,7 +19,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :payee_id
       t.integer :category_id
       t.integer :department_id
-      t.decimal :amount
+      t.decimal :amount,       :precision => 10, :scale => 2
       t.boolean :cleared
       t.string    :uuid
 

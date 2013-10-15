@@ -1,7 +1,7 @@
 boolean = [false]  #To have inactive transactions, add true at array [true, false]
 currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 #Seed to Account table
-10.times do
+15.times do
   Account.create(
     deleted: false,
     pm_id: rand(0..8),
@@ -66,7 +66,7 @@ currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 end
 
 
-30.times do
+40.times do
   payee = Payee.all.sample 
   account = Account.all.sample
   amount = 10 + rand*(10_000)

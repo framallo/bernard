@@ -5,8 +5,8 @@ currency = ["AED", "ALL", "CAD", "CNY", "MXN", "IRR", "JPY", "USD", "UYU"]
 FactoryGirl.define do
   factory :account do
     deleted                       false
-    pm_id                         Faker::Number.digit
-    pm_account_type               Faker::Number.digit
+    pm_id                         (0..2).to_a.sample
+    pm_account_type               (0..8).to_a.sample
     display_order                 Faker::Number.digit
     name                          Faker::Company.name
     balance_overall               Faker::Number.digit

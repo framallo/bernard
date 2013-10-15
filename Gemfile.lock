@@ -59,6 +59,9 @@ GEM
       multi_json (~> 1.0)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
     haml (4.0.3)
@@ -181,6 +184,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0)
   factory_girl
+  factory_girl_rails
   faker
   haml
   jbuilder (~> 1.0.1)

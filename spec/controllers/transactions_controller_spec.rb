@@ -45,5 +45,17 @@ describe TransactionsController  do
       response.should be_success
     end
   end
+  #spec to post methods
+  describe 'POST #create' do
+      it 'should create a new transaction' do
+        expect{
+          post :create, transaction: attributes_for(:transaction)
+        }.to change(Transaction, :count).by(1)
+      end
+      it 'should redirect to #show view' do
+        post :create, transaction: attributes_for(:transaction)
+        response.should redirect_to Transaction.last
+      end
+  end
 
 end

@@ -1,0 +1,18 @@
+- if params[:pm_type]
+  =link_to "All Transaction Types", params.merge(pm_type: nil)
+
+.summary-header.progress
+  = progress_bar 'warning', @filter.widthdrawals_percentage do
+    %p
+      =link_to "Widthdrawals", params.merge(pm_type: 0)
+    = money @filter.widthdrawals_amount
+
+  = progress_bar 'success', @filter.deposits_percentage do
+    %p
+      =link_to "Deposit", params.merge(pm_type: 1)
+    = money @filter.deposits_amount
+
+  = progress_bar 'danger', @filter.transfers_percentage do
+    %p
+      =link_to "Transfer", params.merge(pm_type: 2)
+    = money @filter.transfers_amount

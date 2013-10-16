@@ -1,0 +1,21 @@
+%table.table-bordered
+  %thead
+    %tr
+      %th 
+      %th Date
+      %th Account
+      %th Payee
+      %th Category
+      %th Amount
+      - if show_balance
+        %th Balance
+
+  %tbody
+    - @filter.grouped_transactions.each do |header, transactions|
+      %tr
+        %td.split(colspan=5)
+          = header
+        %td.split
+          = money transactions.sum(&:amount) if transactions.size > 1
+      - transactions.each do |transaction|
+        = render :partial => '/transactions/transaction', locals: options.merge( transaction: transaction )

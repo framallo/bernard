@@ -1,0 +1,12 @@
+%h1 Listing transactions
+
+.row
+  .span3
+    = render partial: 'filters'
+  .span9
+    = render partial: 'header'
+    = render_transactions @filter.transactions, show_balance: false
+
+%br
+
+= link_to 'New Transaction', new_transaction_path

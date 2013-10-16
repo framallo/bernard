@@ -1,9 +1,10 @@
 class ImportController < ApplicationController
 
   def index
-  end
-
-  def import_csv
+    Thread.new do
+      PocketMoney.import
+    end
+    redirect_to :back
   end
 
 end

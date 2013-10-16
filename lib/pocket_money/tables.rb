@@ -2,7 +2,7 @@
 class PocketMoney
   module BaseTable
     def self.included(main)
-      main.establish_connection(adapter: :sqlite3, database: APP_CONFIG['pocket_money_database'])
+      main.establish_connection(adapter: :sqlite3, database: APP_CONFIG['pocket_money_database'], encoding:'iso-8859')
       main.table_name = main.name.demodulize.sub(/(\w)/) {|w| w.downcase}
       main.inheritance_column = "rails_type"
     end
@@ -25,10 +25,23 @@ class PocketMoney
     include BaseTable
 
   end
+
   class Classes < ActiveRecord::Base
     include BaseTable
 
+    def pm_class
+      attributes['class']
+    end
+
+    class << self
+      def instance_method_already_implemented?(method_name)
+        return true if method_name == 'class'
+        super
+      end
+    end
+
   end
+
   class DatabaseSyncList < ActiveRecord::Base
     include BaseTable
 
@@ -63,5 +76,6 @@ class PocketMoney
 
   class Transactions < ActiveRecord::Base
     include BaseTable
+    has_many :splits, primary_key: 'transactionID', foreign_key: 'transactionID', class_name: Splits
   end
 end

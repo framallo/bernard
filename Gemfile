@@ -31,6 +31,9 @@ gem 'jbuilder', '~> 1.0.1'
 
 gem 'haml'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'less-rails'
+gem "therubyracer"
+gem "faker"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -39,8 +42,18 @@ end
 
 
 gem 'pry'
+gem 'pry-doc'
 gem 'pry-rails'
 
+gem 'ruby-progressbar'
+
+group :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'factory_girl'
+end
+gem 'factory_girl_rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

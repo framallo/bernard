@@ -34,4 +34,16 @@ describe TransactionsController  do
       response.should be_success
     end
   end
+
+  describe 'GET #edit' do
+    it 'should render #edit view' do
+      get :edit, id: transaction
+      response.should render_template :edit
+    end
+    it 'should response with 200 http code' do
+      get :edit, id: transaction
+      response.should be_success
+    end
+  end
+
 end

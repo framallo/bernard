@@ -23,7 +23,8 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :account
   has_many :splits
-
+  validates :account_id, presence: true
+  validates :amount, presence: true
 
   def split?
     @split ||= splits.size > 1

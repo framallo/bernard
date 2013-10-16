@@ -72,4 +72,43 @@ describe TransactionsController  do
     end
   end
 
+  #spec to put method
+  describe 'PUT #update' do
+        new_uuid = "12yag172-1721nh-12" 
+        new_amount = 99_999
+    context 'valid attributes' do
+      it 'should located the requested transaction' do
+        put :update, id: transaction, transaction: FactoryGirl.attributes_for(:transaction)
+        assigns(:transaction).should eq(transaction)
+      end
+      it "should change the transaction's attributes" do
+        put :update, id: transaction,
+          transaction: FactoryGirl.attributes_for(:transaction, amount: new_amount)
+        transaction.reload
+        transaction.amount.should eq(new_amount)
+      end
+      it "should redirect to #show view" do
+        put :update, id: transaction, transaction: FactoryGirl.attributes_for(:transaction)
+        response.should redirect_to transaction
+      end
+    end
+    context 'invalid attributes' do
+      it 'should not located the requested boook' do
+        put :update, id: transaction, transaction: FactoryGirl.attributes_for(:transaction, uuid: nil, amount: nil)
+        assigns(:transaction2).should_not eq(transaction)
+      end
+      it "should not change the transaction's attributes" do
+        put :update, id: transaction,
+          transaction: FactoryGirl.attributes_for(:transaction, uuid: nil, amount: nil)
+        transaction.reload
+        transaction.amount.should_not eq(new_amount)
+        transaction.uuid.should_not eq(new_uuid)
+      end
+      it "should redirect to #edit view" do
+        put :update, id: transaction,
+          transaction: attributes_for(:transaction, uuid: nil, amount: nil)
+        response.should render_template :edit
+      end
+    end
+  end
 end

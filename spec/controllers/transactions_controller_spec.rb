@@ -47,6 +47,7 @@ describe TransactionsController  do
   end
   #spec to post methods
   describe 'POST #create' do
+    context "valid attributes" do
       it 'should create a new transaction' do
         expect{
           post :create, transaction: attributes_for(:transaction)
@@ -56,6 +57,19 @@ describe TransactionsController  do
         post :create, transaction: attributes_for(:transaction)
         response.should redirect_to Transaction.last
       end
+    end
+    context "invalid attributes" do
+      it 'should not create a new transaction' do
+        expect{
+          post :create, transaction: attributes_for(:transaction, account_id: nil, amount: nil)
+        }.to_not change(Transaction, :count)
+      end
+      it 'should render to #new view' do
+        post :create, transaction: attributes_for(:transaction, account_id: nil, amount: nil)
+        response.should render_template :new
+      end
+
+    end
   end
 
 end

@@ -6,6 +6,6 @@ class AccountsController < ApplicationController
 
   def show
     @account = Account.find(params[:id])
-    @filter = @account.transactions.filter(params)
+    @transactions = @account.active_transactions
   end
 end

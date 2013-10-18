@@ -1,0 +1,11 @@
+%table.table-bordered
+  %thead
+    %tr
+      %th Type
+      %th Amount
+
+  %tbody
+    - @report.each do |pm_type, amount|
+      %tr
+        %td= pm_type
+        %td= amount

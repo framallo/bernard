@@ -7,6 +7,7 @@ class ReportsController < ApplicationController
   end
 
   def income_v_expense
+    @report = Transaction.all.group(:pm_type).sum(:amount) 
   end
 
   def spending_by_payee

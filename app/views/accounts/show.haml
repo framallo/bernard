@@ -7,5 +7,5 @@
   = ['(',@account.transactions.count, ')'].join
 
 
-= render_transactions @account.active_transactions, show_balance: true
+= render_transactions @transactions.group_by {|t| t.date.to_s(:short_date) } , show_balance: true
 

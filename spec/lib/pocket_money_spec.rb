@@ -45,6 +45,16 @@ describe PocketMoney do
       (Transaction.all.count).should eq(35)
     end
 
+    it "the first transaction should have $1750 of amount" do
+      (Transaction.first.amount.to_f).should eq(1750)
+    end
+
+    it "should have transactions with transaction type" do
+      types = Transaction.all.map(&:pm_type)
+      types.include?(nil).should eq(false)
+      types.include?("").should eq(false)
+    end
+
     it "should have transactions with account id" do
       ids_array = Transaction.all.map(&:account_id)
       ids_array.include?(nil).should eq(false)
@@ -56,6 +66,12 @@ describe PocketMoney do
       amount_array.include?(nil).should eq(false)
       amount_array.include?("").should eq(false)
     end
+
+    it "should have transactions with date" do
+      dates = Transaction.all.map(&:date)
+      dates.include?(nil).should eq(false)
+      dates.include?("").should eq(false)
+    end
     
     it "first transaction should have category id 16" do
       transaction = Transaction.first
@@ -66,11 +82,18 @@ describe PocketMoney do
       transaction = Transaction.first 
       (transaction.department_id).should eq(1)
     end
+
     #table split
     it "all aplits should have a transaction id" do
       all_splits = Split.all.map(&:transaction_id)
       all_splits.include?(nil).should eq(false)
       all_splits.include?("").should eq(false)
+    end
+
+    it "all splits should have a transaction with currency code" do
+      currency_codes = Split.all.map(&:currency_code) 
+      currency_codes.include?(nil).should eq(false)
+      currency_codes.include?("").should eq(false)
     end
 
     it "the sum of the splits of a transactions should have same amount that transaction " do
@@ -93,8 +116,25 @@ describe PocketMoney do
 
     it "all class should have a uuid" do 
       departments = Department.all.map(&:uuid)
-      (departments.include?(nil)).should eq(false)
-      (departments.include?("")).should eq(false)
+      departments.include?(nil).should eq(false)
+      departments.include?("").should eq(false)
+    end
+
+    #table category
+    it "should have 20 Categories" do
+      (Category.all.count).should eq(20)
+    end
+
+    it "all categories should have a uuid" do 
+      uuids = Category.all.map(&:uuid)
+      uuids.include?(nil).should eq(false)
+      uuids.include?("").should eq(false)
+    end
+
+    it "should include 'Salario' category" do
+      names = Category.all.map(&:name)
+      names.include?(nil).should eq(false)
+      names.include?("").should eq(false)
     end
 
   end

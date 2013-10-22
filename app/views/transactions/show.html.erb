@@ -25,15 +25,6 @@
   <%= @transaction.category_id %>
 </p>
 
-<%#<p>%>
-  <%#<strong>Class:</strong>%>
-  <%#<%= @transaction.class_id%>%>
-<%#</p>%>
-
-<%#<p>%>
-  <%#<strong>Memo:</strong>%>
-  <%#<%= @transaction.memo %>%>
-<%#</p>%>
 
 <p>
   <strong>Amount:</strong>
@@ -45,20 +36,7 @@
   <%= @transaction.cleared %>
 </p>
 
-<%#<p>%>
-  <%#<strong>Currency:</strong>%>
-  <%#<%= @transaction.currency_id %>%>
-<%#</p>%>
 
-<%#<p>%>
-  <%#<strong>Currency exchange rate:</strong>%>
-  <%#<%= @transaction.currency_exchange_rate %>%>
-<%#</p>%>
-
-<%#<p>%>
-  <%#<strong>Balance:</strong>%>
-  <%#<%= @transaction.balance %>%>
-<%#</p>%>
 
 <%= link_to 'Edit', edit_transaction_path(@transaction) %> |
 <%= link_to 'Back', transactions_path %>

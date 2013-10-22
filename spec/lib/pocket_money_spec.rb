@@ -28,6 +28,10 @@ describe PocketMoney do
       (Account.find(2).limit_amount.to_f).should eq(100)
     end
 
+    it "all limit amount sum $600" do 
+      (Account.all.map(&:limit_amount).sum.to_f).should eq(600)
+    end
+
     it "should have $740 current balance in 'efectivo'" do
       (Account.find_by_name("Efectivo").current_balance.to_f).should eq(740)
     end

@@ -19,5 +19,4 @@ config/database.yml
 config/config.yml
 
 PocketMoneyDB.sql
-PocketMoneyDBtest.sql
 **/.DS_Store

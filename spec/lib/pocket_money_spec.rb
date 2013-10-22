@@ -133,8 +133,7 @@ describe PocketMoney do
 
     it "should include 'Salario' category" do
       names = Category.all.map(&:name)
-      names.include?(nil).should eq(false)
-      names.include?("").should eq(false)
+      names.include?("Salario").should eq(true)
     end
 
   end

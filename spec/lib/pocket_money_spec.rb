@@ -23,6 +23,10 @@ describe PocketMoney do
     it "should have $1,650.00 current balance in 'cuenta ahorro'" do
       (Account.find_by_name("Cuenta Ahorro").current_balance.to_f).should eq(1650)
     end
+    
+    it "the second account should have a limit of $100" do
+      (Account.find(2).limit_amount.to_f).should eq(100)
+    end
 
     it "should have $740 current balance in 'efectivo'" do
       (Account.find_by_name("Efectivo").current_balance.to_f).should eq(740)
@@ -76,6 +80,17 @@ describe PocketMoney do
     it "first split should have a class id 1" do
       split = Split.first 
       (split.class_id).should eq(1)
+    end
+
+    #table department <--- class
+    it "should have personal and negocios classes" do
+      (Department.all.map(&:name)).should eq(["Personal", "Negocios"])
+    end
+
+    it "all class should have a uuid" do 
+      departments = Department.all.map(&:uuid)
+      (departments.include?(nil)).should eq(false)
+      (departments.include?("")).should eq(false)
     end
 
   end

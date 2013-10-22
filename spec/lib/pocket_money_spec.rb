@@ -5,6 +5,7 @@ require 'pocket_money'
 Bernard::Application.load_tasks
 describe PocketMoney do
   context "import data for a known database" do
+    accounts = Account.all
 
     before (:all) do
       Rake::Task['db:drop'].invoke
@@ -14,11 +15,11 @@ describe PocketMoney do
     end
     #Table accounts 
     it "should have 3 accounts" do
-      (Account.all.count).should eq(3)
+      (accounts.count).should eq(3)
     end
 
     it "should have 3 knowed account" do
-      (Account.all.map(&:name).sort).should eq(["Cuenta Ahorro", "Efectivo", "Tarjeta"])
+      (accounts.map(&:name).sort).should eq(["Cuenta Ahorro", "Efectivo", "Tarjeta"])
     end
 
     it "should have $1,650.00 current balance in 'cuenta ahorro'" do
@@ -30,7 +31,7 @@ describe PocketMoney do
     end
 
     it "all limit amount sum $600" do 
-      (Account.all.map(&:limit_amount).sum.to_f).should eq(600)
+      (accounts.map(&:limit_amount).sum.to_f).should eq(600)
     end
 
     it "should have $740 current balance in 'efectivo'" do
@@ -56,10 +57,12 @@ describe PocketMoney do
       types.include?("").should 
     end
 
-    it "should have transactions with account id" do
-      ids_array = Transaction.all.map(&:account_id)
-      ids_array.include?(nil).should eq(false)
-      ids_array.include?("").should eq(false)
+    it "should have transactions with valid account id" do
+      transactions_account_id = Transaction.all.map(&:account_id)
+      ids_accounts = accounts.map(&:id)
+      transactions_account_id.each do |account_id|
+        (ids_accounts.include?(account_id)).should eq(true)
+      end
     end
 
     it "should have transactions with amount" do
@@ -172,6 +175,11 @@ describe PocketMoney do
     it "last repeating transaction should have a valid date" do
       transaction = RepeatingTransaction.last
       (transaction.end_date.acts_like?(:time)).should eq(true)
+    end
+
+    it "transaction 36 should have pm_type 5" do
+      transaction = Transaction.find(36)
+      (transaction.pm_type).should eq(5)
     end
 
   end

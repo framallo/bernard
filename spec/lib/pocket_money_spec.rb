@@ -5,7 +5,8 @@ require 'pocket_money'
 Bernard::Application.load_tasks
 describe PocketMoney do
   context "import data for a known database" do
-    accounts = Account.all
+    accounts    = Account.all
+    transactions = Transaction.all 
 
     before (:all) do
       Rake::Task['db:drop'].invoke
@@ -44,7 +45,7 @@ describe PocketMoney do
 
     #table transactions
     it "should have 37 transactions" do 
-      (Transaction.all.count).should eq(37)
+      (transactions.count).should eq(37)
     end
 
     it "the first transaction should have $1750 of amount" do
@@ -52,13 +53,13 @@ describe PocketMoney do
     end
 
     it "should have transactions with transaction type" do
-      types = Transaction.all.map(&:pm_type)
+      types = transactions.map(&:pm_type)
       types.include?(nil).should eq(false)
       types.include?("").should 
     end
 
     it "should have transactions with valid account id" do
-      transactions_account_id = Transaction.all.map(&:account_id)
+      transactions_account_id = transactions.map(&:account_id)
       ids_accounts = accounts.map(&:id)
       transactions_account_id.each do |account_id|
         (ids_accounts.include?(account_id)).should eq(true)
@@ -66,13 +67,13 @@ describe PocketMoney do
     end
 
     it "should have transactions with amount" do
-      amount_array = Transaction.all.map(&:amount)
+      amount_array = transactions.map(&:amount)
       amount_array.include?(nil).should eq(false)
       amount_array.include?("").should eq(false)
     end
 
     it "should have transactions with valid date" do
-      dates = Transaction.all.map(&:date)
+      dates = transactions.map(&:date)
       dates.each do |date|
         (date.acts_like?(:time)).should eq(true)
       end

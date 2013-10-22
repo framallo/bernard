@@ -36,7 +36,7 @@ describe PocketMoney do
       (Account.find_by_name("Efectivo").current_balance.to_f).should eq(740)
     end
 
-    it "should have $740 current balance in 'tarjeta'" do
+    it "should have $350 current balance in 'tarjeta'" do
       (Account.find_by_name("Tarjeta").current_balance.to_f).should eq(350)
     end   
 
@@ -134,6 +134,16 @@ describe PocketMoney do
     it "should include 'Salario' category" do
       names = Category.all.map(&:name)
       names.include?("Salario").should eq(true)
+    end
+
+    #table Payee 
+    it "should have 9 payees" do
+      (Payee.all.count).should eq(9)
+    end
+    
+    it "should include 'TangoSource' payee" do
+      names = Payee.all.map(&:name)
+      names.include?("TangoSource").should eq(true)
     end
 
   end

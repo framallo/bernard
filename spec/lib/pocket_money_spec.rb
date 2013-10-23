@@ -29,7 +29,7 @@ describe PocketMoney do
     end
 
     it "should have $1,650.00 current balance in 'cuenta ahorro'" do
-      (accounts.find_by_name("Cuenta Ahorro").current_balance.to_f).should eq(1150)
+      (accounts.find_by_name("Cuenta Ahorro").current_balance.to_f).should eq(950)
     end
     
     it "the second account should have a limit of $100" do
@@ -41,11 +41,11 @@ describe PocketMoney do
     end
 
     it "should have $740 current balance in 'efectivo'" do
-      (accounts.find_by_name("Efectivo").current_balance.to_f).should eq(1240)
+      (accounts.find_by_name("Efectivo").current_balance.to_f).should eq(4740)
     end
 
     it "should have $350 current balance in 'tarjeta'" do
-      (accounts.find_by_name("Tarjeta").current_balance.to_f).should eq(350)
+      (accounts.find_by_name("Tarjeta").current_balance.to_f).should eq(2050)
     end   
 
     #table transactions

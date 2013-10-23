@@ -131,9 +131,9 @@ describe PocketMoney do
     end
 
     it "all class should have a uuid" do 
-      departments = departments.map(&:uuid)
-      departments.include?(nil).should eq(false)
-      departments.include?("").should eq(false)
+      departments_uuids = departments.map(&:uuid)
+      departments_uuids.include?(nil).should eq(false)
+      departments_uuids.include?("").should eq(false)
     end
 
     #table category

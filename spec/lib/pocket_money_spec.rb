@@ -4,13 +4,13 @@ require 'rake'
 require 'pocket_money'
 describe PocketMoney do
   context "import data for a known database" do
-    accounts               = Account.all
-    transactions           = Transaction.all 
-    categories             = Category.all
-    payees                 = Payee.all
-    departments            = Department.all
-    splits                 = Split.all
-    repeating_transactions = RepeatingTransaction.all
+    let(:accounts)               { Account.all }
+    let(:transactions)           { Transaction.all }
+    let(:categories)             { Category.all }
+    let(:payees)                 { Payee.all }
+    let(:departments)            { Department.all }
+    let(:splits)                 { Split.all }
+    let(:repeating_transactions) {  RepeatingTransaction.all }
 
      #Table accounts 
     it "should have 3 accounts" do

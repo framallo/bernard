@@ -8,7 +8,7 @@ describe Transaction do
   it { should have_many(:splits) }
 
   it "has a valid transaction" do
-    (transactions.first).should be_valid
+    (transactions.sample).should be_valid
   end
   
   #scopes

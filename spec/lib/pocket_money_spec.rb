@@ -13,13 +13,7 @@ describe PocketMoney do
     splits                 = Split.all
     repeating_transactions = RepeatingTransaction.all
 
-    before (:all) do
-      Rake::Task['db:drop'].invoke
-      Rake::Task['db:create'].invoke
-      Rake::Task['db:migrate'].invoke
-      PocketMoney.import 
-    end
-    #Table accounts 
+     #Table accounts 
     it "should have 3 accounts" do
       (accounts.count).should eq(3)
     end

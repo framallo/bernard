@@ -10,6 +10,12 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
 
+  config.before(:all) do
+      Rake::Task['db:drop'].invoke
+      Rake::Task['db:create'].invoke
+      Rake::Task['db:migrate'].invoke
+      PocketMoney.import 
+  end
   config.include FactoryGirl::Syntax::Methods
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.use_transactional_fixtures = true

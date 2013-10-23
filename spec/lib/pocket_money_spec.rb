@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'active_support/core_ext/date/acts_like'
 require 'rake'
 require 'pocket_money'
-Bernard::Application.load_tasks
 describe PocketMoney do
   context "import data for a known database" do
     accounts               = Account.all

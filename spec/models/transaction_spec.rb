@@ -26,4 +26,8 @@ describe Transaction do
   it "when is passed a invalid uuid should return all records" do
     (transactions.uuid("####-####-##-01").count).should eq(37)
   end
+
+  it "should return records with cleared value true " do
+    (transactions.cleared.count).should eq(6)
+  end
 end

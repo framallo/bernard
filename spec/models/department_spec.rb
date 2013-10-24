@@ -1,7 +1,7 @@
-require 'department'
+require 'spec_helper'
 
 describe Department do
-  let(:department) {create(:department)}
+  let(:department) { Department.first }
 
   it "has avalid department" do
     department.should be_valid

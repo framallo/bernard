@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Category do
-  let(:category) {create(:category)}
+  let(:category) {Category.first}
 
   it "has a valid category" do
     category.should be_valid

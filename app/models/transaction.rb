@@ -9,7 +9,6 @@ class Transaction < ActiveRecord::Base
   #
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
-  scope :uuid, ->(uuid) { where(uuid:uuid).first }
   scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }

@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'active_support/core_ext/date/acts_like'
 require 'rake'
 require 'pocket_money'
+
 describe PocketMoney do
   context "import data for a known database" do
     let(:accounts)               { Account.all }
@@ -10,7 +11,7 @@ describe PocketMoney do
     let(:payees)                 { Payee.all }
     let(:departments)            { Department.all }
     let(:splits)                 { Split.all }
-    let(:repeating_transactions) {  RepeatingTransaction.all }
+    let(:repeating_transactions) { RepeatingTransaction.all }
 
      #Table accounts 
     it "should have 3 accounts" do

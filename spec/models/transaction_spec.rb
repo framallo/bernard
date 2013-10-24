@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Transaction do
-  transactions = Transaction.all
-
+  transactions = Transaction.all 
   it { should belong_to(:account) }
 
   it { should have_many(:splits) }
@@ -16,10 +15,15 @@ describe Transaction do
     transactions.active.count.should eq(33)
   end
 
-  it "should find a transaction given a uuid" do
+  it "should find a transaction given a payee name" do
     (transactions.search("TangoSource").count).should eq(2)
   end
 
-  it "" do
+  it "should find a transaction given a uuid" do
+    (transactions.uuid("d75b07fb-702d-4fe5-a89f-69b3db98cb1f").payee_name).should eq("Coopel")
+  end
+
+  it "when is passed a invalid uuid should return all records" do
+    (transactions.uuid("####-####-##-01").count).should eq(37)
   end
 end

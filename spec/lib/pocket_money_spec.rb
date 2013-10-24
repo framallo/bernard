@@ -35,11 +35,11 @@ describe PocketMoney do
     end
 
     it "should have $740 current balance in 'efectivo'" do
-      (accounts.find_by_name("Efectivo").current_balance.to_f).should eq(4740)
+      (accounts.find_by_name("Efectivo").current_balance.to_f).should eq(2740)
     end
 
     it "should have $350 current balance in 'tarjeta'" do
-      (accounts.find_by_name("Tarjeta").current_balance.to_f).should eq(2050)
+      (accounts.find_by_name("Tarjeta").current_balance.to_f).should eq(3050)
     end   
 
     #table transactions

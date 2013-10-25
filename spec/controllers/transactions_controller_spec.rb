@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe TransactionsController  do 
-  let(:transaction) { create(:transaction) }
+  let(:transaction) { Transaction.first }
   #spec to GET methods
   describe "Get index" do
     it "should render the index templates" do

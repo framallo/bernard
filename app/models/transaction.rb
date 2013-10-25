@@ -20,6 +20,7 @@ class Transaction < ActiveRecord::Base
 
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
+  scope :net_worth, -> { select("date_part('month', date) as month, sum(amount) as amount").where("date between '2013-01-01' and '2014-01-01'").group("month") }
 
   belongs_to :account
   has_many :splits

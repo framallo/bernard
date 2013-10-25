@@ -17,7 +17,14 @@ class ReportsController < ApplicationController
   end
 
   def net_worth
-    @report =  Transaction.select(:account_id, :amount).group(:account_id).sum(:amount)
+    @report = {}
+    Transaction.net_worth.each do |e|
+      @report[e.month] = e.amount.to_f
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: net_worth_json }
+    end
   end          
                
   def spending_by_category
@@ -72,5 +79,20 @@ class ReportsController < ApplicationController
       ]
     }
 
+  end
+
+  def net_worth_json 
+    {
+      labels: @report.keys,
+      datasets: [
+        {
+          fillColor: "rgba(220,220,220,0.5)",
+          strokeColor: "rgba(220,220,220,1)",
+          fillColor: "rgba(225, 0, 0, 0.5)",
+          strokeColor: "rgba(220, 220, 220, 1)",
+          data: @report.values
+        }
+      ]
+    }
   end
 end

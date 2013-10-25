@@ -18,5 +18,5 @@
 config/database.yml
 config/config.yml
 
-
+PocketMoneyDB.sql
 **/.DS_Store

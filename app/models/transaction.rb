@@ -23,7 +23,8 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :account
   has_many :splits
-
+  validates :account_id, presence: true
+  validates :amount, presence: true
 
   def split?
     @split ||= splits.size > 1
@@ -154,7 +155,7 @@ class Transaction < ActiveRecord::Base
       t = transaction_interval
       t = t.where(pm_type: pm_type) if pm_type
       t = t.where(account_id: account_id) if account_id
-      t = t.where('categories.id = ?', category_id) if category_id
+      #t = t.where('categories.id = ?', category_id) if category_id
       t
     end
 

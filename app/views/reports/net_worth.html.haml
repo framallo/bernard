@@ -1,0 +1,15 @@
+= render 'menu'
+%h1 Net Worth
+%table.table-bordered
+  %thead
+    %tr
+      %th Month
+      %th Amount
+  %tbody
+    - @report.each do |key, value|
+      %tr
+        %td= key
+        %td= value
+
+%canvas#canvas{height: '450', width: '600'}
+= javascript_include_tag 'reports/net_worth'

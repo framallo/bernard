@@ -33,9 +33,5 @@ describe Transaction do
     (transactions.interval("19991016", "20021021").count).should eq(0)
   end
   
-  it "should show the balance given a transaction" do
-    transaction_balance = transactions.balance[36].balance
-    (transaction_balance.to_f).should eq(1150)
-  end
 
 end

@@ -52,6 +52,9 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'capybara-firebug'
+  gem "selenium-webdriver"
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'

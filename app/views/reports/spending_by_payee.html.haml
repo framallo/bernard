@@ -1,9 +1,9 @@
 = render 'menu'
-%h1 Income vs Expense Report
+%h1 Spending by Payee Report
 %table.table-bordered
   %thead
     %tr
-      %th Pm Type
+      %th Payee Id
       %th Amount
   %tbody
     = render partial: "table_body", locals: {report: @report}

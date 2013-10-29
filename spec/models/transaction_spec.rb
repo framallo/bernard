@@ -11,7 +11,7 @@ describe Transaction do
   it "has a valid transaction" do
     (transactions.sample).should be_valid
   end
-  
+
   #scopes
   it "should have 33 active transactions" do
     transactions.active.count.should eq(33)
@@ -28,10 +28,9 @@ describe Transaction do
   it "should return records valid given two dates" do
     (transactions.interval("20131016", "20131021").count).should eq(32)
   end
-  
+
   it "not should return records given two dates known" do
     (transactions.interval("19991016", "20021021").count).should eq(0)
   end
-  
 
 end

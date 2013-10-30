@@ -1,12 +1,12 @@
 class ReportsController < ApplicationController
 
   def income_v_expense
-    @report = Transaction.group(:pm_type).sum(:amount)
+    @report = Transaction.active.group(:pm_type).sum(:amount)#.income_v_expense
     format_respond
   end
 
   def spending_by_payee
-    @report = Transaction.group(:payee_id).sum(:amount)
+    @report = Transaction.active.group(:payee_id).sum(:amount)
     format_respond
   end
 
@@ -19,7 +19,7 @@ class ReportsController < ApplicationController
   end          
                
   def spending_by_category
-    @report = Transaction.group(:category_id).sum(:amount)
+    @report = Transaction.active.group(:category_id).sum(:amount)
     format_respond
   end
 
@@ -31,6 +31,7 @@ class ReportsController < ApplicationController
   end
 
   def json_for_chart
+
     {
       labels: @report.keys,
       datasets: [

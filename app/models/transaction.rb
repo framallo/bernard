@@ -2,8 +2,8 @@ class Transaction < ActiveRecord::Base
   # pm_types
   # 0 Withdrawal
   # 1 Deposit
-  # 2 Transfer
-  # 3 
+  # 2 Transfer (-)
+  # 3 Transfer (+)
   # 4
   # 5 Dunno but removed it for now
   #

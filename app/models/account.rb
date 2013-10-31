@@ -22,7 +22,7 @@ class Account < ActiveRecord::Base
 
 
   def active_transactions
-    transactions.active.balance
+    transactions.transaction_includes.active.balance
   end
 
   def basic_balance

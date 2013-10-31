@@ -11,7 +11,7 @@
         %th Balance
 
   %tbody
-    - @filter.grouped_transactions.each do |header, transactions|
+    - transactions.each do |header, transactions|
       %tr
         %td.split(colspan=5)
           = header

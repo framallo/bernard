@@ -5,7 +5,7 @@
     = render partial: 'filters'
   .span9
     = render partial: 'header'
-    = render_transactions @filter.transactions, show_balance: false
+    = render_transactions @filter.grouped_transactions, show_balance: false
 
 %br
 

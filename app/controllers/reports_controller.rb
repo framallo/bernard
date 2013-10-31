@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
 
   def income_v_expense
-    @report = Transaction.active.group(:pm_type).sum(:amount)#.income_v_expense
+    @report = Transaction.active.group(:pm_type).sum(:amount)
     format_respond
   end
 

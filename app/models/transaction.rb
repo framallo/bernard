@@ -11,7 +11,6 @@ class Transaction < ActiveRecord::Base
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
   scope :uuid, ->(uuid) { where(uuid:uuid).first }
   scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
-  scope :active, ->     { where('deleted=false AND pm_type <> 5') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
@@ -22,7 +21,7 @@ class Transaction < ActiveRecord::Base
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
   scope :net_worth, -> { select("date_part('month', date) as month, sum(amount) as amount").where("date between '2013-01-01' and '2014-01-01'").group("month") }
-  scope :income_v_expense, -> { select("SUM(amount) AS amount, pm_type case AS pm_type")
+  scope :income_v_expense, -> { select('SUM("transactions"."amount") AS sum_amount, pm_type as pm_types')
                                 .where(deleted: false).where('transactions.pm_type <> 5')
                                 .group("pm_type") }
   #{ active.group(:pm_type).sum(:amount) }

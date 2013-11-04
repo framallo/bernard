@@ -1,4 +1,3 @@
-
 class PocketMoney
   module BaseTable
     def self.included(main)
@@ -10,7 +9,6 @@ class PocketMoney
 
   class Accounts < ActiveRecord::Base
     include BaseTable
-
   end
   class Categories < ActiveRecord::Base
     include BaseTable

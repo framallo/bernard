@@ -2,14 +2,13 @@ class Transaction < ActiveRecord::Base
   # pm_types
   # 0 Withdrawal
   # 1 Deposit
-  # 2 Transfer
-  # 3 
+  # 2 Transfer (-)
+  # 3 Transfer (+)
   # 4
   # 5 Dunno but removed it for now
   #
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
-  scope :uuid, ->(uuid) { where(uuid:uuid).first }
   scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
@@ -23,7 +22,8 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :account
   has_many :splits
-
+  validates :account_id, presence: true
+  validates :amount, presence: true
 
   def split?
     @split ||= splits.size > 1

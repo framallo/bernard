@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130718222102) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "accounts", force: true do |t|
     t.boolean  "deleted"
     t.datetime "updated_at"
@@ -134,7 +131,7 @@ ActiveRecord::Schema.define(version: 20130718222102) do
     t.integer  "payee_id"
     t.integer  "category_id"
     t.integer  "department_id"
-    t.decimal  "amount"
+    t.decimal  "amount",          precision: 10, scale: 2
     t.boolean  "cleared"
     t.string   "uuid"
     t.datetime "created_at"

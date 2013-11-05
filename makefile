@@ -96,7 +96,7 @@ deploy: bundle_install migrate precompile restart
 
 service_run:
 	mkdir -p tmp/pids tmp/logs
-	exec bundle exec puma -e $(RAILS_ENV) -p $(port) 
+	echo "exec bundle exec puma -e $(RAILS_ENV) -b unix://$(app_dir)/tmp/puma.sock "
 
 restart:
 	sv restart $(service_name)

@@ -1,0 +1,23 @@
+%table.table-bordered
+  %thead
+    %tr
+      %th
+      %th Category
+      %th Budgeted
+      %th Available
+      %th Balance
+  %tbody.summary-header.progress
+    -@budgets.each do |budget|
+      %tr
+        %td
+          =total_category(budget)
+        %td.budget
+          =progress_bar status(budget), 100 do
+            %p
+              =budget.name
+        %td
+          =budget.budget_limit
+        %td
+          =budget_available(budget)
+        %td
+          =budget_balance(budget)

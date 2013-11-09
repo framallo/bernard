@@ -17,7 +17,6 @@ class Transaction < ActiveRecord::Base
   scope :balance, -> { select('*').select('SUM(amount) OVER (PARTITION BY account_id ORDER BY date ASC) as balance') }
   scope :transaction_includes, -> { includes(:account,:splits => :category) }
   scope :full, -> { order_date.transaction_includes.active.balance }
-
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
 

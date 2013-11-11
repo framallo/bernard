@@ -14,6 +14,12 @@ class Filter
     @transactions ||= transaction_query.full
   end
 
+  def budgets_sum(id)
+    b = Transaction.interval(from, to)
+    b = b.per_category(id)
+    b
+  end
+
   def budgets
     @budgets = Category.budgeted
   end

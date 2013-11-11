@@ -1,4 +1,5 @@
 class Split < ActiveRecord::Base
+  require 'filter'
 
   belongs_to :transaction
   belongs_to :category
@@ -10,4 +11,6 @@ class Split < ActiveRecord::Base
   def self.transaction_active_ids
     Transaction.active.map(&:id)
   end
+   
+  Interval.new(:month)
 end

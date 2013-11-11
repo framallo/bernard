@@ -11,6 +11,9 @@ class Split < ActiveRecord::Base
   def self.transaction_active_ids
     Transaction.active.map(&:id)
   end
-   
-  Interval.new(:month)
+
+  def self.filter(conditions)
+    Filter.new(conditions)
+  end
+
 end

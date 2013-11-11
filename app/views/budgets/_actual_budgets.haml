@@ -7,7 +7,7 @@
       %th Available
       %th Balance
   %tbody.summary-header.progress
-    -@budgets.each do |budget|
+    -@filter.budgets.each do |budget|
       %tr
         %td
           =total_category(budget)

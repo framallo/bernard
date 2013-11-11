@@ -1,5 +1,7 @@
 .content
   %h1 Budgets
-
-  = render partial: 'actual_budgets'
+  .row
+    .span3
+      =render partial: 'filters'
+    = render partial: 'actual_budgets'
 

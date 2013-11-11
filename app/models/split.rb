@@ -8,6 +8,6 @@ class Split < ActiveRecord::Base
   scope :per_category, ->(id) {active.where(category_id: id)}
 
   def self.transaction_active_ids
-    ids = Transaction.active.map(&:id)
+    Transaction.active.map(&:id)
   end
 end

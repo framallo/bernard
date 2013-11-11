@@ -5,8 +5,4 @@ namespace :pm do
     AddCategories.categories
   end
 
-  #desc 'add category_id to transactions'
-  #task :categories => :environment do
-    #AddCategories.categories
-  #end
 end

@@ -14,6 +14,10 @@ class Filter
     @transactions ||= transaction_query.full
   end
 
+  def budgets
+    @budgets = Category.budgeted
+  end
+
   def grouped_transactions
     case group_by
     when 'date'
@@ -33,6 +37,10 @@ class Filter
 
   def intervals
     [ Interval.new(:week), Interval.new(:month), Interval.new(:year) ]
+  end
+
+  def interval_budget
+    [ Interval.new(:month) ]
   end
 
   def current_interval

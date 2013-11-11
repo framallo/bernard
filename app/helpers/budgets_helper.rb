@@ -11,7 +11,7 @@ module BudgetsHelper
   end
 
   def total_category(budget)
-    total = Split.per_category(budget.id).sum(:amount) 
+    total = @filter.budgets_sum(budget.id) 
     total
   end
 

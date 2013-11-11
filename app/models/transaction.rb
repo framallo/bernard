@@ -20,10 +20,11 @@ class Transaction < ActiveRecord::Base
   scope :full, -> { order_date.transaction_includes.active.balance }
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
-
-  belongs_to :account
-  has_many :splits
-
+  scope :per_category, ->(id) {active.where(category_id: id).sum(:amount)}
+                                 
+  belongs_to :account   
+  has_many :splits        
+                            
 
   def split?
     @split ||= splits.size > 1

@@ -1,5 +1,5 @@
 class BudgetsController < ApplicationController
   def budgets 
-    @filter = Split.filter(params) 
+    @filter = Transaction.filter(params) 
   end
 end

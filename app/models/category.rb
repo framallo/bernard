@@ -6,7 +6,7 @@ class Category < ActiveRecord::Base
   scope :transaction_ids,    ->(ids)  { joins(:splits => :transaction).where(transactions: {id: ids})                        }
   scope :transaction_totals, ->       { joins(:splits => :transaction).merge(Transaction.total_amount)                       }
   scope :group_by_name,      ->       { select('categories.name', 'categories.id').group('categories.name', 'categories.id') }
-  scope :budgeted,           ->       { where("budget_limit is not null and budget_period is not null ") }
+  scope :budgeted,           ->       { active.where("budget_limit is not null and budget_period is not null ") }
 
   has_many :splits
 end

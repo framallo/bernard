@@ -12,7 +12,7 @@
 
   %li.divider
 
-  - @filter.interval_budget.each do |interval|
+  - @filter.intervals.each do |interval|
     = content_tag :li, :class=> params[:kind] == interval.kind.to_s ? 'active' : '' do
       = link_to url_for params.merge(interval.to_hash) do
         This

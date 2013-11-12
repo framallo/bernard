@@ -1,7 +1,7 @@
 %table.table-bordered
   %thead
     %h3
-      =@filter.from.strftime("%B")
+      =set_period
     %tr
       %th Spent
       %th Category
@@ -18,7 +18,7 @@
             %p
               =budget.name
         %td
-          =budget.budget_limit
+          =budget_budgeted(budget)
         %td
           =budget_available(budget)
         %td

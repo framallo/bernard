@@ -45,10 +45,6 @@ class Filter
     [ Interval.new(:week), Interval.new(:month), Interval.new(:year) ]
   end
 
-  def interval_budget
-    [ Interval.new(:month) ]
-  end
-
   def current_interval
     @conditions[:from] ?  Interval.new(kind,from)        : intervals.select {|i| i.kind.to_s == kind }.first
   end

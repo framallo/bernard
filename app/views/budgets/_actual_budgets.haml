@@ -1,7 +1,11 @@
 %table.table-bordered
   %thead
     %h3
+      = link_to url_for params.merge(@filter.previous.to_hash) do
+        .icon-backward
       =set_period
+      = link_to url_for params.merge(@filter.next.to_hash) do
+        .icon-forward
     %tr
       %th Spent
       %th Category
@@ -14,7 +18,10 @@
         %td
           =total_category(budget)
         %td.budget
-          =progress_bar status(budget), 100 do
+          =progress_bar "warning", spent_percentage(budget) do
+            %p
+              Spent
+          =progress_bar status(budget), available_percentage(budget) do
             %p
               =budget.name
         %td

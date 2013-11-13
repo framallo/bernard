@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
   require 'filter'
+  require 'budget'
   # pm_types
   # 0 Withdrawal
   # 1 Deposit
@@ -42,6 +43,10 @@ class Transaction < ActiveRecord::Base
 
   def self.filter(conditions)
     Filter.new(conditions)
+  end
+  
+  def self.budget(budget)
+    CategoryBudget.new(budget)
   end
 
 end

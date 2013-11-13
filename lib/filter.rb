@@ -15,7 +15,7 @@ class Filter
   end
 
   def budgets_sum(id)
-    b = Transaction.interval(from, to)
+    b = Transaction.interval(from, to + 1.day)
     b = b.per_category(id)
     b
   end
@@ -23,7 +23,7 @@ class Filter
   def budgets
     @budgets = Category.budgeted
   end
-
+  
   def grouped_transactions
     case group_by
     when 'date'

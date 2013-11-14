@@ -6,10 +6,10 @@
       %td.budget
         =progress_bar "success", income_percentage(budget) do
           %p
-            Spent
+            =budget.name
         =progress_bar "danger", 100 - income_percentage(budget) do
           %p
-            =budget.name
+            Missing
       %td
         =budget_budgeted(budget)
       %td

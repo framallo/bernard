@@ -4,10 +4,10 @@
       %td
         =total_category(budget)
       %td.budget
-        =progress_bar "warning", spent_percentage(budget) do
+        =progress_bar "success", income_percentage(budget) do
           %p
             Spent
-        =progress_bar status(budget), available_percentage(budget) do
+        =progress_bar "danger", 100 - income_percentage(budget) do
           %p
             =budget.name
       %td

@@ -13,6 +13,7 @@ module BudgetsHelper
   
   def total_category(budget)
     total = @filter.budgets_sum(budget.id) *-1
+    total = total*-1 if total < 0
     total.round(0)
   end
 
@@ -43,6 +44,12 @@ module BudgetsHelper
     else
       0
     end
+  end
+
+  def income_percentage(budget)
+    percentage = ((total_category(budget)) * 100 / budget_budgeted(budget))
+    percentage = 100 if percentage > 100
+    percentage
   end
 
   def budget_budgeted(budget)

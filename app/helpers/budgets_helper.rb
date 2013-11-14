@@ -118,13 +118,13 @@ module BudgetsHelper
 
   def income_sum
     interval = Transaction.interval(@filter.from, @filter.to + 1.day)
-    ids = Category.income.map(&:id) 
+    ids = @filter.budgets_income.map(&:id) 
     interval.budget_category_sum(ids).to_f
   end
 
   def expense_sum
     interval = Transaction.interval(@filter.from, @filter.to + 1.day)
-    ids = Category.expense.map(&:id) 
+    ids = @filter.budgets_expense.map(&:id) 
     (interval.budget_category_sum(ids).to_f)*-1
   end
 

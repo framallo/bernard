@@ -20,8 +20,12 @@ class Filter
     b
   end
 
-  def budgets
-    @budgets = Category.budgeted
+  def budgets_income
+    @budgets_income = Category.income
+  end
+
+  def budgets_expense
+    @budget_expense = Category.expense
   end
   
   def grouped_transactions

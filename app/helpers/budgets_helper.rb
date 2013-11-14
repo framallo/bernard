@@ -1,7 +1,7 @@
 module BudgetsHelper
  
   def status(budget)
-    total = total_category(budget) *-1 
+    total = total_category(budget)  
     if total > budget_budgeted(budget)
       "danger"
     elsif total < budget_budgeted(budget)
@@ -12,18 +12,18 @@ module BudgetsHelper
   end
   
   def total_category(budget)
-    total = @filter.budgets_sum(budget.id) 
+    total = @filter.budgets_sum(budget.id) *-1
     total.round(0)
   end
 
   def budget_available(budget)
-    available = budget_budgeted(budget) - total_category(budget)*-1 
+    available = budget_budgeted(budget) - total_category(budget) 
     available = 0 if available < 0
     available.round(0)
   end
 
   def budget_balance(budget)
-    balance = budget_budgeted(budget) - total_category(budget)*-1 
+    balance = budget_budgeted(budget) - total_category(budget) 
     balance.round(0)
   end
 
@@ -39,7 +39,7 @@ module BudgetsHelper
 
   def spent_percentage(budget) 
     unless status(budget) == "danger" or status(budget) == "warning"
-      ((total_category(budget)*-1) * 100 / budget_budgeted(budget))
+      ((total_category(budget)) * 100 / budget_budgeted(budget))
     else
       0
     end
@@ -107,6 +107,54 @@ module BudgetsHelper
     when "year"
       @filter.from.year
     end
+  end
+
+  def income_sum
+    interval = Transaction.interval(@filter.from, @filter.to + 1.day)
+    ids = Category.income.map(&:id) 
+    interval.budget_category_sum(ids).to_f
+  end
+
+  def expense_sum
+    interval = Transaction.interval(@filter.from, @filter.to + 1.day)
+    ids = Category.expense.map(&:id) 
+    (interval.budget_category_sum(ids).to_f)*-1
+  end
+
+  def budgeted_income_sum
+    sum = 0
+    @filter.budgets_income.each do |budget|
+      sum += budget_budgeted(budget)
+    end
+    sum
+  end
+
+  def budgeted_expense_sum
+    sum = 0
+    @filter.budgets_expense.each do |budget|
+      sum += budget_budgeted(budget)
+    end
+    sum
+  end
+
+  def budget_saved
+    income_sum > expense_sum ? income_sum - expense_sum : 0
+  end
+
+  def beat_budget
+    income  = income_sum - budgeted_income_sum 
+    expense = budgeted_expense_sum - expense_sum
+    income + expense > 0 ? income + expense : 0
+  end
+
+  def missing_budget
+    income  = income_sum - budgeted_income_sum 
+    expense = budgeted_expense_sum - expense_sum
+    income + expense < 0 ? income + expense : 0
+  end
+
+  def deficit_budgets
+    income_sum - expense_sum > 0 ? 0 : income_sum - expense_sum 
   end
 
 end

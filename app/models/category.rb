@@ -1,5 +1,5 @@
-require 'filter'
 class Category < ActiveRecord::Base
+  include FilterInterval
   class BudgetCategory < ActiveRecord::Base
     self.table_name = "budget_categories"
     self.primary_key = "id"

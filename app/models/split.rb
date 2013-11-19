@@ -4,6 +4,4 @@ class Split < ActiveRecord::Base
   belongs_to :category
 
   validates_associated :transaction, :category
-
-
 end

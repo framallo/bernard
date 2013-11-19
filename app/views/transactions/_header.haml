@@ -6,6 +6,7 @@
     %p
       =link_to "Widthdrawals", params.merge(pm_type: 0)
     = money @filter.widthdrawals_amount
+
   = progress_bar 'success', @filter.deposits_percentage do
     %p
       =link_to "Deposit", params.merge(pm_type: 1)

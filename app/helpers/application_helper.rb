@@ -27,4 +27,15 @@ module ApplicationHelper
     content_tag :div, :class=> "bar bar-#{type}", :style=>"width:#{percentage}%;", &block if percentage > 0
   end
 
+  def set_period(filter)
+    case filter.kind
+    when "month"
+      filter.from.strftime("%B %Y")
+    when "week"
+      "#{filter.from.strftime('%d %B %Y')} - #{filter.to.strftime('%d %B %Y')}"
+    when "year"
+      filter.from.year
+    end
+  end
+
 end

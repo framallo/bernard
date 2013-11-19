@@ -46,16 +46,6 @@ module CategoriesHelper
     100 - spent
   end
 
-  def set_period
-    case @filter.kind
-    when "month"
-      @filter.from.strftime("%B %Y")
-    when "week"
-      "#{@filter.from.strftime('%d %B %Y')} - #{@filter.to.strftime('%d %B %Y')}"
-    when "year"
-      @filter.from.year
-    end
-  end
 
   def total_budget
     Category::BudgetCategory.total_values(@filter.from, @filter.to+1.day)

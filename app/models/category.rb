@@ -80,6 +80,5 @@ class Category < ActiveRecord::Base
   def self.filter(params)
     Filter.new(params)
   end
-  
 
 end

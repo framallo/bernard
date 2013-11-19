@@ -24,7 +24,6 @@ class Transaction < ActiveRecord::Base
   belongs_to :account   
   has_many :splits        
                             
-
   def split?
     @split ||= splits.size > 1
   end

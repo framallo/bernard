@@ -8,7 +8,7 @@ Bernard::Application.routes.draw do
   resources :import do
     post 'import_csv', on: :collection
   end
-  get 'budgets/' => 'budgets#budgets'
+  get 'budgets/' => 'categories#budgets'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

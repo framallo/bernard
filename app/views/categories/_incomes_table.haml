@@ -1,0 +1,18 @@
+%tbody.summary-header.progress
+  -@budgets.incomes.each do |budget|
+    -value = values(budget)
+    %tr
+      %td
+        =budget.name
+      %td.budget
+        =progress_bar "success", value['spent_percentage'] do
+          %p
+            =value['amount']
+        =progress_bar "danger", value['available_percentage'] do
+          %p
+            =value['available']
+      %td
+        =value['limit']
+      %td
+        =value['available']
+      %td

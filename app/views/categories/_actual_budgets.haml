@@ -1,0 +1,40 @@
+%table.table-bordered
+  %thead
+    %tr
+      %th Categories 
+      %th 
+        =set_period 
+      %th 
+    %tr 
+      %th  
+      %th Entries
+      %th Budgeted
+      %th Remaining
+  =render 'incomes_table'      
+  %thead
+    %tr
+      %th  
+      %th Expenses
+      %th Budgeted
+      %th Available
+      %th Balance
+  =render 'expenses_table'      
+%table.table-bordered 
+  %thead
+    %tr
+      %th Saved
+      %th Beat Budget
+      %th Missed Budget
+      %th Deficit
+  %tbody.summary-header
+    -result = total_budget
+    %tr
+      %th
+        =result['saved']
+      %th
+        =result['beat']
+      %th
+        =result['missing']
+      %th
+        =result['deficit']
+ 

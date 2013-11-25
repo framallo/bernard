@@ -26,7 +26,7 @@ class Account < ActiveRecord::Base
   end
 
   def basic_balance
-    active_transactions.active
+    transactions.active
   end
 
   def cleared_balance

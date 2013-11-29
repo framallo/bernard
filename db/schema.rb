@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20130723213923) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "accounts", force: true do |t|
     t.boolean  "deleted"
     t.datetime "updated_at"
@@ -103,8 +106,8 @@ ActiveRecord::Schema.define(version: 20130723213923) do
   add_index "payees", ["name"], name: "index_payees_on_name", unique: true, using: :btree
 
   create_table "splits", force: true do |t|
-    t.integer "pm_id"
     t.integer "transaction_id"
+    t.integer "pm_id"
     t.decimal "amount"
     t.decimal "xrate",                  precision: 10, scale: 2
     t.integer "category_id"

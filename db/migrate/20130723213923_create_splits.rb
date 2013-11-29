@@ -1,6 +1,7 @@
 class CreateSplits < ActiveRecord::Migration
   def change
     create_table :splits do |t|
+      t.belongs_to :transaction
       t.integer   :pm_id
       t.integer   :transaction_id
       t.decimal   :amount
@@ -13,5 +14,7 @@ class CreateSplits < ActiveRecord::Migration
       t.string    :ofxid
 
     end
+#    add_foreign_key :splits, :transactions
+#    add_reference :splits, :transaction
   end
 end

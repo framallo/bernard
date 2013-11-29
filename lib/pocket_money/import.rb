@@ -10,8 +10,8 @@ class PocketMoney
       accounts
       transactions
       categories
-      splits
       groups          #classes
+      splits
       ids
       payees
 #     categorypayee
@@ -211,6 +211,18 @@ class PocketMoney
       i.save!
     end 
 
+    def find_transaction_id(a_pm_id)
+      ::Transaction.where(pm_id:  a_pm_id).first.try(:id)
+    end
+
+    def find_category_id(categoryID)
+      ::Category.where(name:  categoryID).first.try(:id)
+    end
+
+    def find_group_id(classID)
+      ::Group.where(name:  classID).first.try(:id)
+    end
+
     def splits
       Splits.all.each do |pocketmoney_split| 
         split(pocketmoney_split) 
@@ -224,11 +236,11 @@ class PocketMoney
       s = ::Split.where(pm_id: pocketmoney_split.splitID).first ||
           ::Split.new
 
-      s.transaction_id          = pocketmoney_split.transactionID
-      s.category_id             = pocketmoney_split.categoryID
+      s.transaction_id          = find_transaction_id(pocketmoney_split.transactionID) 
+      s.category_id             = find_category_id(pocketmoney_split.categoryID)
       s.amount                  = pocketmoney_split.amount
       s.xrate                   = pocketmoney_split.xrate
-      s.group_id                = pocketmoney_split.classID  
+      s.group_id                = find_group_id(pocketmoney_split.classID)  
       s.memo                    = pocketmoney_split.memo  
       s.transfer_to_account_id  = pocketmoney_split.transferToAccountID
       s.currency_code           = pocketmoney_split.currencyCode
@@ -239,6 +251,8 @@ class PocketMoney
     end 
 
   end # Import
+#      s.transaction_id          = Transaction.where("pm_id = s.transaction_id").select(:id)   
+
 end
 
 

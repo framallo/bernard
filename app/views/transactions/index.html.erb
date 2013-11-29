@@ -10,7 +10,6 @@
       <th>Category</th>
       <th>Amount</th>
       <th>Balance</th>
-      <th>uuid</th>
       <th></th>
     </tr>
   </thead>
@@ -28,9 +27,18 @@
           <td><%= transaction.pm_payee %></td>
           <td><%= transaction.amount %></td>
           <td><%= transaction.balance %></td>
-          <td><%= transaction.uuid %></td>
-          <td><%= link_to 'Show', transaction %></td>
+          <td>
+            <%= link_to 'Show', transaction %>
+          </td>
         </tr>
+            <%= transaction.splits.count %>
+            <% transaction.splits.each do |split| %>
+              <tr>
+                <td>
+                  <%= split.pm_id %>
+                </td>
+              </tr>
+            <% end %>
       <% end %>
     <% end %>
   </tbody>

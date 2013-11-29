@@ -20,6 +20,11 @@ class Transaction < ActiveRecord::Base
 
   scope :interval, ->(from, to) { where("transactions.date >= ? AND transactions.date <= ?", from, to) }
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
+  scope :net_worth, -> { select("date_part('month', date) as month, sum(amount) as amount").where("date between '2013-01-01' and '2014-01-01'").group("month") }
+  scope :income_v_expense, -> { select('SUM("transactions"."amount") AS sum_amount, pm_type as pm_types')
+                                .where(deleted: false).where('transactions.pm_type <> 5')
+                                .group("pm_type") }
+  #{ active.group(:pm_type).sum(:amount) }
 
   belongs_to :account
   has_many :splits

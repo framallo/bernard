@@ -15,6 +15,12 @@ Bernard::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'transactions#index'
+  resource :report, only: :show do
+    get  'income_v_expense'     => 'reports#income_v_expense'
+    get  'spending_by_payee'    => 'reports#spending_by_payee'
+    get  'net_worth'            =>  'reports#net_worth'
+    get  'spending_by_category' => 'reports#spending_by_category'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

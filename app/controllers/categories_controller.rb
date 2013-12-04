@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   def budgets
-    @budgets = Category::BudgetCategory.all
+    @budgets = BudgetCategoryDecorator.new(Category::BudgetCategory.all)
     @filter  = Category.filter(params)
   end
 end

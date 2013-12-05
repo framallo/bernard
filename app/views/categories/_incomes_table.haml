@@ -1,7 +1,7 @@
 %tbody.summary-header.progress
   -@budgets.incomes.each do |bud|
     -budget = BudgetCategoryDecorator.decorate(bud)
-    -budget.dates_intervals(@filter.from, @filter.to+1)
+    -budget.dates_intervals(@filter.from, @filter.to)
     %tr
       %td
         =budget.name

@@ -1,18 +1,19 @@
 %tbody.summary-header.progress
-  -@budgets.incomes.each do |budget|
-    -value = values(budget)
+  -@budgets.incomes.each do |bud|
+    -budget = BudgetCategoryDecorator.decorate(bud)
+    -budget.dates_intervals(@filter.from, @filter.to+1)
     %tr
       %td
         =budget.name
       %td.budget
-        =progress_bar "success", value['spent_percentage'] do
+        =progress_bar "success", budget.spent_percentage do
           %p
-            =value['amount']
-        =progress_bar "danger", value['available_percentage'] do
+            =budget.amount
+        =progress_bar "danger", budget.available_percentage do
           %p
-            =value['available']
+            =budget.available
       %td
-        =value['limit']
+        =budget.limit
       %td
-        =value['available']
+        =budget.available
       %td

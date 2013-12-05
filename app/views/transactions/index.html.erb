@@ -7,7 +7,8 @@
       <th>Date</th>
       <th>Account</th>
       <th>Payee</th>
-      <th>Category</th>
+      <th>Category Id</th>
+      <th>Category name</th>
       <th>Amount</th>
       <th>Balance</th>
       <th></th>
@@ -25,13 +26,18 @@
           <td><%= transaction.date.strftime("%m/%d/%Y") %></td>
           <td><%= transaction.account.name %></td>
           <td><%= transaction.pm_payee %></td>
+          <td><%= transaction.splits.first.category_id %></td>
+
+
+          <td><%#= transaction.categories.pluck(:name).join(",") %></td>
+          <td><%= transaction.category_names %></td>
           <td><%= transaction.amount %></td>
           <td><%= transaction.balance %></td>
           <td>
             <%= link_to 'Show', transaction %>
           </td>
         </tr>
-            <%= transaction.splits.count %>
+            <%#= transaction.splits.count %>
             <% transaction.splits.each do |split| %>
               <tr>
                 <td>

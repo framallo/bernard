@@ -22,7 +22,10 @@ class Transaction < ActiveRecord::Base
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
 
   belongs_to :account
+  belongs_to :department
+
   has_many :splits
+  has_many :categories, through: :splits
 
 
   def split?
@@ -31,6 +34,10 @@ class Transaction < ActiveRecord::Base
 
   def category_name
     split? ? '<--Splits-->' : splits.first.category.try(:name)
+  end
+
+  def category_name_with_splits
+    split? ? categories.pluck(:name).join(",")  : splits.first.category.try(:name)
   end
 
   PM_TYPES = [ 'Withdrawal', 'Deposit', 'Transfer', 'Other Transfer' ]

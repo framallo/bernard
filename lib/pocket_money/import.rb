@@ -63,6 +63,7 @@ class PocketMoney
         deleted:         pm.deleted,
         check_number:    pm.checkNumber,
         payee_name:      pm.payee.force_encoding('Windows-1252').encode('UTF-8'),
+        payee_id:        find_payee_id(pm.payee),
         amount:          pm.subTotal,
         cleared:         !!pm.cleared,
         created_at:      to_time(pm.date),
@@ -208,6 +209,10 @@ class PocketMoney
 
     def find_category_id(pm_id)
       ::Category.where(name: pm_id).first.try(:id)
+    end
+
+    def find_payee_id(pm_id)
+      ::Payee.where(name: pm_id).first.try(:id)
     end
 
     def find_class_id(pm_id)

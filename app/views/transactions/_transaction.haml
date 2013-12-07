@@ -1,10 +1,27 @@
 %tr
   %td= cleared_icon transaction.cleared
   %td= link_to transaction.date.to_s(:short_date), transaction
-  %td= transaction.account.name
+  %td= transaction.account.name if transaction.account_id
   %td= transaction.payee_name
   %td= transaction.category_name 
   %td.currency= money transaction.amount
+  %td
+    = link_to t('.show', :default => t("helpers.links.show")), transaction, :class => 'btn btn-mini'  
+    = link_to t('.show', :default => t("helpers.links.show")), transaction, :class => 'btn btn-mini btn-info'   
+    %i.icon-white
+
+    = link_to t('.edit', :default => t("helpers.links.edit")), edit_transaction_path(transaction.id), :class => 'btn btn-mini btn-info'   
+    %i.icon-white
+
+    = link_to t('.new', :default => t("helpers.links.new")), new_transaction_path, :class => 'btn btn-mini btn-info'   
+    %i.icon-white
 
   - if show_balance
     %td.currency= money transaction.balance
+
+- transaction.splits.each do |split|
+  %tr
+    %td
+      = split.pm_id
+      = split.transaction_id
+

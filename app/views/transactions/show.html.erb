@@ -1,64 +1,7 @@
-<p id="notice"><%= notice %></p>
+<h1>Show Transaction</h1>
 
-<p>
-  <strong>Account:</strong>
-  <%= @transaction.account_id %>
-</p>
-
-<p>
-  <strong>Created at:</strong>
-  <%= @transaction.created_at %>
-</p>
-
-<p>
-  <strong>Check number:</strong>
-  <%= @transaction.check_number %>
-</p>
-
-<p>
-  <strong>Payee:</strong>
-  <%= @transaction.payee_id %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @transaction.category_id %>
-</p>
-
-<p>
-  <strong>Class:</strong>
-  <%= @transaction.class_id %>
-</p>
-
-<p>
-  <strong>Memo:</strong>
-  <%= @transaction.memo %>
-</p>
-
-<p>
-  <strong>Amount:</strong>
-  <%= @transaction.amount %>
-</p>
-
-<p>
-  <strong>Cleared:</strong>
-  <%= @transaction.cleared %>
-</p>
-
-<p>
-  <strong>Currency:</strong>
-  <%= @transaction.currency_id %>
-</p>
-
-<p>
-  <strong>Currency exchange rate:</strong>
-  <%= @transaction.currency_exchange_rate %>
-</p>
-
-<p>
-  <strong>Balance:</strong>
-  <%= @transaction.balance %>
-</p>
+<%= render 'form' %>
 
 <%= link_to 'Edit', edit_transaction_path(@transaction) %> |
 <%= link_to 'Back', transactions_path %>
+

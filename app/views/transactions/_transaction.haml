@@ -6,15 +6,17 @@
   %td= transaction.category_name 
   %td.currency= money transaction.amount
   %td
-    = link_to t('.show', :default => t("helpers.links.show")), transaction, :class => 'btn btn-mini'  
-    = link_to t('.show', :default => t("helpers.links.show")), transaction, :class => 'btn btn-mini btn-info'   
-    %i.icon-white
 
-    = link_to t('.edit', :default => t("helpers.links.edit")), edit_transaction_path(transaction.id), :class => 'btn btn-mini btn-info'   
-    %i.icon-white
+    = link_to transaction, :class=>"btn btn-primary btn-lg btn-info btn-mini", :role=>"button" do
+      = t('.show', :default => t("helpers.links.show"))
+    
+    = link_to  edit_transaction_path(transaction), :class => 'btn btn-mini btn-info' do 
+      %i.icon-white
+        = t('.edit', :default => t("helpers.links.edit"))
 
-    = link_to t('.new', :default => t("helpers.links.new")), new_transaction_path, :class => 'btn btn-mini btn-info'   
-    %i.icon-white
+    = link_to new_transaction_path, :class => 'btn btn-mini btn-info' do  
+      %i.icon-white
+        = t('.new', :default => t("helpers.links.new"))
 
   - if show_balance
     %td.currency= money transaction.balance
@@ -24,4 +26,4 @@
     %td
       = split.pm_id
       = split.transaction_id
-
+      = split.amount

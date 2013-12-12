@@ -11,55 +11,39 @@
 </div>
 <% end %>
 
-<p>
-  <strong>Account:</strong>
-  <%= f.text_field :account_id %>
-</p>
+ <div class="field">
+     <%= f.label :account_id %><br>
+     <%= f.number_field :account_id %>
+   </div>
 
-<p>
-  <strong>Created at:</strong>
-  <%= f.text_field :created_at %>
-</p>
+   <div class="field">
+     <%= f.label :created_at %><br>
+     <%= f.datetime_select :created_at %>
+   </div>
 
-<p>
-  <strong>Payee:</strong>
-  <%= f.text_field :payee_id %>
-  <%= f.text_field :payee_name %>
-</p>
+   <div class="field">
+     <%= f.label :payee_id %><br>
+     <%= f.number_field :payee_id %>
+     <%= f.text_field :payee_name %>
+   </div>
 
-<p>
-  <strong>Category:</strong>
-  <%= f.text_field :category_id %>
-  <%= f.text_field :category_name_with_splits %>
-</p>
+   <div class="field">
+     <%= f.label :category_id %><br>
+     <%= f.number_field :category_id %>
+     <%= f.text_field :category_name_with_splits if @transaction.id != nil %>
+   </div>
 
-<p>
-  <strong>Memo:</strong>
-  <%#= f.text_area :memo %>
-</p>
+   <div class="field">
+     <%= f.label :amount %><br>
+     <%= f.text_field :amount %>
+   </div>
+   <div class="field">
+     <%= f.label :cleared %><br>
+     <%= f.check_box :cleared %>
+   </div>
 
-<p>
-  <strong>Amount:</strong>
-  <%= f.text_field :amount %>
-</p>
-
-<p>
-  <strong>Cleared:</strong>
-  <%= f.check_box :cleared %>
-</p>
-
-<p>
-  <strong>Currency exchange rate:</strong>
-  <%#= f.text_field :currency_exchange_rate %>
-</p>
-
-<p>
-  <strong>Balance:</strong>
-  <%#= f.text_field :balance %>
-</p>
-
-<div class="actions">
-  <%= f.submit %>
-</div>
-<% end %>
+   <div class="actions">
+     <%= f.submit %>
+   </div>
+   <% end %>
 

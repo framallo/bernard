@@ -6,7 +6,7 @@
 <p>
   <strong>Account:</strong> 
   <%= @transaction.account_id %>
-  <%= @transaction.account.name %>
+  <%= @transaction.account.name  if @transaction.account_id %>
 </p>
 
 <p>
@@ -37,17 +37,12 @@
 
 <p>
   <strong>Cleared:</strong>
-  <%= @transaction.cleared %>
+  <%= cleared_icon @transaction.cleared %>
 </p>
 
 <p>
   <strong>Currency exchange rate:</strong>
   <%#= @transaction.currency_exchange_rate %>
-</p>
-
-<p>
-  <strong>Balance:</strong>
-  <%#= @transaction.balance %>
 </p>
 
 

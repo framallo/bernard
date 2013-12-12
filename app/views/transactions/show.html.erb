@@ -11,7 +11,7 @@
 
 <p>
   <strong>Created at:</strong>
-  <%= @transaction.created_at %>
+  <%= @transaction.created_at.to_s(:date_and_time) %> 
 </p>
 
 <p>
@@ -23,16 +23,16 @@
 <p>
   <strong>Category:</strong>
   <%= @transaction.category_name_with_splits  %>
-  <%= @transaction.splits.each do |split|  %>
+  <% @transaction.splits.each do |split|  %>
     <br>
       <%= split.category.name %>
-      <%= split.amount%>
+      <%= money split.amount%>
       <%end%>
 </p>
 
 <p>
   <strong>Amount:</strong>
-  <%= @transaction.amount %>
+  <%= money @transaction.amount %>
 </p>
 
 <p>

@@ -22,10 +22,10 @@ class Transaction < ActiveRecord::Base
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
 
   belongs_to :account
-  belongs_to :department
 
   has_many :splits
   has_many :categories, through: :splits
+  has_many :departments, through: :splits, foreign_key: "class_id"
 
 
   def split?

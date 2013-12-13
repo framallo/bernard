@@ -216,7 +216,7 @@ class PocketMoney
     end
 
     def find_class_id(pm_id)
-
+      ::Department.where(name: pm_id).first.try(:id)
     end
 
     def find_account_id(pm_account_id)

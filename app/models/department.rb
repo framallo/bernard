@@ -1,3 +1,3 @@
 class Department < ActiveRecord::Base
-has_many :transactions
+has_one :split
 end

@@ -7,6 +7,8 @@
   <strong>Account:</strong> 
   <%= @transaction.account_id %>
   <%= @transaction.account.name  if @transaction.account_id %>
+  <strong>Currency Code:</strong> 
+  <%= @transaction.account.currency_code  if @transaction.account_id %>
 </p>
 
 <p>
@@ -27,6 +29,13 @@
     <br>
       <%= split.category.name %>
       <%= money split.amount%>
+      <%= split.class_id%>
+      <%#= split.department.name if @transaction.class_id %>
+      <strong>Memo:</strong>
+      <%= split.memo%>
+      <strong>Transfer To:</strong>
+      <%= split.transfer_to_account_id%>
+      <%= split.currency_code%>
       <%end%>
 </p>
 
@@ -38,11 +47,6 @@
 <p>
   <strong>Cleared:</strong>
   <%= cleared_icon @transaction.cleared %>
-</p>
-
-<p>
-  <strong>Currency exchange rate:</strong>
-  <%#= @transaction.currency_exchange_rate %>
 </p>
 
 

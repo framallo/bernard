@@ -10,7 +10,7 @@ class Transaction < ActiveRecord::Base
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
   scope :uuid, ->(uuid) { where(uuid:uuid).first }
-  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
+  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5').where('account_id<>0') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
@@ -25,8 +25,7 @@ class Transaction < ActiveRecord::Base
 
   has_many :splits
   has_many :categories, through: :splits
-  has_many :departments, through: :splits, foreign_key: "class_id"
-
+  has_many :departments, through: :splits
 
   def split?
     @split ||= splits.size > 1

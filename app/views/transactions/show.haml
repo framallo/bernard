@@ -1,0 +1,89 @@
+%h1 Show Transaction
+%p#notice = notice 
+
+%legend{align: "left"} Pretty Title
+
+%p
+  %strong Account: 
+  = @transaction.account_id
+  = @transaction.account.try(:name)
+  %strong Currency Code: 
+  = @transaction.account.currency_code  if @transaction.account_id
+
+%p
+  %strong Created at:
+  = @transaction.created_at.to_s(:date_and_time) 
+
+%p
+  %strong Payee:
+  = @transaction.payee_id
+  = @transaction.payee_name
+
+%p
+  %strong Category:
+  = @transaction.category_name_with_splits
+  - @transaction.splits.each do |split|
+    %br/
+    %ul
+      %li 
+        %strong Category:        
+        = split.category.name
+      %li  
+        %strong Amount:        
+        = money split.amount
+      %li
+        %strong Department:
+        = split.class_id
+        = split.department.name
+      %li
+        %strong Memo:
+        = split.memo
+      %li
+        %strong Transfer To:
+        = split.transfer_to_account_id
+      %li
+        %strong Currency:
+        = split.currency_code
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+%table.table-bordered
+  %thead
+    %tr
+      %th 
+      %th Category
+      %th Amount
+      %th Department
+      %th DepartmentName
+      %th Memo
+      %th Transfer
+      %th Currency
+
+- @transaction.splits.each do |split|
+  %tr
+    %td
+      = split.category.name
+      = money split.amount
+      = split.class_id
+      = split.department.name
+      = split.memo
+      = split.transfer_to_account_id
+      = split.currency_code
+    %br/
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+%p
+  %strong Amount:
+  = money @transaction.amount
+
+%p
+  %strong Cleared:
+  =cleared_icon @transaction.cleared
+
+= link_to 'Edit', edit_transaction_path(@transaction) 
+|
+\#link_to 'Back', transactions_path
+

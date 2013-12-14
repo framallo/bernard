@@ -1,3 +1,3 @@
 class Department < ActiveRecord::Base
-has_one :split
+has_many :splits
 end

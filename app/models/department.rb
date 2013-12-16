@@ -1,3 +1,5 @@
 class Department < ActiveRecord::Base
-has_many :splits
+  scope :active, ->     { where(deleted:false) }
+
+  has_many :splits
 end

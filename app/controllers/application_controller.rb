@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :menu_accounts
 
   def menu_accounts
-    @menu_accounts ||= Account.all
+    @menu_accounts ||= Account.active
   end
 
 end

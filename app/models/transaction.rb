@@ -57,7 +57,7 @@ class Transaction < ActiveRecord::Base
     end
 
     def accounts
-      @accounts ||= Account.all
+      @accounts ||= Account.active
     end
 
     def transactions

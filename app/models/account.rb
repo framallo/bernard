@@ -11,6 +11,8 @@ class Account < ActiveRecord::Base
   # 8 Credit Line
   #
 
+  scope :active, ->     { where(deleted:false) }
+
   has_many :transactions
 
 

@@ -21,7 +21,7 @@
   - if show_balance
     %td.currency= money transaction.balance
 
-- transaction.splits.each do |split|
+- transaction.splits.with_amount.each do |split|
   %tr
     %td
       = split.pm_id

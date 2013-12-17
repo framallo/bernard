@@ -39,12 +39,12 @@
   %tbody
     - @transaction.splits.with_amount.each do |split|
       %tr
-        %td= split.category.name
-        %td= money split.amount
-        %td= split.department.name if split.department.try(:name) 
-        %td= split.memo
-        %td.text-center= split.account.name  if split.account.try(:name)
-        %td= split.currency_code
+        %td.center= split.category.name
+        %td.right= money split.amount
+        %td.center= split.department.name if split.department.try(:name) 
+        %td.center= split.memo
+        %td.center= split.account.name  if split.account.try(:name)
+        %td.center= split.currency_code
 %br/
 
 = link_to 'Edit', edit_transaction_path(@transaction) 

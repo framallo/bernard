@@ -1,6 +1,5 @@
-%h1 Show Transaction
+%h2 Show Transaction
 
-%legend{align: "left"}Show Transaction 
 %p
   %strong Account: 
   = @transaction.account_id
@@ -25,29 +24,7 @@
   %strong Amount:
   = money @transaction.amount
 
-%p
-  - @transaction.splits.each do |split|
-    %br/
-    %ul
-      %li 
-        %strong Category:        
-        = split.category.name
-      %li  
-        %strong Amount:        
-        = money split.amount
-      %li
-        %strong Department:
-        = split.class_id
-        = split.department.name
-      %li
-        %strong Memo:
-        = split.memo
-      %li
-        %strong Transfer To:
-        = split.transfer_to_account_id
-      %li
-        %strong Currency:
-        = split.currency_code
+%legend{align: "left"}Categories 
 
 %table.table-bordered
   %thead
@@ -55,9 +32,8 @@
       %th.split Category
       %th.split Amount
       %th.split Department
-      %th.split DepartmentName
       %th.split Memo
-      %th.split Transfer
+      %th.split Transfer To
       %th.split Currency
 
   %tbody
@@ -65,12 +41,10 @@
       %tr
         %td= split.category.name
         %td= money split.amount
-        %td.text-center= split.class_id
-        %td= split.department.name
+        %td= split.department.name if split.department.try(:name) 
         %td= split.memo
         %td.text-center= split.transfer_to_account_id
         %td= split.currency_code
-      %br/
 %br/
 
 = link_to 'Edit', edit_transaction_path(@transaction) 

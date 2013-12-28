@@ -1,7 +1,7 @@
 %tr
   %td= cleared_icon transaction.cleared
   %td= link_to transaction.date.to_s(:short_date), transaction
-  %td= transaction.account.name if transaction.account_id
+  %td= transaction.account.try(:name)
   %td= transaction.payee_name
   %td= transaction.category_name 
   %td.currency= money transaction.amount
@@ -11,11 +11,3 @@
         = t('.edit', :default => t("helpers.links.edit"))
   - if show_balance
     %td.currency= money transaction.balance
-
-- transaction.splits.with_amount.each do |split|
-  %tr
-    %td.split(colspan=7)
-      = split.pm_id
-      = split.transaction_id
-      .currency= money split.amount
-      = split.class_id

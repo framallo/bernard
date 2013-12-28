@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :get_payees,      only: [:edit, :update, :create]
-  before_action :get_accounts,    only: [:edit, :update, :create]
+  before_action :get_payees,      only: [:new, :edit, :update, :create]
+  before_action :get_accounts,    only: [:new, :edit, :update, :create]
 
   # GET /transactions
   # GET /transactions.json

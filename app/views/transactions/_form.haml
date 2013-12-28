@@ -12,9 +12,9 @@
     %br
     = f.select :account_id, @accounts, {include_blank: true}
   .field
-    = f.label :created_at
+    = f.label :date
     %br
-    = f.datetime_select :created_at
+    = f.text_field :date, class: :datepicker
   .field
     = f.label :payee_id
     %br

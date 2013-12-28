@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require jquery-ui-timepicker-addon
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .

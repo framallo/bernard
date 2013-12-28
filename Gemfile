@@ -59,6 +59,18 @@ end
 
 gem 'puma'
 
+group :development do
+  gem 'guard'
+  gem 'guard-rspec', require: false
+  gem 'guard-bundler', require: false
+  gem 'guard-shell', require: false
+  gem 'guard-livereload', require: false
+  gem "rack-livereload"
+  gem 'guard-spork'
+  gem 'spork-rails', github: 'sporkrb/spork-rails'
+  
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

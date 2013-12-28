@@ -1,9 +1,12 @@
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
-require 'import_pocket_money'
-require 'rspec/rails'
-require 'rspec/autorun'
-require 'factory_girl_rails'  
+Spork.prefork do
+  ENV["RAILS_ENV"] ||= 'test'
+  require File.expand_path("../../config/environment", __FILE__)
+  require 'import_pocket_money'
+  require 'rspec/rails'
+  require 'rspec/autorun'
+  require 'factory_girl_rails'  
+
+end
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 

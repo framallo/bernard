@@ -18,7 +18,10 @@
   .field
     = f.label :payee_id
     %br
-    = f.number_field :payee_id
+    = f.select :payee_id, @payees, {include_blank: true}
+  .field
+    = f.label :payee_name
+    %br
     = f.text_field :payee_name
 
   .field

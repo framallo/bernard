@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :get_payees,      only: [:edit, :update, :create]
 
   # GET /transactions
   # GET /transactions.json
@@ -70,5 +71,9 @@ class TransactionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
       params.require(:transaction).permit(:account_id, :created_at, :check_number, :payee_id, :category_id, :class_id, :memo, :amount, :cleared, :currency_id, :currency_exchange_rate, :balance)
+    end
+
+    def get_payees
+      @payees ||= Payee.active.select(:name, :id).map {|c| [c.name, c.id] }
     end
 end

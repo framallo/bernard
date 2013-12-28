@@ -9,7 +9,7 @@ class Transaction < ActiveRecord::Base
   #
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
-  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5') }
+  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5').references(:transactions) }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
@@ -143,7 +143,7 @@ class Transaction < ActiveRecord::Base
     private 
 
     def types_query
-      @types_query ||= Transaction.where(id: transaction_ids ).group('transactions.pm_type').sum(:amount)
+      @types_query ||= Transaction.where(id: transaction_ids ).group('transactions.pm_type').references(:transactions).sum(:amount)
     end
 
     def transaction_interval
@@ -154,7 +154,7 @@ class Transaction < ActiveRecord::Base
       t = transaction_interval
       t = t.where(pm_type: pm_type) if pm_type
       t = t.where(account_id: account_id) if account_id
-      t = t.where('categories.id = ?', category_id) if category_id
+      t = t.where('categories.id = ?', category_id).references(:categories) if category_id
       t
     end
 

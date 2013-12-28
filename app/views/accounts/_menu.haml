@@ -5,7 +5,7 @@
   %ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
     %li= link_to "All accounts", accounts_path
     %li.divider
-    - @menu_accounts.all.each do |account|
+    - @menu_accounts.to_a.each do |account|
       %li
         = link_to account_path(account) do
           =account.name

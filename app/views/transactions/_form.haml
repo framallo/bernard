@@ -10,7 +10,7 @@
   .field
     = f.label :account_id 
     %br
-    = f.number_field :account_id
+    = f.select :account_id, @accounts, {include_blank: true}
   .field
     = f.label :created_at
     %br

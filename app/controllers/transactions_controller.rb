@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
   before_action :get_payees,      only: [:edit, :update, :create]
+  before_action :get_accounts,    only: [:edit, :update, :create]
 
   # GET /transactions
   # GET /transactions.json
@@ -75,5 +76,9 @@ class TransactionsController < ApplicationController
 
     def get_payees
       @payees ||= Payee.active.select(:name, :id).map {|c| [c.name, c.id] }
+    end
+
+    def get_accounts
+      @accounts ||= Account.active.select(:name, :id).map {|c| [c.name, c.id] }
     end
 end

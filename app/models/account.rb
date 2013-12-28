@@ -11,8 +11,10 @@ class Account < ActiveRecord::Base
   # 8 Credit Line
   #
 
-  has_many :transactions
+  scope :active, ->     { where(deleted:false) }
 
+  has_many :transactions
+  has_many :splits, foreign_key: "transfer_to_account_id"
 
   PM_TYPES = ['Checking', 'Cash','Credit Card','Asset','Liability','Online','Savings','Money Market','Credit Line']
 

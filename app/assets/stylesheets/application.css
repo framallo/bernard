@@ -11,3 +11,31 @@
  *= require_self
  *= require_tree .
  */
+
+.amount-negative {
+  color: #F00;
+}
+
+.amount-positive {
+  color: #008000;
+}
+
+.table-bordered .currency {
+  text-align: right;
+}
+
+.table-bordered .split {
+  height: 1px;
+  margin: 9px 1px;
+  overflow: hidden;
+  background-color: #E5E5E5;
+  border-bottom: 1px solid #FFF;
+}
+
+.summary-header.progress {
+  height: 50px;
+}
+.summary-header .amount-positive {
+  color: #FFF;
+}
+

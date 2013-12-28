@@ -1,0 +1,57 @@
+%ul.nav.nav-list.left.filters
+  %li
+    %li.icon-backward
+    = link_to url_for params.merge(@filter.previous.to_hash) do
+      Previous
+      = @filter.previous.name
+  %li
+    %li.icon-forward
+    = link_to url_for params.merge(@filter.next.to_hash) do
+      Next
+      = @filter.next.name
+
+  %li.divider
+
+  - @filter.intervals.each do |interval|
+    = content_tag :li, :class=> params[:kind] == interval.kind.to_s ? 'active' : '' do
+      = link_to url_for params.merge(interval.to_hash) do
+        This
+        = interval.name
+
+  %li.divider
+
+  = filter_item(:account_id, nil) do
+    = link_to 'All Accounts', url_for(params.merge(:account_id => nil))
+  - @filter.accounts.each do |account|
+    = filter_item(:account_id, account.id.to_s) do
+      = link_to url_for params.merge(:account_id => account.id) do
+        .category-name
+          =account.name
+      .label.label-inverse
+        = money account.current_balance
+  %li.divider
+
+  = filter_item(:group_by, nil) do
+    = link_to 'Group by date',    url_for(params.merge(:group_by => nil))
+  = filter_item(:group_by, 'type') do
+    = link_to 'Group by type',    url_for(params.merge(:group_by => 'type'))
+  = filter_item(:group_by, 'account') do
+    = link_to 'Group by account', url_for(params.merge(:group_by => 'account'))
+  = filter_item(:group_by, 'category') do
+    = link_to 'Group by category', url_for(params.merge(:group_by => 'category'))
+
+  %li.divider
+
+    = filter_item(:category_id, nil) do
+      = link_to url_for(params.merge(:category_id => nil)) do
+        .category-name
+          All Categories
+      .label.label-inverse
+        = money @filter.categories_total
+  - @filter.categories.each do |category|
+    = filter_item(:category_id, category.id.to_s) do
+      = link_to url_for params.merge(:category_id => category.id) do
+        .category-name
+          = category.name
+      .label.label-inverse
+        = money category.total_amount

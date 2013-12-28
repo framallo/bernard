@@ -1,5 +1,9 @@
 Bernard::Application.routes.draw do
   resources :transactions
+  resources :accounts
+
+  get 'search/' => 'search#index', as: :search
+  get 'search/:q' => 'search#index'
 
   resources :import do
     post 'import_csv', on: :collection
@@ -10,6 +14,7 @@ Bernard::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  root 'transactions#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

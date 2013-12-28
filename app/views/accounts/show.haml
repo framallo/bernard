@@ -1,0 +1,11 @@
+%h1
+  = @account.name
+  = money @account.current_balance
+
+%h2 
+  Transactions
+  = ['(',@account.transactions.count, ')'].join
+
+
+= render_transactions @transactions.group_by {|t| t.date.to_s(:short_date) } , show_balance: true
+

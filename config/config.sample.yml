@@ -1,2 +1,5 @@
 development:
   pocket_money_database: ''
+
+test:
+  pocket_money_database: "spec/PocketMoneyDBtest.sql"

@@ -24,9 +24,9 @@ class Transaction < ActiveRecord::Base
   belongs_to :account
 
   has_many :splits
-  has_many :categories, through: :splits
+  has_many :categories,  through: :splits
   has_many :departments, through: :splits
-  has_many :accounts, through: :splits
+  has_many :accounts,    through: :splits
 
   def split?
     @split ||= splits.size > 1

@@ -10,7 +10,7 @@
   .field
     = f.label :account_id 
     %br
-    = f.select :account_id, @accounts, {include_blank: true}
+    = f.select :account_id, @accounts, {include_blank: true}, { class: 'chosen-select' }
   .field
     = f.label :date
     %br
@@ -18,7 +18,7 @@
   .field
     = f.label :payee_id
     %br
-    = f.select :payee_id, @payees, {include_blank: true}
+    = f.select :payee_id, @payees, {include_blank: true}, { class: 'chosen-select' }
   .field
     = f.label :payee_name
     %br

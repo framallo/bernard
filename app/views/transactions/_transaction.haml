@@ -1,10 +1,13 @@
 %tr
   %td= cleared_icon transaction.cleared
   %td= link_to transaction.date.to_s(:short_date), transaction
-  %td= transaction.account.name
+  %td= transaction.account.try(:name)
   %td= transaction.payee_name
   %td= transaction.category_name 
   %td.currency= money transaction.amount
-
+  %td
+    = link_to  edit_transaction_path(transaction), :class => 'btn btn-mini btn-info' do 
+      %i.icon-white
+        = t('.edit', :default => t("helpers.links.edit"))
   - if show_balance
     %td.currency= money transaction.balance

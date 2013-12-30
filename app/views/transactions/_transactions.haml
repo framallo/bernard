@@ -9,11 +9,12 @@
       %th Amount
       - if show_balance
         %th Balance
+      %th 
 
   %tbody
     - transactions.each do |header, transactions|
       %tr
-        %td.split(colspan=5)
+        %td.split(colspan=6)
           = header
         %td.split
           = money transactions.sum(&:amount) if transactions.size > 1

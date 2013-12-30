@@ -9,4 +9,6 @@
 
 %br
 
-= link_to 'New Transaction', new_transaction_path
+= link_to new_transaction_path, :class => 'btn btn-mini btn-info' do  
+  %i.icon-white
+    = t('.new', :default => t("helpers.links.new"))

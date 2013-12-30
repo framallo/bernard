@@ -9,7 +9,7 @@ class Transaction < ActiveRecord::Base
   #
 
   scope :search, ->(q) { where "payee_name like ? OR uuid = ?", "%#{q}%", q }
-  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5').references(:transactions) }
+  scope :active, ->     { where(deleted:false).where('transactions.pm_type <> 5').references(:transactions).where('account_id<>0') }
   scope :order_date, ->  { order('date desc') }
   scope :cleared, ->     { where(cleared:true) }
   scope :before_today, ->     { where('date < ?', Time.now) }
@@ -21,9 +21,14 @@ class Transaction < ActiveRecord::Base
   scope :total_amount, -> { select('count(transactions.amount) as total_count', 'sum(transactions.amount) as total_amount') }
 
   belongs_to :account
-  has_many :splits
+
   validates :account_id, presence: true
   validates :amount, presence: true
+
+  has_many :splits
+  has_many :categories,  through: :splits
+  has_many :departments, through: :splits
+  has_many :accounts,    through: :splits
 
   def split?
     @split ||= splits.size > 1
@@ -31,6 +36,10 @@ class Transaction < ActiveRecord::Base
 
   def category_name
     split? ? '<--Splits-->' : splits.first.category.try(:name)
+  end
+
+  def category_name_with_splits
+    split? ? categories.pluck(:name).join(",")  : splits.first.category.try(:name)
   end
 
   PM_TYPES = [ 'Withdrawal', 'Deposit', 'Transfer', 'Other Transfer' ]
@@ -51,7 +60,7 @@ class Transaction < ActiveRecord::Base
     end
 
     def accounts
-      @accounts ||= Account.all
+      @accounts ||= Account.active
     end
 
     def transactions

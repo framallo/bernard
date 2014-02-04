@@ -47,6 +47,11 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     commonjs (0.2.6)
+    draper (1.3.0)
+      actionpack (>= 3.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -106,6 +111,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    request_store (1.0.5)
     ruby-progressbar (1.1.1)
     sass (3.2.9)
     sass-rails (4.0.0.rc1)
@@ -150,6 +156,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+  draper
   haml
   jbuilder (~> 1.0.1)
   jquery-rails

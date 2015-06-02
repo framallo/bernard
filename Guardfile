@@ -1,39 +1,46 @@
-# A sample Guardfile
-# More info at https://github.com/guard/guard#readme
-
-guard :rspec, :cmd => "--drb" do
-  watch('spec/spec_helper.rb')                        { "spec" }
-  watch('config/routes.rb')                           { "spec/routing" }
-  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
-  watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-  watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+group :frontend do 
+  guard :livereload do
+    watch(%r{^app/.+\.(erb|haml)})
+    watch(%r{^app/helpers/.+\.rb})
+    watch(%r{^public/.+\.(css|js|html)})
+    watch(%r{^config/locales/.+\.yml})
+    # Rails Assets Pipeline
+    watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|js|html))).*}) { |m| "/assets/#{m[3]}" }
+  end
 end
 
-guard :bundler do
-  watch('Gemfile')
+group :backend do
+
+  guard :bundler do
+    watch('Gemfile')
+  end
+
+  guard :shell do
+    watch(/.*/) { `git status` }
+  end
+
+  guard 'spork', :wait => 50 do
+    watch('Gemfile')
+    watch('Gemfile.lock')
+    watch('config/application.rb')
+    watch('config/environment.rb')
+    watch(%r{^config/environments/.+\.rb})
+    watch(%r{^config/initializers/.+\.rb})
+    watch('spec/spec_helper.rb')
+  end
+
+  guard :rspec, :version => 2, :cli => "--color --drb -r rspec/instafail -f RSpec::Instafail", :bundler => false, :all_after_pass => false, :all_on_start => false, :keep_failed => false do
+    watch('spec/spec_helper.rb')                                               { "spec" }
+    watch('app/controllers/application_controller.rb')                         { "spec/controllers" }
+    watch('config/routes.rb')                                                  { "spec/routing" }
+    watch(%r{^spec/support/(requests|controllers|mailers|models)_helpers\.rb}) { |m| "spec/#{m[1]}" }
+    watch(%r{^spec/.+_spec\.rb})
+
+    watch(%r{^app/controllers/(.+)_(controller)\.rb})                          { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/requests/#{m[1]}_spec.rb"] }
+
+    watch(%r{^app/(.+)\.rb})                                                   { |m| "spec/#{m[1]}_spec.rb" }
+    watch(%r{^lib/(.+)\.rb})                                                   { |m| "spec/lib/#{m[1]}_spec.rb" }
+  end
+
 end
 
-guard :shell do
-  watch('.*') { `git status` }
-end
-
-guard 'livereload' do
-  watch(%r{app/views/.+\.(erb|haml|slim)})
-  watch(%r{app/helpers/.+\.rb})
-  watch(%r{public/.+\.(css|js|html)})
-  watch(%r{config/locales/.+\.yml})
-  # Rails Assets Pipeline
-  watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|js|html))).*}) { |m| "/assets/#{m[3]}" }
-end
-
-guard 'spork' do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch(%r{^config/environments/.*\.rb$})
-  watch(%r{^config/initializers/.*\.rb$})
-  watch('Gemfile.lock')
-  watch('spec/spec_helper.rb') { :rspec }
-end

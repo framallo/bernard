@@ -35,7 +35,7 @@ gem 'haml'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'less-rails'
 gem "therubyracer"
-gem "faker"
+gem "devise"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -50,13 +50,19 @@ gem 'pry-rails'
 gem 'ruby-progressbar'
 
 group :test do
-  gem 'database_cleaner'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'capybara'
   gem 'factory_girl'
   gem 'factory_girl_rails'
-  gem 'shoulda-matchers'
+  gem 'fuubar'
+
+  gem 'shoulda-matchers', require: false
+  gem 'faker'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
+  gem 'email_spec'
+  gem 'simplecov', require: false
 end
 
 gem 'puma'

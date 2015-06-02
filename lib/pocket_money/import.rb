@@ -77,7 +77,6 @@ class PocketMoney
         ::Account, 
         {uuid: pm.serverID},
         deleted:                    !!pm.deleted,
-        updated_at:                 to_time(pm.timestamp),
         pm_id:                      pm.accountID,
         display_order:              pm.displayOrder,
         name:                       pm.account,
@@ -109,7 +108,7 @@ class PocketMoney
         heek_change_round_to:       pm.keepChangeRoundTo,
         uuid:                       pm.serverID,
         created_at:                 to_time(pm.timestamp),
-        updated_at:                 to_time(pm.timestamp),
+        updated_at:                 to_time(pm.timestamp)
       )
     end
 
@@ -154,15 +153,13 @@ class PocketMoney
         ::Payee,
         {uuid: pm.serverID},
         deleted:    pm.deleted,
-        created_at: to_time(pm.timestamp),
-        updated_at: to_time(pm.timestamp),
         pm_id:      pm.payeeID,
         name:       pm.payee,
         latitude:   pm.latitude,
         longitude:  pm.longitude,
         uuid:       pm.serverID,
         created_at: to_time(pm.timestamp),
-        updated_at: to_time(pm.timestamp),
+        updated_at: to_time(pm.timestamp)
       )
 
     end

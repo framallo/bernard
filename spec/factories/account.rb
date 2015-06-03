@@ -36,4 +36,8 @@ FactoryGirl.define do
     heek_change_round_to          (1..9).to_a.sample
     uuid                          Faker::Code.isbn(64)
   end
+
+  factory :deleted_account, parent: :account do
+    deleted                       true
+  end
 end

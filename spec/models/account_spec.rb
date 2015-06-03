@@ -1,23 +1,32 @@
 require 'spec_helper'
 
 describe Account do
-  let(:account) {Account.first}
+  let(:account)         { create(:account) }
+  let(:deleted_account) { create(:deleted_account) }
 
-  it "has a valid account" do
-    account.should be_valid
+  context 'Relations' do
+    it { is_expected.to have_many :transactions }
+    it { is_expected.to have_many :splits }
   end
 
-  #scopes
-  it "should return 14 transaction for account id 1" do 
-    (Account.find(1).active_transactions.count).should eq(14)
-  end
+  #it "has a valid account" do
+    #expect(account).to be_valid
+  #end
 
-  it "should return 9 transaction for account id 2" do 
-    (Account.find(2).active_transactions.count).should eq(9)
+  describe "active scope" do
+    it "has valid accounts" do
+      expect(Account.active).to contain_exactly(account)
+    end
+    it "hides deleted accounts" do
+      expect(Account.active).not_to include(deleted_account)
+    end
   end
+  describe "#active_transactions"
+  describe "#basic_balance"
+  describe "#cleared_balance"
+  describe "#current_balance"
+  describe "#future_balance"
+  describe "#available_funds"
 
-  it "should return 7 transaction for account id 3" do 
-    (Account.find(3).active_transactions.count).should eq(7)
-  end
 end
 

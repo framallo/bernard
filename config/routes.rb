@@ -1,4 +1,4 @@
-Bernard::Application.routes.draw do
+Rails.application.routes.draw do
   resources :transactions
   resources :accounts
 
@@ -50,6 +50,13 @@ Bernard::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
+
+  # Example resource route with concerns:
+  #   concern :toggleable do
+  #     post 'toggle'
+  #   end
+  #   resources :posts, concerns: :toggleable
+  #   resources :photos, concerns: :toggleable
 
   # Example resource route within a namespace:
   #   namespace :admin do

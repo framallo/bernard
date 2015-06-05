@@ -15,17 +15,7 @@ group :backend do
     watch('Gemfile')
   end
 
-  guard 'spork', :wait => 50 do
-    watch('Gemfile')
-    watch('Gemfile.lock')
-    watch('config/application.rb')
-    watch('config/environment.rb')
-    watch(%r{^config/environments/.+\.rb})
-    watch(%r{^config/initializers/.+\.rb})
-    watch('spec/spec_helper.rb')
-  end
-
-  guard :rspec, :cmd => 'bundle exec rspec --drb', :failed_mode => :none do
+  guard :rspec, :cmd => 'bundle exec spring rspec --drb', :failed_mode => :none do
     watch('spec/spec_helper.rb')                                               { "spec" }
     watch('app/controllers/application_controller.rb')                         { "spec/controllers" }
     watch('config/routes.rb')                                                  { "spec/routing" }

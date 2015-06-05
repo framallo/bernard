@@ -8,14 +8,6 @@ GIT
       less-rails (>= 2.5.0)
       railties (>= 3.1)
 
-GIT
-  remote: git://github.com/sporkrb/spork-rails.git
-  revision: 0dd45e59d3237b4c8f9efc215b46d9c07072a95e
-  specs:
-    spork-rails (4.0.0)
-      rails (>= 3.0.0, < 5)
-      spork (>= 1.0rc0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -69,8 +61,6 @@ GEM
       json
     celluloid (0.16.0)
       timers (~> 4.0.0)
-    childprocess (0.5.6)
-      ffi (~> 1.0, >= 1.0.11)
     chosen-rails (1.4.1)
       coffee-rails (>= 3.2)
       compass-rails (>= 1.1.2)
@@ -151,11 +141,9 @@ GEM
     guard-shell (0.7.1)
       guard (>= 2.0.0)
       guard-compat (~> 1.0)
-    guard-spork (2.1.0)
-      childprocess (>= 0.2.3)
-      guard (~> 2.0)
-      guard-compat (~> 1.0)
-      spork (>= 0.8.4)
+    guard-spring (0.0.4)
+      guard
+      spring
     haml (4.0.6)
       tilt
     hike (1.2.3)
@@ -291,7 +279,9 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    spork (1.0.0rc4)
+    spring (1.3.6)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -343,7 +333,7 @@ DEPENDENCIES
   guard-livereload
   guard-rspec
   guard-shell
-  guard-spork
+  guard-spring
   haml
   jbuilder (~> 1.0.1)
   jquery-rails
@@ -356,6 +346,7 @@ DEPENDENCIES
   puma
   rack-livereload
   rails (= 4.2.1)
+  rb-fsevent
   rspec
   rspec-rails
   ruby-progressbar
@@ -363,7 +354,7 @@ DEPENDENCIES
   sdoc
   shoulda-matchers
   simplecov
-  spork-rails!
+  spring-commands-rspec
   sqlite3
   therubyracer
   turbolinks

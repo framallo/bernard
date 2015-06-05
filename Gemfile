@@ -52,6 +52,8 @@ gem 'ruby-progressbar'
 group :test do
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'spring-commands-rspec'
+  gem 'rb-fsevent' if `uname` =~ /Darwin/
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'fuubar'
@@ -74,9 +76,7 @@ group :development do
   gem 'guard-shell', require: false
   gem 'guard-livereload', require: false
   gem "rack-livereload"
-  gem 'guard-spork'
-  gem 'spork-rails', github: 'sporkrb/spork-rails'
-  
+  gem 'guard-spring'
 end
 
 # Use ActiveModel has_secure_password

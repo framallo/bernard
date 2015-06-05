@@ -7,7 +7,6 @@ Spork.prefork do
   require 'spec_helper'
   require 'pocket_money'
   require 'rspec/rails'
-  require 'rspec/autorun'
   require 'factory_girl_rails'  
   require 'shoulda/matchers'
   require 'capybara/rspec'
